@@ -4,12 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/movie_details_bg">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".MovieDetailsActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/movie_details_bg"
+            android:scaleType="centerCrop"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
@@ -83,6 +89,7 @@
             style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_medium_margin"
             android:minHeight="12dp"
             android:maxHeight="12dp"
             android:indeterminateDrawable="@drawable/rating"
@@ -166,8 +173,7 @@
             android:src="@drawable/robert_downey_jr"
             app:layout_constraintBottom_toTopOf="@id/downey_name"
             app:layout_constraintEnd_toStartOf="@id/evans_ava"
-            app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/barrier" />
+            app:layout_constraintStart_toEndOf="@id/guideline_left" />
 
         <TextView
             android:id="@+id/downey_name"
@@ -176,7 +182,6 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:text="@string/robert_downey_jr"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/downey_ava"
             app:layout_constraintStart_toStartOf="@id/downey_ava"
             app:layout_constraintTop_toBottomOf="@id/downey_ava" />
