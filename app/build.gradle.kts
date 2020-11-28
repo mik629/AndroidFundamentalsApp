@@ -47,6 +47,8 @@ dependencies {
     implementation(Libs.material)
     implementation(Libs.constraintLayout)
 
+    implementation(Libs.adapterDelegates)
+
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)
     testImplementation(Libs.junitParams)

@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_50">#ECECEC</color>
     <color name="grey">#6D6D80</color>
+    <color name="grey_medium">#565665</color>
+    <color name="dark_grey">#191926</color>
+    <color name="dark_grey_50">#80191926</color>
+    <color name="dark_grey_10">#1A191926</color>
     <color name="pink">#FF3466</color>
     <color name="pink_star">#FF3365</color>
 </resources>

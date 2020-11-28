@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.AndroidFundamentalsApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/dark_grey</item>
+        <item name="colorPrimaryVariant">@color/dark_grey</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -26,5 +26,10 @@
         <item name="android:layout_height">0dp</item>
         <item name="layout_constraintDimensionRatio">1:1</item>
         <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="MovieCard" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">@color/grey_medium</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 </resources>

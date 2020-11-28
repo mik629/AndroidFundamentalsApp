@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".MovieDetailsActivity">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/movie_details_bg"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/movie_details_bg" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
@@ -42,8 +40,8 @@
             android:drawableLeft="@drawable/ic_back_arrow"
             android:drawablePadding="@dimen/activity_medium_margin"
             android:text="@string/back"
-            android:textSize="@dimen/small_text_size"
             android:textColor="@color/grey"
+            android:textSize="@dimen/small_text_size"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,43 +75,21 @@
             android:id="@+id/genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/avengers_genre"
-            android:textColor="@color/pink"
             android:textSize="@dimen/regular_text_size"
+            android:textColor="@color/pink"
             app:layout_constraintBottom_toTopOf="@+id/rating"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/movie_title" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_title"
+            android:text="@string/avengers_genre"/>
 
-        <RatingBar
+        <include
             android:id="@+id/rating"
-            style="@style/Widget.AppCompat.RatingBar.Small"
+            layout="@layout/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_medium_margin"
-            android:minHeight="12dp"
-            android:maxHeight="12dp"
-            android:indeterminateDrawable="@drawable/rating"
-            android:numStars="5"
-            android:progressBackgroundTint="@color/grey"
-            android:progressDrawable="@drawable/rating"
-            android:rating="4"
             app:layout_constraintBottom_toTopOf="@+id/storyline_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/genre"
-            app:layout_constraintEnd_toStartOf="@id/reviews"/>
-
-        <TextView
-            android:id="@+id/reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/avengers_reviews"
-            android:textAllCaps="true"
-            android:textColor="@color/grey"
-            android:textSize="@dimen/regular_text_size"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/rating"
-            app:layout_constraintStart_toEndOf="@id/rating"
-            app:layout_constraintTop_toTopOf="@id/rating" />
+            app:layout_constraintTop_toBottomOf="@+id/genre" />
 
         <TextView
             android:id="@+id/storyline_title"
@@ -244,4 +220,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-
