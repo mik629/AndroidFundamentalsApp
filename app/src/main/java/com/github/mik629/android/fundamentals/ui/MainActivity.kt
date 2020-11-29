@@ -14,8 +14,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.main_container, FragmentMoviesList.newInstance())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.main_container, FragmentMoviesList.newInstance())
+                .commit()
+        }
     }
 }

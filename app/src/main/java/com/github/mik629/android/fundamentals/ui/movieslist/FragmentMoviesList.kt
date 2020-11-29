@@ -23,7 +23,7 @@ class FragmentMoviesList : Fragment() {
 
         with(binding) {
             val movieItemAdapter = MovieItemAdapter {
-                requireActivity().supportFragmentManager
+                requireFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
                     .add(R.id.main_container, FragmentMoviesDetails.newInstance())

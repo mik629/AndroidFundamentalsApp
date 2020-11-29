@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,14 +83,40 @@
             app:layout_constraintTop_toBottomOf="@+id/movie_title"
             android:text="@string/avengers_genre"/>
 
-        <include
+        <LinearLayout
             android:id="@+id/rating"
-            layout="@layout/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/storyline_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/genre" />
+            app:layout_constraintTop_toBottomOf="@+id/genre"
+            android:orientation="horizontal">
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/rating"
+                android:maxHeight="12dp"
+                android:minHeight="12dp"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/grey"
+                android:progressDrawable="@drawable/rating"
+                android:rating="4" />
+
+            <TextView
+                android:id="@+id/reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/tiny_text_size"
+                android:textStyle="bold"
+                tools:text="@string/movie_reviews" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/storyline_title"

@@ -13,7 +13,6 @@
     <string name="mark_ruffalo">Mark Ruffalo</string>
     <string name="chris_hemsworth">Chris Hemsworth</string>
     <string name="back">Back</string>
-    <string name="see_movie_details">See movie details</string>
     <string name="movies_list_title">Movies list</string>
     <string name="movie_length">%1$d Min</string>
 </resources>

@@ -11,4 +11,8 @@
     <dimen name="text_medium_size">14sp</dimen>
     <dimen name="card_radius">8dp</dimen>
     <dimen name="margin_12dp">12dp</dimen>
+    <dimen name="movie_card_height">320dp</dimen>
+    <dimen name="heart_width">16dp</dimen>
+    <dimen name="heart_height">14dp</dimen>
+    <dimen name="min_age_size">24dp</dimen>
 </resources>
