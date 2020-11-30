@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,21 @@ import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMoviesDeta
 class FragmentMoviesList : Fragment() {
     private lateinit var binding: FragmentMoviesListBinding
 
+    private val movieItemAdapter by lazy {
+        MovieItemAdapter {
+            requireFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.main_container, FragmentMoviesDetails.newInstance())
+                .commit()
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        movieItemAdapter.notifyDataSetChanged()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,13 +38,6 @@ class FragmentMoviesList : Fragment() {
         binding = FragmentMoviesListBinding.inflate(layoutInflater)
 
         with(binding) {
-            val movieItemAdapter = MovieItemAdapter {
-                requireFragmentManager()
-                    .beginTransaction()
-                    .addToBackStack(null)
-                    .add(R.id.main_container, FragmentMoviesDetails.newInstance())
-                    .commit()
-            }
             movieList.adapter = movieItemAdapter
             movieItemAdapter.submitList(
                 listOf(
