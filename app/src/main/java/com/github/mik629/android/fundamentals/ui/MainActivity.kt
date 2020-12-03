@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .addToBackStack(null)
                 .add(R.id.main_container, FragmentMoviesList.newInstance())
                 .commit()
         }

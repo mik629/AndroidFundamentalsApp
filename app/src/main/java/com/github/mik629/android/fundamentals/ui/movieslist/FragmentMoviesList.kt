@@ -1,6 +1,5 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,11 +22,6 @@ class FragmentMoviesList : Fragment() {
                 .add(R.id.main_container, FragmentMoviesDetails.newInstance())
                 .commit()
         }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        movieItemAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateView(

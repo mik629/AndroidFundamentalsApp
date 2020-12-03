@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,13 +38,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginTop="56dp"
+            android:layout_marginBottom="@dimen/activity_big_margin"
             android:drawableLeft="@drawable/ic_back_arrow"
             android:drawablePadding="@dimen/activity_medium_margin"
             android:text="@string/back"
             android:textColor="@color/grey"
             android:textSize="@dimen/small_text_size"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/age"/>
 
         <TextView
             android:id="@+id/age"
@@ -75,21 +78,21 @@
             android:id="@+id/genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/avengers_genre"
-            android:textColor="@color/pink"
             android:textSize="@dimen/regular_text_size"
+            android:textColor="@color/pink"
             app:layout_constraintBottom_toTopOf="@+id/rating"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/movie_title" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_title"
+            android:text="@string/avengers_genre"/>
 
         <LinearLayout
             android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/storyline_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/genre">
+            app:layout_constraintTop_toBottomOf="@+id/genre"
+            android:orientation="horizontal">
 
             <RatingBar
                 android:id="@+id/rating_bar"
@@ -110,11 +113,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/avengers_reviews"
                 android:textAllCaps="true"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/tiny_text_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="@string/movie_reviews" />
         </LinearLayout>
 
         <TextView
@@ -165,7 +168,6 @@
             android:layout_height="wrap_content"
             app:barrierDirection="top"
             app:constraint_referenced_ids="downey_ava,evans_ava,ruffalo_ava,hemsworth_ava"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cast" />
 
         <ImageView
