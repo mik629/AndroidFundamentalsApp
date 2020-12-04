@@ -22,6 +22,9 @@ object Versions {
     const val materialLibrary = "1.2.1"
     const val constraintLayout = "2.0.4"
 
+    // third party libs
+    const val adapterDelegates = "4.3.0"
+
     // Libs for testing
     const val espresso = "3.3.0"
     const val junit = "5.7.0"
@@ -44,6 +47,8 @@ object Libs {
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
     const val kotlinStdlib = "stdlib-jdk7"
+
+    const val adapterDelegates = "com.hannesdorfmann:adapterdelegates4:${Versions.adapterDelegates}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
