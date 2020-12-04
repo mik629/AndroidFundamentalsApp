@@ -51,7 +51,7 @@
                 android:background="@drawable/age_bgd"
                 android:gravity="center"
                 android:text="@string/movie_min_age"
-                android:textSize="@dimen/small_text_size"
+                android:textSize="@dimen/text_small_size"
                 android:textStyle="bold" />
 
             <Space
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_medium_margin"
             android:textColor="@color/pink"
-            android:textSize="@dimen/tiny_text_size"
+            android:textSize="@dimen/text_tiny_size"
             tools:text="@string/avengers_genre" />
 
         <LinearLayout
@@ -108,7 +108,7 @@
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textColor="@color/grey"
-                android:textSize="@dimen/tiny_text_size"
+                android:textSize="@dimen/text_tiny_size"
                 android:textStyle="bold"
                 tools:text="@string/movie_reviews" />
         </LinearLayout>
@@ -134,7 +134,7 @@
             android:textAllCaps="true"
             android:textColor="@color/grey_medium"
             android:textStyle="bold"
-            android:textSize="@dimen/small_text_size"
+            android:textSize="@dimen/text_small_size"
             tools:text="137 Min" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
