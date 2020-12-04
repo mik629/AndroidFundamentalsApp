@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.MovieItem
+import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 
 class MovieItemAdapter(

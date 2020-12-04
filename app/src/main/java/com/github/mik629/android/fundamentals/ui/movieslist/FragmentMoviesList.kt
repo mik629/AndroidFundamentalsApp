@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.MovieItem
+import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMoviesDetails
