@@ -176,7 +176,7 @@ class FragmentMovieDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         glideRequest.fitCenter()
             .load(titleToDetailsMap[title]!!.background)
-            .into(binding.background)
+            .into(binding.backgroundImg)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
