@@ -155,9 +155,7 @@ class FragmentMovieDetails : Fragment() {
 
         with(binding) {
             back.setOnClickListener {
-                requireFragmentManager().beginTransaction()
-                    .remove(this@FragmentMovieDetails)
-                    .commit()
+                requireFragmentManager().popBackStack()
             }
 
             age.text = getString(R.string.movie_min_age, movieDetailsItem.minAge)
