@@ -170,28 +170,19 @@
             android:text="@string/cast"
             android:textSize="@dimen/text_medium_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/barrier"
+            app:layout_constraintBottom_toTopOf="@+id/actors"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/storyline" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="top"
-            app:constraint_referenced_ids="actors"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cast" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/actors"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@id/cast"
             tools:listitem="@layout/actor_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

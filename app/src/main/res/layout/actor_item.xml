@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="80dp"
     android:layout_height="160dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="@dimen/activity_medium_margin"
-    app:cardCornerRadius="@dimen/card_radius"
     android:backgroundTint="@color/dark_grey"
     android:orientation="vertical">
 
@@ -20,7 +18,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.8"
             android:scaleType="centerCrop"
-            tools:src="@drawable/robert_downey_jr" />
+            tools:src="@drawable/robert_downey_jr"
+            android:background="@drawable/actor_bgd"/>
 
         <TextView
             android:id="@+id/name"
