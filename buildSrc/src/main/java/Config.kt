@@ -25,7 +25,6 @@ object Versions {
     // third party libs
     const val adapterDelegates = "4.3.0"
     const val glide = "4.11.0"
-    const val klaxon = "5.0.1"
 
     // Libs for testing
     const val espresso = "3.3.0"
@@ -56,7 +55,6 @@ object Libs {
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
     const val glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
     const val glideRecyclerView = "com.github.bumptech.glide:recyclerview-integration:${Versions.glide}"
-    const val klaxon = "com.beust:klaxon:${Versions.klaxon}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"

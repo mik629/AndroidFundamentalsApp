@@ -53,7 +53,6 @@ dependencies {
     kapt(Libs.glideCompiler)
     implementation(Libs.glideOkhttp)
     implementation(Libs.glideRecyclerView)
-    implementation(Libs.klaxon)
 
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)
