@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -11,10 +11,17 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/movie_details_bg" />
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/movie_details_bgd" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
@@ -44,9 +51,9 @@
             android:text="@string/back"
             android:textColor="@color/grey"
             android:textSize="@dimen/text_small_size"
+            app:layout_constraintBottom_toTopOf="@id/age"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/age"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/age"
@@ -64,8 +71,6 @@
             android:id="@+id/movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:maxWidth="240dp"
             android:text="@string/avengers_title"
             android:textColor="@color/white_50"
             android:textSize="@dimen/huge_text_size"
@@ -78,35 +83,25 @@
             android:id="@+id/genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/regular_text_size"
+            android:text="@string/avengers_genre"
             android:textColor="@color/pink"
+            android:textSize="@dimen/regular_text_size"
             app:layout_constraintBottom_toTopOf="@+id/rating"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/movie_title"
-            android:text="@string/avengers_genre"/>
+            app:layout_constraintTop_toBottomOf="@+id/movie_title" />
 
         <LinearLayout
             android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/storyline_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/genre"
-            android:orientation="horizontal">
+            app:layout_constraintTop_toBottomOf="@+id/genre">
 
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminateDrawable="@drawable/rating"
-                android:maxHeight="12dp"
-                android:minHeight="12dp"
-                android:numStars="5"
-                android:progressBackgroundTint="@color/grey"
-                android:progressDrawable="@drawable/rating"
-                android:rating="4" />
+            <include
+                android:id="@+id/rating_layout"
+                layout="@layout/rating_bar" />
 
             <TextView
                 android:id="@+id/reviews"
@@ -167,84 +162,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            app:constraint_referenced_ids="downey_ava,evans_ava,ruffalo_ava,hemsworth_ava"
+            app:constraint_referenced_ids="actors"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cast" />
 
-        <ImageView
-            android:id="@+id/downey_ava"
-            style="@style/ActorAva"
-            android:layout_marginEnd="@dimen/activity_medium_margin"
-            android:src="@drawable/robert_downey_jr"
-            app:layout_constraintBottom_toTopOf="@id/downey_name"
-            app:layout_constraintEnd_toStartOf="@id/evans_ava"
-            app:layout_constraintStart_toEndOf="@id/guideline_left" />
-
-        <TextView
-            android:id="@+id/downey_name"
-            style="@style/ActorName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@string/robert_downey_jr"
-            app:layout_constraintEnd_toEndOf="@id/downey_ava"
-            app:layout_constraintStart_toStartOf="@id/downey_ava"
-            app:layout_constraintTop_toBottomOf="@id/downey_ava" />
-
-        <ImageView
-            android:id="@+id/evans_ava"
-            style="@style/ActorAva"
-            android:layout_marginEnd="@dimen/activity_medium_margin"
-            android:src="@drawable/chris_evans"
-            app:layout_constraintEnd_toStartOf="@id/ruffalo_ava"
-            app:layout_constraintStart_toEndOf="@id/downey_ava"
-            app:layout_constraintTop_toBottomOf="@id/barrier" />
-
-        <TextView
-            style="@style/ActorName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@string/chris_evans"
-            app:layout_constraintEnd_toEndOf="@id/evans_ava"
-            app:layout_constraintStart_toStartOf="@id/evans_ava"
-            app:layout_constraintTop_toBottomOf="@id/evans_ava" />
-
-        <ImageView
-            android:id="@+id/ruffalo_ava"
-            style="@style/ActorAva"
-            android:layout_marginEnd="@dimen/activity_medium_margin"
-            android:src="@drawable/mark_ruffalo"
-            app:layout_constraintEnd_toStartOf="@id/hemsworth_ava"
-            app:layout_constraintStart_toEndOf="@id/evans_ava"
-            app:layout_constraintTop_toBottomOf="@id/barrier" />
-
-        <TextView
-            style="@style/ActorName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@string/mark_ruffalo"
-            app:layout_constraintEnd_toEndOf="@id/ruffalo_ava"
-            app:layout_constraintStart_toStartOf="@id/ruffalo_ava"
-            app:layout_constraintTop_toBottomOf="@id/ruffalo_ava" />
-
-        <ImageView
-            android:id="@+id/hemsworth_ava"
-            style="@style/ActorAva"
-            android:src="@drawable/chris_hemsworth"
-            app:layout_constraintEnd_toStartOf="@id/guideline_right"
-            app:layout_constraintStart_toEndOf="@id/ruffalo_ava"
-            app:layout_constraintTop_toBottomOf="@id/barrier" />
-
-        <TextView
-            style="@style/ActorName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:text="@string/chris_hemsworth"
-            app:layout_constraintEnd_toEndOf="@id/hemsworth_ava"
-            app:layout_constraintStart_toStartOf="@id/hemsworth_ava"
-            app:layout_constraintTop_toBottomOf="@id/hemsworth_ava" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/actors"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:listitem="@layout/actor_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

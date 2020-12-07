@@ -1,6 +1,7 @@
 plugins {
     id(Plugins.androidApp)
     id(Plugins.kotlinAndroidApp)
+    kotlin(Plugins.kapt)
 }
 
 android {
@@ -48,6 +49,11 @@ dependencies {
     implementation(Libs.constraintLayout)
 
     implementation(Libs.adapterDelegates)
+    implementation(Libs.glide)
+    kapt(Libs.glideCompiler)
+    implementation(Libs.glideOkhttp)
+    implementation(Libs.glideRecyclerView)
+    implementation(Libs.klaxon)
 
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)

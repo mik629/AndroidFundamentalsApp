@@ -12,6 +12,7 @@
     app:cardUseCompatPadding="true">
 
     <ImageView
+        android:id="@+id/movie_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -62,60 +63,42 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/movie_title_bgd"
             android:orientation="vertical"
-            android:paddingTop="@dimen/activity_big_margin"
-            android:paddingBottom="@dimen/activity_small_margin"
             android:paddingStart="@dimen/activity_medium_margin"
+            android:paddingTop="@dimen/activity_big_margin"
             android:paddingEnd="@dimen/activity_medium_margin"
-            android:background="@drawable/movie_title_bgd">
+            android:paddingBottom="@dimen/activity_small_margin">
 
             <TextView
                 android:id="@+id/genres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_medium_margin"
                 android:textColor="@color/pink"
                 android:textSize="@dimen/text_tiny_size"
                 tools:text="@string/avengers_genre" />
 
-            <LinearLayout
+
+            <include
+                android:id="@+id/rating_layout"
+                layout="@layout/rating_bar_small" />
+
+            <TextView
+                android:id="@+id/reviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_medium_margin"
-                android:orientation="horizontal">
-
-                <RatingBar
-                    android:id="@+id/rating_bar"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminateDrawable="@drawable/rating_small"
-                    android:maxHeight="12dp"
-                    android:minHeight="12dp"
-                    android:numStars="5"
-                    android:progressBackgroundTint="@color/grey"
-                    android:progressDrawable="@drawable/rating"
-                    android:rating="4" />
-
-                <TextView
-                    android:id="@+id/reviews"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_tiny_size"
-                    android:textStyle="bold"
-                    tools:text="@string/movie_reviews" />
-            </LinearLayout>
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_tiny_size"
+                android:textStyle="bold"
+                tools:text="@string/movie_reviews" />
 
             <TextView
                 android:id="@+id/movie_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/activity_medium_margin"
                 android:layout_marginTop="@dimen/activity_small_margin"
                 android:textSize="@dimen/text_medium_size"
                 android:textStyle="bold"
@@ -125,7 +108,6 @@
                 android:id="@+id/movie_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_medium_margin"
                 android:layout_marginEnd="@dimen/activity_medium_margin"
                 android:layout_marginBottom="@dimen/activity_medium_margin"
                 android:textAllCaps="true"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/dark_grey">
 
     <TextView
@@ -20,12 +20,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movie_list"
-        android:layout_marginTop="68dp"
-        android:layout_marginStart="@dimen/activity_standard_margin"
-        android:layout_marginEnd="@dimen/activity_standard_margin"
-        android:layout_marginBottom="@dimen/activity_standard_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_standard_margin"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="@dimen/activity_standard_margin"
+        android:layout_marginBottom="@dimen/activity_standard_margin"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/movie_item" />

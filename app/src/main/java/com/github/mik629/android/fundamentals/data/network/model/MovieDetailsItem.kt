@@ -1,11 +1,12 @@
 package com.github.mik629.android.fundamentals.data.network.model
 
-data class MovieItem(
+data class MovieDetailsItem(
     val title: String,
-    val poster: String,
+    val background: String,
+    val storyline: String,
     val genres: List<String>,
+    val actors: List<ActorItem>,
     val minAge: Int,
     val reviews: Int,
-    val rating: Float,
-    val minutes: Int
+    val rating: Float
 )

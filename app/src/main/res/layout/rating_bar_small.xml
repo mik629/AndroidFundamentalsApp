@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RatingBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rating_bar"
+    style="@style/Widget.AppCompat.RatingBar.Small"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:indeterminateDrawable="@drawable/rating_small"
+    android:maxHeight="12dp"
+    android:minHeight="12dp"
+    android:numStars="10"
+    android:progressBackgroundTint="@color/grey"
+    android:progressDrawable="@drawable/rating"
+    android:rating="8.5" />

@@ -11,10 +11,17 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/movie_details_bg" />
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/movie_details_bgd" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
@@ -62,8 +69,6 @@
             android:id="@+id/movie_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="2"
-            android:maxWidth="240dp"
             android:text="@string/avengers_title"
             android:textColor="@color/white_50"
             android:textSize="@dimen/huge_text_size"
@@ -79,44 +84,33 @@
             android:text="@string/avengers_genre"
             android:textColor="@color/pink"
             android:textSize="@dimen/regular_text_size"
-            app:layout_constraintBottom_toTopOf="@+id/rating"
+            app:layout_constraintBottom_toTopOf="@+id/rating_layout"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/movie_title" />
 
-        <LinearLayout
-            android:id="@+id/rating"
+        <include
+            android:id="@+id/rating_layout"
+            layout="@layout/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/reviews"
+            app:layout_constraintStart_toEndOf="@id/guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/genre" />
+
+        <TextView
+            android:id="@+id/reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/activity_medium_margin"
+            android:textAllCaps="true"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_tiny_size"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/storyline_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/genre">
-
-            <RatingBar
-                android:id="@+id/rating_bar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminateDrawable="@drawable/rating"
-                android:maxHeight="12dp"
-                android:minHeight="12dp"
-                android:numStars="5"
-                android:progressBackgroundTint="@color/grey"
-                android:progressDrawable="@drawable/rating"
-                android:rating="4" />
-
-            <TextView
-                android:id="@+id/reviews"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/avengers_reviews"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_tiny_size"
-                android:textStyle="bold" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/rating_layout"
+            tools:text="@string/avengers_reviews" />
 
         <TextView
             android:id="@+id/storyline_title"
@@ -132,7 +126,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/storyline"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/rating" />
+            app:layout_constraintTop_toBottomOf="@+id/reviews" />
 
         <TextView
             android:id="@+id/storyline"
@@ -174,11 +168,12 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            tools:listitem="@layout/actor_item"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrier"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier"
+            tools:listitem="@layout/actor_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
