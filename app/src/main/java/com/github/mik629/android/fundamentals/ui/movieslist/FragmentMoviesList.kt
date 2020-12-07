@@ -21,7 +21,7 @@ class FragmentMoviesList : Fragment() {
             { movieTitle ->
                 requireFragmentManager()
                     .beginTransaction()
-                    .addToBackStack(null)
+                    .addToBackStack(FragmentMoviesList::class.simpleName)
                     .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle))
                     .commit()
             },
