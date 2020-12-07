@@ -19,7 +19,6 @@
     <style name="ActorName">
         <item name="android:textSize">@dimen/text_small_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginTop">@dimen/activity_medium_margin</item>
     </style>
 
     <style name="ActorAva">
