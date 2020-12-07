@@ -42,7 +42,7 @@ class FragmentMovieDetails : Fragment() {
             ),
             12,
             1878,
-            7.0f
+            3.5f
         ),
         "Gladiator" to MovieDetailsItem(
             "Gladiator",
@@ -69,7 +69,7 @@ class FragmentMovieDetails : Fragment() {
             ),
             16,
             2677,
-            8.5f
+            4.25f
         ),
         "Toy Story" to MovieDetailsItem(
             "Toy Story",
@@ -96,7 +96,7 @@ class FragmentMovieDetails : Fragment() {
             ),
             0,
             633,
-            8.3f
+            4.15f
         ),
         "Pulp Fiction" to MovieDetailsItem(
             "Pulp Fiction",
@@ -123,7 +123,7 @@ class FragmentMovieDetails : Fragment() {
             ),
             18,
             3109,
-            8.9f
+            4.45f
         )
     )
 

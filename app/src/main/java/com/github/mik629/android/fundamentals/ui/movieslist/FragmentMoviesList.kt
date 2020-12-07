@@ -43,7 +43,7 @@ class FragmentMoviesList : Fragment() {
                 listOf("Adventure", "Action", "Science Fiction"),
                 12,
                 1878,
-                7f,
+                3.5f,
                 144
             ),
             MovieItem(
@@ -52,7 +52,7 @@ class FragmentMoviesList : Fragment() {
                 listOf("Action", "Drama", "Adventure"),
                 16,
                 2677,
-                8.5f,
+                4.25f,
                 155
             ),
             MovieItem(
@@ -61,7 +61,7 @@ class FragmentMoviesList : Fragment() {
                 listOf("Animation", "Adventure", "Family", "Comedy"),
                 0,
                 633,
-                8.3f,
+                4.15f,
                 81
             ),
             MovieItem(
@@ -70,7 +70,7 @@ class FragmentMoviesList : Fragment() {
                 listOf("Thriller", "Crime"),
                 18,
                 3109,
-                8.9f,
+                4.45f,
                 154
             )
         )

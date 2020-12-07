@@ -7,7 +7,7 @@
     android:indeterminateDrawable="@drawable/rating"
     android:maxHeight="12dp"
     android:minHeight="12dp"
-    android:numStars="10"
+    android:numStars="5"
     android:progressBackgroundTint="@color/grey"
     android:progressDrawable="@drawable/rating"
-    android:rating="8.5" />
+    android:rating="4.5" />
