@@ -174,7 +174,7 @@ class FragmentMovieDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        glideRequest.fitCenter()
+        glideRequest.centerCrop()
             .load(titleToDetailsMap[title]!!.background)
             .into(binding.backgroundImg)
     }

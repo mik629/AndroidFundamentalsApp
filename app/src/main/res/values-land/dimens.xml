@@ -7,4 +7,8 @@
     <dimen name="heart_width">20dp</dimen>
     <dimen name="heart_height">18dp</dimen>
     <dimen name="min_age_size">28dp</dimen>
+    <dimen name="ava_size">128dp</dimen>
+    <dimen name="back_btn_margin_top">16dp</dimen>
+    <dimen name="age_margin_top">112dp</dimen>
+    <dimen name="header_img_height">198dp</dimen>
 </resources>

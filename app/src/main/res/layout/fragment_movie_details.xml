@@ -13,12 +13,11 @@
         <ImageView
             android:id="@+id/background_img"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/header_img_height"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/grey_bgd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="0.3"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <ImageView
@@ -26,8 +25,8 @@
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             android:src="@drawable/movie_details_bgd"
-            app:layout_constraintTop_toTopOf="@id/background_img"
-            app:layout_constraintBottom_toBottomOf="@id/background_img"/>
+            app:layout_constraintBottom_toBottomOf="@id/background_img"
+            app:layout_constraintTop_toTopOf="@id/background_img"/>
 
         <TextView
             android:id="@+id/grey_bgd"
@@ -57,14 +56,15 @@
 
         <TextView
             android:id="@+id/back"
-            android:paddingTop="@dimen/activity_standard_margin"
-            android:paddingBottom="@dimen/activity_standard_margin"
-            android:paddingEnd="@dimen/activity_standard_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
+            android:layout_marginTop="@dimen/back_btn_margin_top"
             android:drawableLeft="@drawable/ic_back_arrow"
             android:drawablePadding="@dimen/activity_medium_margin"
+            android:paddingTop="@dimen/activity_standard_margin"
+            android:paddingEnd="@dimen/activity_standard_margin"
+            android:paddingBottom="@dimen/activity_standard_margin"
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="@dimen/text_small_size"
@@ -75,6 +75,7 @@
             android:id="@+id/age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/age_margin_top"
             android:text="@string/avengers_min_age"
             android:textColor="@color/white"
             android:textSize="@dimen/text_small_size"
@@ -85,12 +86,13 @@
 
         <TextView
             android:id="@+id/movie_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/avengers_title"
             android:textColor="@color/white_50"
             android:textSize="@dimen/huge_text_size"
             android:textStyle="bold"
+            android:maxLines="2"
             app:layout_constraintBottom_toTopOf="@+id/genre"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/age" />
@@ -111,7 +113,9 @@
             layout="@layout/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/reviews"
+            android:layout_marginTop="@dimen/activity_medium_margin"
+            app:layout_constraintBottom_toTopOf="@+id/storyline_title"
+            app:layout_constraintEnd_toStartOf="@id/reviews"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/genre" />
 
@@ -120,14 +124,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/activity_medium_margin"
+            android:layout_marginStart="@dimen/activity_small_margin"
             android:textAllCaps="true"
             android:textColor="@color/grey"
             android:textSize="@dimen/text_tiny_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/storyline_title"
-            app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/rating_layout"
+            app:layout_constraintBottom_toBottomOf="@id/rating_layout"
+            app:layout_constraintStart_toEndOf="@id/rating_layout"
+            app:layout_constraintTop_toTopOf="@id/rating_layout"
             tools:text="@string/avengers_reviews" />
 
         <TextView
@@ -144,7 +148,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/storyline"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/reviews" />
+            app:layout_constraintTop_toBottomOf="@+id/rating_layout" />
 
         <TextView
             android:id="@+id/storyline"
@@ -174,11 +178,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/actors"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_standard_margin"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/cast"
             tools:listitem="@layout/actor_item" />

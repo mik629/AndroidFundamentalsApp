@@ -27,7 +27,7 @@ class ActorItemAdapter(
         fun updateViewItem(item: ActorItem) {
             with(binding) {
                 name.text = item.name
-                glideRequest.fitCenter()
+                glideRequest.centerCrop()
                     .load(item.ava)
                     .into(ava)
             }
