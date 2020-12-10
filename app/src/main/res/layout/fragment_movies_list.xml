@@ -20,12 +20,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movie_list"
-        android:layout_marginTop="86dp"
-        android:layout_marginStart="@dimen/activity_standard_margin"
-        android:layout_marginEnd="@dimen/activity_standard_margin"
-        android:layout_marginBottom="@dimen/activity_standard_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_standard_margin"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="@dimen/activity_standard_margin"
+        android:layout_marginBottom="@dimen/activity_standard_margin"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/movie_item" />

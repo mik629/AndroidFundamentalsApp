@@ -5,23 +5,75 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.MovieItem
+import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
-import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMoviesDetails
+import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 
 class FragmentMoviesList : Fragment() {
     private lateinit var binding: FragmentMoviesListBinding
 
     private val movieItemAdapter by lazy {
-        MovieItemAdapter {
-            requireFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .add(R.id.main_container, FragmentMoviesDetails.newInstance())
-                .commit()
-        }
+        MovieItemAdapter(
+            { movieTitle ->
+                requireFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack(FragmentMoviesList::class.simpleName)
+                    .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle))
+                    .commit()
+            },
+            GlideApp.with(this)
+                .asDrawable()
+                .thumbnail(0.1f)
+                .placeholder(R.drawable.ic_image_loading)
+                .fallback(R.drawable.ic_broken_image)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .fitCenter()
+        )
+    }
+
+    private val movies by lazy {
+        listOf(
+            MovieItem(
+                "Transformers",
+                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/6eehp9I54syN3x753XMqjKz8M3F.jpg",
+                listOf("Adventure", "Action", "Science Fiction"),
+                12,
+                1878,
+                3.5f,
+                144
+            ),
+            MovieItem(
+                "Gladiator",
+                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/pRn3TJHbAqCAO6U8Dw5DayVUuX3.jpg",
+                listOf("Action", "Drama", "Adventure"),
+                16,
+                2677,
+                4.25f,
+                155
+            ),
+            MovieItem(
+                "Toy Story",
+                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/rTtFXrAIw0nZJxh6EhBhASrhrU3.jpg",
+                listOf("Animation", "Adventure", "Family", "Comedy"),
+                0,
+                633,
+                4.15f,
+                81
+            ),
+            MovieItem(
+                "Pulp Fiction",
+                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/dRZpdpKLgN9nk57zggJCs1TjJb4.jpg",
+                listOf("Thriller", "Crime"),
+                18,
+                3109,
+                4.45f,
+                154
+            )
+        )
     }
 
     override fun onCreateView(
@@ -33,16 +85,7 @@ class FragmentMoviesList : Fragment() {
 
         with(binding) {
             movieList.adapter = movieItemAdapter
-            movieItemAdapter.submitList(
-                listOf(
-                    // fixme: remove hardcode when data source is known
-                    MovieItem(
-                        "Avengers: End Game",
-                        listOf("Action", "Adventure", "Fantasy"),
-                        13, 125, 4f, 137
-                    )
-                )
-            )
+            movieItemAdapter.submitList(movies)
         }
 
         return binding.root

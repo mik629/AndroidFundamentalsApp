@@ -24,6 +24,7 @@ object Versions {
 
     // third party libs
     const val adapterDelegates = "4.3.0"
+    const val glide = "4.11.0"
 
     // Libs for testing
     const val espresso = "3.3.0"
@@ -39,6 +40,7 @@ object Plugins {
     const val androidApp = "com.android.application"
     const val kotlinAndroidApp = "kotlin-android"
     const val ktlint = "org.jlleitschuh.gradle.ktlint"
+    const val kapt = "kapt"
 }
 
 object Libs {
@@ -49,6 +51,10 @@ object Libs {
     const val kotlinStdlib = "stdlib-jdk7"
 
     const val adapterDelegates = "com.hannesdorfmann:adapterdelegates4:${Versions.adapterDelegates}"
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
+    const val glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
+    const val glideRecyclerView = "com.github.bumptech.glide:recyclerview-integration:${Versions.glide}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
