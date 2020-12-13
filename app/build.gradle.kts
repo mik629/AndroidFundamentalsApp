@@ -1,6 +1,8 @@
 plugins {
     id(Plugins.androidApp)
     id(Plugins.kotlinAndroidApp)
+    id(Plugins.serialization)
+    id(Plugins.parcelize)
     kotlin(Plugins.kapt)
 }
 
@@ -47,6 +49,8 @@ dependencies {
     implementation(Libs.appcompat)
     implementation(Libs.material)
     implementation(Libs.constraintLayout)
+    implementation(Libs.serializationJson)
+    implementation(Libs.coroutines)
 
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)

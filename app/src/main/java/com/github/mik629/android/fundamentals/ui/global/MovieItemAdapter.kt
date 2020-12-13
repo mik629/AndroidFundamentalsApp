@@ -12,7 +12,7 @@ import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 
 class MovieItemAdapter(
-    private val clickListener: (String) -> Unit,
+    private val clickListener: (MovieItem) -> Unit,
     private val glideRequest: GlideRequest<Drawable>
 ) : ListAdapter<MovieItem, MovieItemAdapter.ViewHolder>(DIFF_CALLBACK) {
 
@@ -28,16 +28,16 @@ class MovieItemAdapter(
 
         fun updateViewItem(item: MovieItem) {
             with(binding) {
-                root.setOnClickListener { clickListener(item.title) }
+                root.setOnClickListener { clickListener(item) }
                 glideRequest.fitCenter()
                     .load(item.poster)
                     .into(moviePoster)
                 minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
                 movieTitle.text = item.title
-                genres.text = item.genres.joinToString()
-                ratingLayout.ratingBar.rating = item.rating
+                genres.text = item.genres.joinToString { it.name }
+                ratingLayout.ratingBar.rating = item.rating / 2
                 reviews.text = root.resources.getString(R.string.movie_reviews, item.reviews)
-                movieLength.text = root.resources.getString(R.string.movie_length, item.minutes)
+                movieLength.text = root.resources.getString(R.string.movie_length, item.runtime)
             }
         }
     }

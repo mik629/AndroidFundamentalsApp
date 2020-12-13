@@ -8,13 +8,18 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.model.MovieItem
+import com.github.mik629.android.fundamentals.data.loadMovies
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FragmentMoviesList : Fragment() {
     private lateinit var binding: FragmentMoviesListBinding
+
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
@@ -35,47 +40,6 @@ class FragmentMoviesList : Fragment() {
         )
     }
 
-    private val movies by lazy {
-        listOf(
-            MovieItem(
-                "Transformers",
-                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/6eehp9I54syN3x753XMqjKz8M3F.jpg",
-                listOf("Adventure", "Action", "Science Fiction"),
-                12,
-                1878,
-                3.5f,
-                144
-            ),
-            MovieItem(
-                "Gladiator",
-                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/pRn3TJHbAqCAO6U8Dw5DayVUuX3.jpg",
-                listOf("Action", "Drama", "Adventure"),
-                16,
-                2677,
-                4.25f,
-                155
-            ),
-            MovieItem(
-                "Toy Story",
-                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/rTtFXrAIw0nZJxh6EhBhASrhrU3.jpg",
-                listOf("Animation", "Adventure", "Family", "Comedy"),
-                0,
-                633,
-                4.15f,
-                81
-            ),
-            MovieItem(
-                "Pulp Fiction",
-                "http://image.tmdb.org/t/p/w600_and_h900_bestv2/dRZpdpKLgN9nk57zggJCs1TjJb4.jpg",
-                listOf("Thriller", "Crime"),
-                18,
-                3109,
-                4.45f,
-                154
-            )
-        )
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,7 +49,12 @@ class FragmentMoviesList : Fragment() {
 
         with(binding) {
             movieList.adapter = movieItemAdapter
-            movieItemAdapter.submitList(movies)
+            scope.launch {
+                movieItemAdapter.submitList(
+                    loadMovies(requireContext())
+                )
+            }
+
         }
 
         return binding.root

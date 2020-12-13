@@ -28,6 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:maxLines="2"
+            android:ellipsize="end"
             tools:text="Mister Superman Junior" />
     </LinearLayout>
 
