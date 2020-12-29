@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.loadMovies
+import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.github.mik629.android.fundamentals.vm.MoviesListViewModel
 
 class FragmentMoviesList : Fragment() {
     private lateinit var binding: FragmentMoviesListBinding
 
-    private val scope = CoroutineScope(Dispatchers.Main)
+    private val viewModel by lazy {
+        MoviesListViewModel(MoviesRepositoryImpl(), requireContext())
+    }
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
@@ -49,12 +49,9 @@ class FragmentMoviesList : Fragment() {
 
         with(binding) {
             movieList.adapter = movieItemAdapter
-            scope.launch {
-                movieItemAdapter.submitList(
-                    loadMovies(requireContext())
-                )
+            viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
+                movieItemAdapter.submitList(it)
             }
-
         }
 
         return binding.root
