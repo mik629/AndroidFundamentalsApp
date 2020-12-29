@@ -93,6 +93,7 @@
             android:textSize="@dimen/huge_text_size"
             android:textStyle="bold"
             android:maxLines="2"
+            android:ellipsize="end"
             app:layout_constraintBottom_toTopOf="@+id/genre"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/age" />

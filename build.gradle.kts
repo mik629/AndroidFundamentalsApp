@@ -14,6 +14,7 @@ buildscript {
     }
     dependencies {
         classpath(Plugins.androidTools)
+        classpath(Plugins.serializationPath)
         classpath(kotlin(Plugins.kotlin, Versions.kotlin))
 
         // NOTE: Do not place your application dependencies here; they belong
