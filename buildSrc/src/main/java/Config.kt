@@ -24,6 +24,7 @@ object Versions {
     const val constraintLayout = "2.0.4"
     const val serializationJson = "1.0.1"
     const val coroutines = "1.4.2"
+    const val lifecycle = "2.2.0"
 
     // third party libs
     const val adapterDelegates = "4.3.0"
@@ -52,9 +53,13 @@ object Plugins {
 object Libs {
     const val appcompat = "androidx.appcompat:appcompat:${Versions.compatLibrary}"
     const val material = "com.google.android.material:material:${Versions.materialLibrary}"
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    const val serializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serializationJson}"
+    const val constraintLayout =
+        "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val serializationJson =
+        "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serializationJson}"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
 
     const val kotlinStdlib = "stdlib-jdk7"
 
@@ -62,7 +67,8 @@ object Libs {
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     const val glideCompiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
     const val glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
-    const val glideRecyclerView = "com.github.bumptech.glide:recyclerview-integration:${Versions.glide}"
+    const val glideRecyclerView =
+        "com.github.bumptech.glide:recyclerview-integration:${Versions.glide}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"

@@ -51,6 +51,8 @@ dependencies {
     implementation(Libs.constraintLayout)
     implementation(Libs.serializationJson)
     implementation(Libs.coroutines)
+    implementation(Libs.lifecycle)
+    implementation(Libs.viewModel)
 
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)
