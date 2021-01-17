@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
+import com.github.mik629.android.fundamentals.domain.model.MovieItem
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 
 class FragmentMovieDetails : Fragment() {
@@ -36,7 +36,7 @@ class FragmentMovieDetails : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMovieDetailsBinding.inflate(layoutInflater)
 
         with(binding) {

@@ -1,4 +1,4 @@
-package com.github.mik629.android.fundamentals.data.network.model
+package com.github.mik629.android.fundamentals.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -10,7 +10,7 @@ data class MovieItem(
     val overview: String,
     val poster: String,
     val backdrop: String,
-    val genres: List<Genre>,
+    val genres: List<GenreItem>,
     val actors: List<ActorItem>,
     val minAge: Int,
     val reviews: Int,

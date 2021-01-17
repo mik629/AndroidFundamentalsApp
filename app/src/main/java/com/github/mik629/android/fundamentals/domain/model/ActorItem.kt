@@ -1,4 +1,4 @@
-package com.github.mik629.android.fundamentals.data.network.model
+package com.github.mik629.android.fundamentals.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

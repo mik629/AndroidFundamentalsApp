@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mik629.android.fundamentals.GlideRequest
-import com.github.mik629.android.fundamentals.data.network.model.ActorItem
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
+import com.github.mik629.android.fundamentals.domain.model.ActorItem
 
 class ActorItemAdapter(
     private val glideRequest: GlideRequest<Drawable>
