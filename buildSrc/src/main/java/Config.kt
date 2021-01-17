@@ -29,6 +29,10 @@ object Versions {
     // third party libs
     const val adapterDelegates = "4.3.0"
     const val glide = "4.11.0"
+    const val retrofit = "2.9.0"
+    const val serializationConverter = "0.8.0"
+    const val okhttp = "4.9.0"
+    const val timber = "4.7.1"
 
     // Libs for testing
     const val espresso = "3.3.0"
@@ -69,6 +73,12 @@ object Libs {
     const val glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
     const val glideRecyclerView =
         "com.github.bumptech.glide:recyclerview-integration:${Versions.glide}"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    const val serializationConverter =
+        "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.serializationConverter}"
+    const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"

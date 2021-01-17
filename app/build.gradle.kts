@@ -24,6 +24,13 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs["debug"]
             isDebuggable = true
+            buildConfigField("String", "BASE_URL", """"https://api.themoviedb.org/3/"""")
+            buildConfigField(
+                "String",
+                "BASE_IMAGE_URL",
+                """"https://image.tmdb.org/t/p/original""""
+            )
+            buildConfigField("String", "API_KEY", """"7d4faff53c09dde00a141ae9c56f2d1b"""")
         }
 
         getByName("release") {
@@ -59,6 +66,11 @@ dependencies {
     kapt(Libs.glideCompiler)
     implementation(Libs.glideOkhttp)
     implementation(Libs.glideRecyclerView)
+    implementation(Libs.retrofit)
+    implementation(Libs.serializationConverter)
+    implementation(Libs.okhttp)
+    implementation(Libs.okhttpLogging)
+    implementation(Libs.timber)
 
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)

@@ -1,9 +1,9 @@
 package com.github.mik629.android.fundamentals.data
 
 import android.content.Context
-import com.github.mik629.android.fundamentals.data.network.model.ActorItem
-import com.github.mik629.android.fundamentals.data.network.model.Genre
-import com.github.mik629.android.fundamentals.data.network.model.MovieItem
+import com.github.mik629.android.fundamentals.domain.model.ActorItem
+import com.github.mik629.android.fundamentals.domain.model.GenreItem
+import com.github.mik629.android.fundamentals.domain.model.MovieItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
@@ -45,14 +45,14 @@ private class JsonMovie(
     val adult: Boolean
 )
 
-private suspend fun loadGenres(context: Context): List<Genre> = withContext(Dispatchers.IO) {
+private suspend fun loadGenres(context: Context): List<GenreItem> = withContext(Dispatchers.IO) {
     val data = readAssetFileToString(context, "genres.json")
     parseGenres(data)
 }
 
-internal fun parseGenres(data: String): List<Genre> {
+internal fun parseGenres(data: String): List<GenreItem> {
     val jsonGenres = jsonFormat.decodeFromString<List<JsonGenre>>(data)
-    return jsonGenres.map { Genre(id = it.id, name = it.name) }
+    return jsonGenres.map { GenreItem(id = it.id, name = it.name) }
 }
 
 private fun readAssetFileToString(context: Context, fileName: String): String {
@@ -81,7 +81,7 @@ internal suspend fun loadMovies(context: Context): List<MovieItem> = withContext
 
 internal fun parseMovies(
     data: String,
-    genres: List<Genre>,
+    genres: List<GenreItem>,
     actors: List<ActorItem>
 ): List<MovieItem> {
     val genresMap = genres.associateBy { it.id }
@@ -91,7 +91,7 @@ internal fun parseMovies(
 
     return jsonMovies.map { jsonMovie ->
         @Suppress("unused")
-        MovieItem(
+        (MovieItem(
             id = jsonMovie.id,
             title = jsonMovie.title,
             overview = jsonMovie.overview,
@@ -107,6 +107,6 @@ internal fun parseMovies(
             actors = jsonMovie.actors.map {
                 actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
             }
-        )
+        ))
     }
 }

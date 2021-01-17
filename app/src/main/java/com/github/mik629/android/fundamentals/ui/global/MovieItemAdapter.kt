@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
+import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import timber.log.Timber
 
 class MovieItemAdapter(
     private val clickListener: (MovieItem) -> Unit,
@@ -29,9 +31,11 @@ class MovieItemAdapter(
         fun updateViewItem(item: MovieItem) {
             with(binding) {
                 root.setOnClickListener { clickListener(item) }
+                val imageUrl = "${BuildConfig.BASE_IMAGE_URL}$item.poster"
                 glideRequest.fitCenter()
-                    .load(item.poster)
+                    .load(imageUrl)
                     .into(moviePoster)
+                Timber.i("Trying to load image $imageUrl")
                 minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
                 movieTitle.text = item.title
                 genres.text = item.genres.joinToString { it.name }
