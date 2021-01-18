@@ -16,25 +16,26 @@ class MoviesRepositoryImpl(
 ) : MoviesRepository {
 
     override suspend fun getMovies() = withContext(Dispatchers.IO) {
-        val res = mutableListOf<MovieItem>()
-        serverApi.getMovieList()
+        val movies = serverApi.getMovieList()
             .results
-            .forEach {
-                val movieDetails = serverApi.getMovieDetails(it.id)
-                val actors = serverApi.getMovieActors(movieDetails.id)
-                    .cast
-                    .map { actor -> actorMapper.map(actor) }
 
-                with(movieDetails) {
-                    res.add(
-                        MovieItem(
-                            id, title, overview, posterPath, backdropPath,
-                            genres.map { genre -> GenreItem(genre.id, genre.name) },
-                            actors, if (isAdult) 18 else 0, reviews, rating, runtime
-                        )
+        val res = mutableListOf<MovieItem>()
+        for (movie in movies) {
+            val movieDetails = serverApi.getMovieDetails(movie.id)
+            val actors = serverApi.getMovieActors(movieDetails.id)
+                .cast
+                .map { actor -> actorMapper.map(actor) }
+
+            with(movieDetails) {
+                res.add(
+                    MovieItem(
+                        id, title, overview, posterPath, backdropPath,
+                        genres.map { genre -> GenreItem(genre.id, genre.name) },
+                        actors, if (isAdult) 18 else 0, reviews, rating, runtime
                     )
-                }
+                )
             }
+        }
         res
     }
 }

@@ -25,6 +25,7 @@ object Versions {
     const val serializationJson = "1.0.1"
     const val coroutines = "1.4.2"
     const val lifecycle = "2.2.0"
+    const val workManager = "2.5.0-beta02"
 
     // third party libs
     const val adapterDelegates = "4.3.0"
@@ -79,6 +80,7 @@ object Libs {
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"

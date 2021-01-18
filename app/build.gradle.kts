@@ -71,6 +71,7 @@ dependencies {
     implementation(Libs.okhttp)
     implementation(Libs.okhttpLogging)
     implementation(Libs.timber)
+    implementation(Libs.workManager)
 
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)
