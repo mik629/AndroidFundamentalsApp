@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.androidApp)
     id(Plugins.kotlinAndroidApp)
-    id(Plugins.serialization)
     id(Plugins.parcelize)
     kotlin(Plugins.kapt)
 }
@@ -56,7 +55,6 @@ dependencies {
     implementation(Libs.appcompat)
     implementation(Libs.material)
     implementation(Libs.constraintLayout)
-    implementation(Libs.serializationJson)
     implementation(Libs.coroutines)
     implementation(Libs.lifecycle)
     implementation(Libs.viewModel)
@@ -64,14 +62,16 @@ dependencies {
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)
     kapt(Libs.glideCompiler)
+    kapt(Libs.moshiCodeGen)
     implementation(Libs.glideOkhttp)
     implementation(Libs.glideRecyclerView)
     implementation(Libs.retrofit)
-    implementation(Libs.serializationConverter)
     implementation(Libs.okhttp)
     implementation(Libs.okhttpLogging)
     implementation(Libs.timber)
     implementation(Libs.workManager)
+    implementation(Libs.moshiAdapters)
+    implementation(Libs.retrofitConverter)
 
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)

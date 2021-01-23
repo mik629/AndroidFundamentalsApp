@@ -1,12 +1,12 @@
 package com.github.mik629.android.fundamentals.data.network.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Serializable
+@JsonClass(generateAdapter = true)
 data class Actor(
     val id: Int,
     val name: String,
-    @SerialName("profile_path")
+    @Json(name = "profile_path")
     val avaPath: String
 )

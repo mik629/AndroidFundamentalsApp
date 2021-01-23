@@ -1,10 +1,10 @@
 package com.github.mik629.android.fundamentals.data.network.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Serializable
+@JsonClass(generateAdapter = true)
 data class ConfigurationResponse(
-    @SerialName("images")
+    @Json(name = "images")
     val baseUrlInfo: BaseUrlInfo
 )

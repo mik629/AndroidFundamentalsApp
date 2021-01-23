@@ -1,23 +1,23 @@
 package com.github.mik629.android.fundamentals.data.network.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Serializable
+@JsonClass(generateAdapter = true)
 data class MovieDetails(
     val id: Int,
     val title: String,
     val overview: String,
-    @SerialName("poster_path")
+    @Json(name = "poster_path")
     val posterPath: String,
-    @SerialName("backdrop_path")
+    @Json(name = "backdrop_path")
     val backdropPath: String,
-    @SerialName("vote_average")
+    @Json(name = "vote_average")
     val rating: Float,
-    @SerialName("vote_count")
+    @Json(name = "vote_count")
     val reviews: Int,
     val genres: List<Genre>,
-    @SerialName("adult")
+    @Json(name = "adult")
     val isAdult: Boolean,
     val runtime: Int
 )

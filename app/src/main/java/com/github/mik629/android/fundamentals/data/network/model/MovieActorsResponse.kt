@@ -1,8 +1,8 @@
 package com.github.mik629.android.fundamentals.data.network.model
 
-import kotlinx.serialization.Serializable
+import com.squareup.moshi.JsonClass
 
-@Serializable
+@JsonClass(generateAdapter = true)
 data class MovieActorsResponse(
     val id: Int,
     val cast: List<Actor>

@@ -1,12 +1,12 @@
 package com.github.mik629.android.fundamentals.data.network.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Serializable
+@JsonClass(generateAdapter = true)
 data class BaseUrlInfo(
-    @SerialName("base_url")
+    @Json(name = "base_url")
     val baseUrl: String,
-    @SerialName("poster_sizes")
+    @Json(name = "poster_sizes")
     val posterSizes: List<String>
 )

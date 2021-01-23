@@ -11,7 +11,6 @@ import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 import com.github.mik629.android.fundamentals.domain.model.MovieItem
-import timber.log.Timber
 
 class MovieItemAdapter(
     private val clickListener: (MovieItem) -> Unit,
@@ -31,11 +30,13 @@ class MovieItemAdapter(
         fun updateViewItem(item: MovieItem) {
             with(binding) {
                 root.setOnClickListener { clickListener(item) }
-                val imageUrl = "${BuildConfig.BASE_IMAGE_URL}$item.poster"
-                glideRequest.fitCenter()
-                    .load(imageUrl)
-                    .into(moviePoster)
-                Timber.i("Trying to load image $imageUrl")
+                if (!item.poster.isNullOrEmpty()) {
+                    val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.poster}"
+                    glideRequest.fitCenter()
+                        .load(imageUrl)
+                        .into(moviePoster)
+//                    Timber.i("Trying to load image $imageUrl")
+                }
                 minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
                 movieTitle.text = item.title
                 genres.text = item.genres.joinToString { it.name }
@@ -49,7 +50,7 @@ class MovieItemAdapter(
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieItem>() {
             override fun areItemsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
-                oldItem.title == newItem.title
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
                 oldItem == newItem

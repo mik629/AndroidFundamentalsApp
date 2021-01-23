@@ -8,23 +8,18 @@ import com.github.mik629.android.fundamentals.domain.repositories.MoviesReposito
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class MoviesListViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
-    private val _movies: MutableLiveData<List<MovieItem>> = MutableLiveData(emptyList())
+    private val _movies: MutableLiveData<List<MovieItem>> = MutableLiveData()
     val movies: LiveData<List<MovieItem>> = _movies
 
     init {
         scope.launch {
-            runCatching {
-                _movies.value = moviesRepository.getMovies()
-            }.onFailure {
-                Timber.e(it)
-            }
+            _movies.postValue(moviesRepository.getMovies())
         }
     }
 }

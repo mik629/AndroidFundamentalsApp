@@ -9,13 +9,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.data.mappers.ActorMapper
+import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 import com.github.mik629.android.fundamentals.vm.MoviesListViewModel
-import retrofit2.create
 
 class FragmentMoviesList : Fragment() {
     private lateinit var binding: FragmentMoviesListBinding
@@ -23,7 +23,7 @@ class FragmentMoviesList : Fragment() {
     private val viewModel by lazy {
         MoviesListViewModel(
             MoviesRepositoryImpl(
-                AppModule().retrofit.create(),
+                AppModule().retrofit.create(ServerApi::class.java),
                 ActorMapper()
             )
         )
@@ -52,16 +52,12 @@ class FragmentMoviesList : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentMoviesListBinding.inflate(layoutInflater)
 
         with(binding) {
             movieList.adapter = movieItemAdapter
-            progressbar.visibility = View.VISIBLE
-            movieList.visibility = View.GONE
             viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
-                progressbar.visibility = View.GONE
-                movieList.visibility = View.VISIBLE
                 movieItemAdapter.submitList(it)
             }
         }

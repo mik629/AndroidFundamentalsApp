@@ -62,9 +62,13 @@ class FragmentMovieDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        glideRequest.centerCrop()
-            .load(movieItem!!.backdrop)
-            .into(binding.backgroundImg)
+        movieItem?.let {
+            if (!it.backdrop.isNullOrEmpty()) {
+                glideRequest.centerCrop()
+                    .load(it.backdrop)
+                    .into(binding.backgroundImg)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
