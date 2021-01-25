@@ -8,5 +8,5 @@ data class Actor(
     val id: Int,
     val name: String,
     @Json(name = "profile_path")
-    val avaPath: String
+    val avaPath: String?
 )
