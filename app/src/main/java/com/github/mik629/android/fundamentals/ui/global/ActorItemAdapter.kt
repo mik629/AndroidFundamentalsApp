@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
 import com.github.mik629.android.fundamentals.domain.model.ActorItem
@@ -27,9 +28,11 @@ class ActorItemAdapter(
         fun updateViewItem(item: ActorItem) {
             with(binding) {
                 name.text = item.name
-                glideRequest.centerCrop()
-                    .load(item.ava)
-                    .into(ava)
+                if (!item.ava.isNullOrEmpty()) {
+                    glideRequest.centerCrop()
+                        .load("${BuildConfig.BASE_IMAGE_URL}${item.ava}")
+                        .into(ava)
+                }
             }
         }
     }

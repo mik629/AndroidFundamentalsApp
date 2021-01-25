@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
@@ -65,7 +66,7 @@ class FragmentMovieDetails : Fragment() {
         movieItem?.let {
             if (!it.backdrop.isNullOrEmpty()) {
                 glideRequest.centerCrop()
-                    .load(it.backdrop)
+                    .load("${BuildConfig.BASE_IMAGE_URL}${it.backdrop}")
                     .into(binding.backgroundImg)
             }
         }

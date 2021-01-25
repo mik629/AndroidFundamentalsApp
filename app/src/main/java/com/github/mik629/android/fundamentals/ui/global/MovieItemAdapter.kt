@@ -35,7 +35,6 @@ class MovieItemAdapter(
                     glideRequest.fitCenter()
                         .load(imageUrl)
                         .into(moviePoster)
-//                    Timber.i("Trying to load image $imageUrl")
                 }
                 minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
                 movieTitle.text = item.title
