@@ -1,7 +1,6 @@
 plugins {
     id(Plugins.androidApp)
     id(Plugins.kotlinAndroidApp)
-    id(Plugins.serialization)
     id(Plugins.parcelize)
     kotlin(Plugins.kapt)
 }
@@ -24,6 +23,13 @@ android {
         getByName("debug") {
             signingConfig = signingConfigs["debug"]
             isDebuggable = true
+            buildConfigField("String", "BASE_URL", """"https://api.themoviedb.org/3/"""")
+            buildConfigField(
+                "String",
+                "BASE_IMAGE_URL",
+                """"https://image.tmdb.org/t/p/original""""
+            )
+            buildConfigField("String", "API_KEY", """"7d4faff53c09dde00a141ae9c56f2d1b"""")
         }
 
         getByName("release") {
@@ -49,7 +55,6 @@ dependencies {
     implementation(Libs.appcompat)
     implementation(Libs.material)
     implementation(Libs.constraintLayout)
-    implementation(Libs.serializationJson)
     implementation(Libs.coroutines)
     implementation(Libs.lifecycle)
     implementation(Libs.viewModel)
@@ -57,8 +62,16 @@ dependencies {
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)
     kapt(Libs.glideCompiler)
+    kapt(Libs.moshiCodeGen)
     implementation(Libs.glideOkhttp)
     implementation(Libs.glideRecyclerView)
+    implementation(Libs.retrofit)
+    implementation(Libs.okhttp)
+    implementation(Libs.okhttpLogging)
+    implementation(Libs.timber)
+    implementation(Libs.workManager)
+    implementation(Libs.moshiAdapters)
+    implementation(Libs.retrofitConverter)
 
     testImplementation(Libs.junit)
     testImplementation(Libs.junitEngine)

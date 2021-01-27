@@ -8,8 +8,11 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.data.mappers.ActorMapper
+import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
+import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 import com.github.mik629.android.fundamentals.vm.MoviesListViewModel
@@ -18,7 +21,12 @@ class FragmentMoviesList : Fragment() {
     private lateinit var binding: FragmentMoviesListBinding
 
     private val viewModel by lazy {
-        MoviesListViewModel(MoviesRepositoryImpl(), requireContext())
+        MoviesListViewModel(
+            MoviesRepositoryImpl(
+                AppModule().retrofit.create(ServerApi::class.java),
+                ActorMapper()
+            )
+        )
     }
 
     private val movieItemAdapter by lazy {

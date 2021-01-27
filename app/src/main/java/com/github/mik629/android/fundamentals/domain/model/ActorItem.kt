@@ -1,4 +1,4 @@
-package com.github.mik629.android.fundamentals.data.network.model
+package com.github.mik629.android.fundamentals.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class ActorItem(
     val id: Int,
     val name: String,
-    val ava: String
+    val ava: String?
 ) : Parcelable

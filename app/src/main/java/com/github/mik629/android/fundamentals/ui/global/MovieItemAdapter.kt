@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.network.model.MovieItem
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
+import com.github.mik629.android.fundamentals.domain.model.MovieItem
 
 class MovieItemAdapter(
     private val clickListener: (MovieItem) -> Unit,
@@ -29,9 +30,12 @@ class MovieItemAdapter(
         fun updateViewItem(item: MovieItem) {
             with(binding) {
                 root.setOnClickListener { clickListener(item) }
-                glideRequest.fitCenter()
-                    .load(item.poster)
-                    .into(moviePoster)
+                if (!item.poster.isNullOrEmpty()) {
+                    val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.poster}"
+                    glideRequest.fitCenter()
+                        .load(imageUrl)
+                        .into(moviePoster)
+                }
                 minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
                 movieTitle.text = item.title
                 genres.text = item.genres.joinToString { it.name }
@@ -45,7 +49,7 @@ class MovieItemAdapter(
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieItem>() {
             override fun areItemsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
-                oldItem.title == newItem.title
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
                 oldItem == newItem

@@ -16,19 +16,22 @@ object Versions {
     const val versionsPlugin = "0.28.0"
     const val androidToolsPlugin = "4.1.0"
     const val ktlintPlugin = "9.4.1"
-    const val serialization = "1.4.20"
 
     // Android libraries
     const val compatLibrary = "1.2.0"
     const val materialLibrary = "1.2.1"
     const val constraintLayout = "2.0.4"
-    const val serializationJson = "1.0.1"
     const val coroutines = "1.4.2"
     const val lifecycle = "2.2.0"
+    const val workManager = "2.5.0-beta02"
 
     // third party libs
     const val adapterDelegates = "4.3.0"
     const val glide = "4.11.0"
+    const val retrofit = "2.9.0"
+    const val okhttp = "4.9.0"
+    const val timber = "4.7.1"
+    const val moshi = "1.11.0"
 
     // Libs for testing
     const val espresso = "3.3.0"
@@ -46,8 +49,6 @@ object Plugins {
     const val kotlinAndroidApp = "kotlin-android"
     const val ktlint = "org.jlleitschuh.gradle.ktlint"
     const val kapt = "kapt"
-    const val serializationPath = "org.jetbrains.kotlin:kotlin-serialization:${Versions.serialization}"
-    const val serialization = "org.jetbrains.kotlin.plugin.serialization"
 }
 
 object Libs {
@@ -55,8 +56,6 @@ object Libs {
     const val material = "com.google.android.material:material:${Versions.materialLibrary}"
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    const val serializationJson =
-        "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.serializationJson}"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
@@ -69,6 +68,14 @@ object Libs {
     const val glideOkhttp = "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
     const val glideRecyclerView =
         "com.github.bumptech.glide:recyclerview-integration:${Versions.glide}"
+    const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
+    const val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+    const val workManager = "androidx.work:work-runtime-ktx:${Versions.workManager}"
+    const val retrofitConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
+    const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"
+    const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
 
     // Test libraries
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"

@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey">
+    android:background="@color/dark_grey"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
         android:layout_marginStart="@dimen/activity_standard_margin"
         android:layout_marginTop="@dimen/activity_standard_margin"
+        android:layout_weight="0.1"
         android:drawableLeft="@drawable/ic_target"
         android:drawablePadding="@dimen/activity_medium_margin"
         android:gravity="center"
@@ -25,12 +25,22 @@
         android:id="@+id/movie_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"
         android:layout_marginStart="@dimen/activity_standard_margin"
         android:layout_marginTop="@dimen/activity_small_margin"
         android:layout_marginBottom="@dimen/activity_small_margin"
+        android:layout_weight="0.9"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/movie_item" />
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/progressbar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone" />
 
 </LinearLayout>
