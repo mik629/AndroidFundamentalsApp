@@ -24,6 +24,7 @@ object Versions {
     const val coroutines = "1.4.2"
     const val lifecycle = "2.2.0"
     const val workManager = "2.5.0-beta02"
+    const val room = "2.2.6"
 
     // third party libs
     const val adapterDelegates = "4.3.0"
@@ -59,6 +60,9 @@ object Libs {
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
+    const val room = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
 
     const val kotlinStdlib = "stdlib-jdk7"
 

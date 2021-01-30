@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.data.db.MovieDb
 import com.github.mik629.android.fundamentals.data.mappers.ActorMapper
+import com.github.mik629.android.fundamentals.data.mappers.MovieMapper
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
@@ -24,6 +26,8 @@ class FragmentMoviesList : Fragment() {
         MoviesListViewModel(
             MoviesRepositoryImpl(
                 AppModule().retrofit.create(ServerApi::class.java),
+                MovieDb.createDb(requireContext()),
+                MovieMapper(),
                 ActorMapper()
             )
         )
@@ -52,7 +56,7 @@ class FragmentMoviesList : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMoviesListBinding.inflate(layoutInflater)
 
         with(binding) {

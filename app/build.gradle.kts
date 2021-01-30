@@ -58,6 +58,9 @@ dependencies {
     implementation(Libs.coroutines)
     implementation(Libs.lifecycle)
     implementation(Libs.viewModel)
+    implementation(Libs.room)
+    implementation(Libs.roomKtx)
+    kapt(Libs.roomCompiler)
 
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)
