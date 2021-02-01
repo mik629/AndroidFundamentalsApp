@@ -4,9 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Movies.COLUMN_NAME_RATING
-import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Movies.MOVIES_TABLE_NAME
 import com.github.mik629.android.fundamentals.data.db.models.*
+import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.COLUMN_NAME_RATING
+import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.MOVIES_TABLE_NAME
 
 @Dao
 interface MovieDao {
