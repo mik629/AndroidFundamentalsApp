@@ -73,4 +73,5 @@ dependencies {
     implementation(Libs.workManager)
     implementation(Libs.moshiAdapters)
     implementation(Libs.retrofitConverter)
+    implementation(Libs.viewBindingProperty)
 }

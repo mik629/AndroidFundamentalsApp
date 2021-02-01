@@ -33,6 +33,7 @@ object Versions {
     const val okhttp = "4.9.0"
     const val timber = "4.7.1"
     const val moshi = "1.11.0"
+    const val viewBindingProperty = "1.4.1"
 }
 
 object Plugins {
@@ -72,4 +73,6 @@ object Libs {
     const val retrofitConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
+    const val viewBindingProperty =
+        "com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${Versions.viewBindingProperty}"
 }

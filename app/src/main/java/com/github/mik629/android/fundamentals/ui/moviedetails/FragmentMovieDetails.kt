@@ -1,10 +1,9 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideApp
@@ -14,8 +13,8 @@ import com.github.mik629.android.fundamentals.domain.model.MovieItem
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 
-class FragmentMovieDetails : Fragment() {
-    private lateinit var binding: FragmentMovieDetailsBinding
+class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
+    private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
 
     private val glideRequest by lazy {
         GlideApp.with(this)
@@ -34,16 +33,11 @@ class FragmentMovieDetails : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMovieDetailsBinding.inflate(layoutInflater)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         with(binding) {
             back.setOnClickListener {
-                requireFragmentManager().popBackStack()
+                parentFragmentManager.popBackStack()
             }
 
             movieItem?.let {
@@ -57,13 +51,8 @@ class FragmentMovieDetails : Fragment() {
                 actors.adapter = actorItemAdapter
                 actorItemAdapter.submitList(it.actors)
             }
-
-            return root
         }
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         movieItem?.let {
             if (!it.backdrop.isNullOrEmpty()) {
                 glideRequest.centerCrop()

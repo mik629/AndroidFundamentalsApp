@@ -1,10 +1,9 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
@@ -19,8 +18,8 @@ import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 import com.github.mik629.android.fundamentals.vm.MoviesListViewModel
 
-class FragmentMoviesList : Fragment() {
-    private lateinit var binding: FragmentMoviesListBinding
+class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
+    private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
     private val viewModel by lazy {
         MoviesListViewModel(
@@ -36,7 +35,7 @@ class FragmentMoviesList : Fragment() {
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
             { movieTitle ->
-                requireFragmentManager()
+                parentFragmentManager
                     .beginTransaction()
                     .addToBackStack(FragmentMoviesList::class.simpleName)
                     .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle))
@@ -52,21 +51,14 @@ class FragmentMoviesList : Fragment() {
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMoviesListBinding.inflate(layoutInflater)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         with(binding) {
             movieList.adapter = movieItemAdapter
             viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
                 movieItemAdapter.submitList(it)
             }
         }
-
-        return binding.root
     }
 
     companion object {
