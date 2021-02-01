@@ -75,11 +75,4 @@ dependencies {
     implementation(Libs.workManager)
     implementation(Libs.moshiAdapters)
     implementation(Libs.retrofitConverter)
-
-    testImplementation(Libs.junit)
-    testImplementation(Libs.junitEngine)
-    testImplementation(Libs.junitParams)
-    testImplementation(Libs.mockito)
-    testImplementation(Libs.mockitoKotlin)
-    androidTestImplementation(Libs.espresso)
 }

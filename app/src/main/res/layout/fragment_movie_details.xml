@@ -26,7 +26,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/movie_details_bgd"
             app:layout_constraintBottom_toBottomOf="@id/background_img"
-            app:layout_constraintTop_toTopOf="@id/background_img"/>
+            app:layout_constraintTop_toTopOf="@id/background_img" />
 
         <TextView
             android:id="@+id/grey_bgd"
@@ -76,38 +76,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/age_margin_top"
-            android:text="@string/avengers_min_age"
             android:textColor="@color/white"
             android:textSize="@dimen/text_small_size"
             app:layout_constraintBottom_toTopOf="@+id/movie_title"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/back"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="13+" />
 
         <TextView
             android:id="@+id/movie_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/avengers_title"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/white_50"
             android:textSize="@dimen/huge_text_size"
             android:textStyle="bold"
-            android:maxLines="2"
-            android:ellipsize="end"
             app:layout_constraintBottom_toTopOf="@+id/genre"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/age" />
+            app:layout_constraintTop_toBottomOf="@+id/age"
+            tools:text="Avengers: End Game" />
 
         <TextView
             android:id="@+id/genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/avengers_genre"
             android:textColor="@color/pink"
             android:textSize="@dimen/regular_text_size"
             app:layout_constraintBottom_toTopOf="@+id/rating_layout"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/movie_title" />
+            app:layout_constraintTop_toBottomOf="@+id/movie_title"
+            tools:text="Action, Adventure, Fantasy" />
 
         <include
             android:id="@+id/rating_layout"
@@ -133,7 +133,7 @@
             app:layout_constraintBottom_toBottomOf="@id/rating_layout"
             app:layout_constraintStart_toEndOf="@id/rating_layout"
             app:layout_constraintTop_toTopOf="@id/rating_layout"
-            tools:text="@string/avengers_reviews" />
+            tools:text="125 Reviews" />
 
         <TextView
             android:id="@+id/storyline_title"
@@ -156,14 +156,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_big_margin"
-            android:text="@string/avengers_storyline"
             android:textColor="@color/white"
             android:textSize="@dimen/text_medium_size"
             app:layout_constraintBottom_toTopOf="@+id/cast"
             app:layout_constraintEnd_toStartOf="@id/guideline_right"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@+id/storyline_title" />
+            app:layout_constraintTop_toBottomOf="@+id/storyline_title"
+            tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe." />
 
         <TextView
             android:id="@+id/cast"

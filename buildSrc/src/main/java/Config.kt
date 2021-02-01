@@ -33,12 +33,6 @@ object Versions {
     const val okhttp = "4.9.0"
     const val timber = "4.7.1"
     const val moshi = "1.11.0"
-
-    // Libs for testing
-    const val espresso = "3.3.0"
-    const val junit = "5.7.0"
-    const val mockito = "3.6.0"
-    const val mockitoKotlin = "2.2.0"
 }
 
 object Plugins {
@@ -80,12 +74,4 @@ object Libs {
     const val retrofitConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
-
-    // Test libraries
-    const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-    const val junit = "org.junit.jupiter:junit-jupiter-api:${Versions.junit}"
-    const val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit}"
-    const val junitParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junit}"
-    const val mockito = "org.mockito:mockito-inline:${Versions.mockito}"
-    const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
 }
