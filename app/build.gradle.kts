@@ -50,8 +50,6 @@ android {
 }
 
 dependencies {
-
-    implementation(kotlin(Libs.kotlinStdlib, Versions.kotlin))
     implementation(Libs.appcompat)
     implementation(Libs.material)
     implementation(Libs.constraintLayout)
