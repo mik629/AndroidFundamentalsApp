@@ -12,6 +12,7 @@ import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
 import com.github.mik629.android.fundamentals.domain.model.MovieItem
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
+import com.github.mik629.android.fundamentals.ui.utils.setRating
 
 class FragmentMovieDetails : Fragment() {
     private lateinit var binding: FragmentMovieDetailsBinding
@@ -49,7 +50,7 @@ class FragmentMovieDetails : Fragment() {
                 age.text = getString(R.string.movie_min_age, it.minAge)
                 movieTitle.text = it.title
                 genre.text = it.genres.joinToString { genre -> genre.name }
-                ratingLayout.ratingBar.rating = it.rating
+                ratingLayout.setRating(requireContext(), it.rating / 2)
                 storyline.text = it.overview
                 reviews.text = getString(R.string.movie_reviews, it.reviews)
                 val actorItemAdapter = ActorItemAdapter(glideRequest)

@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RatingBar xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rating_bar"
-    style="@style/Widget.AppCompat.RatingBar.Small"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:indeterminateDrawable="@drawable/rating_small"
-    android:maxHeight="12dp"
-    android:minHeight="12dp"
-    android:numStars="5"
-    android:progressBackgroundTint="@color/grey"
-    android:progressDrawable="@drawable/rating"
-    android:rating="4.5" />
+    android:orientation="horizontal">
+
+    <include
+        android:id="@+id/star_one"
+        layout="@layout/rating_bar_item"
+        android:layout_width="@dimen/small_star_size"
+        android:layout_height="@dimen/small_star_size" />
+
+    <include
+        android:id="@+id/star_two"
+        layout="@layout/rating_bar_item"
+        android:layout_width="@dimen/small_star_size"
+        android:layout_height="@dimen/small_star_size" />
+
+    <include
+        android:id="@+id/star_three"
+        layout="@layout/rating_bar_item"
+        android:layout_width="@dimen/small_star_size"
+        android:layout_height="@dimen/small_star_size" />
+
+    <include
+        android:id="@+id/star_four"
+        layout="@layout/rating_bar_item"
+        android:layout_width="@dimen/small_star_size"
+        android:layout_height="@dimen/small_star_size" />
+
+    <include
+        android:id="@+id/star_five"
+        layout="@layout/rating_bar_item"
+        android:layout_width="@dimen/small_star_size"
+        android:layout_height="@dimen/small_star_size" />
+</LinearLayout>

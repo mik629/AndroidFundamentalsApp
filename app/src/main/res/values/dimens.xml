@@ -20,4 +20,5 @@
     <dimen name="back_btn_margin_top">40dp</dimen>
     <dimen name="age_margin_top">142dp</dimen>
     <dimen name="header_img_height">298dp</dimen>
+    <dimen name="small_star_size">8dp</dimen>
 </resources>

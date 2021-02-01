@@ -11,6 +11,7 @@ import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.ui.utils.setRating
 
 class MovieItemAdapter(
     private val clickListener: (MovieItem) -> Unit,
@@ -39,7 +40,7 @@ class MovieItemAdapter(
                 minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
                 movieTitle.text = item.title
                 genres.text = item.genres.joinToString { it.name }
-                ratingLayout.ratingBar.rating = item.rating / 2
+                ratingLayout.setRating(root.context, item.rating / 2)
                 reviews.text = root.resources.getString(R.string.movie_reviews, item.reviews)
                 movieLength.text = root.resources.getString(R.string.movie_length, item.runtime)
             }
