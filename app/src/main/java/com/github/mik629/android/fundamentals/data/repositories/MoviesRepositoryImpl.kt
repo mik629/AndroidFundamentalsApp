@@ -1,6 +1,7 @@
 package com.github.mik629.android.fundamentals.data.repositories
 
 import com.github.mik629.android.fundamentals.data.db.MovieDb
+import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.*
 import com.github.mik629.android.fundamentals.data.mappers.Mapper
 import com.github.mik629.android.fundamentals.data.network.ServerApi
@@ -47,61 +48,65 @@ class MoviesRepositoryImpl(
                     }
                 }
 
-                movieDb.runInTransaction {
-                    GlobalScope.launch {
-                        movieDao.insertMovies(
-                            res.map {
-                                with(it) {
-                                    MovieDbEntity(
-                                        id,
-                                        title,
-                                        overview,
-                                        poster,
-                                        backdrop,
-                                        minAge,
-                                        reviews,
-                                        rating,
-                                        runtime
-                                    )
-                                }
-                            }
-                        )
-                        movieDao.insertActors(
-                            res.flatMap { it.actors }
-                                .distinct()
-                                .map { ActorDbEntity(it.id, it.name, it.ava) }
-                        )
-                        movieDao.insertMovieActors(
-                            res.flatMap { movie ->
-                                movie.actors.map { actor ->
-                                    MovieActorCrossRef(
-                                        movieId = movie.id,
-                                        actorId = actor.id
-                                    )
-                                }
-                            }
-                        )
-
-                        movieDao.insertGenres(
-                            res.flatMap { it.genres }
-                                .distinct()
-                                .map { GenreDbEntity(it.id, it.name) }
-                        )
-                        movieDao.insertMovieGenres(
-                            res.flatMap { movie ->
-                                movie.genres.map { genre ->
-                                    MovieGenreCrossRef(
-                                        movieId = movie.id,
-                                        genreId = genre.id
-                                    )
-                                }
-                            }
-                        )
-                    }
-                }
+                saveToDb(movieDao, res)
                 res
             } else {
                 cachedMovies.map(movieMapper::map)
+            }
+        }
+    }
+
+    private fun saveToDb(movieDao: MovieDao, res: MutableList<MovieItem>) {
+        movieDb.runInTransaction {
+            GlobalScope.launch {
+                movieDao.insertMovies(
+                    res.map {
+                        with(it) {
+                            MovieDbEntity(
+                                movieId = id,
+                                title = title,
+                                overview = overview,
+                                poster = poster,
+                                backdrop = backdrop,
+                                minAge = minAge,
+                                reviews = reviews,
+                                rating = rating,
+                                runtime = runtime
+                            )
+                        }
+                    }
+                )
+                movieDao.insertActors(
+                    res.flatMap { it.actors }
+                        .distinct()
+                        .map { ActorDbEntity(it.id, it.name, it.ava) }
+                )
+                movieDao.insertMovieActors(
+                    res.flatMap { movie ->
+                        movie.actors.map { actor ->
+                            MovieActorCrossRef(
+                                movieId = movie.id,
+                                actorId = actor.id
+                            )
+                        }
+                    }
+                )
+
+                movieDao.insertGenres(
+                    res.flatMap { it.genres }
+                        .distinct()
+                        .map { GenreDbEntity(it.id, it.name) }
+                )
+                movieDao.insertMovieGenres(
+                    res.flatMap { movie ->
+                        movie.genres.map { genre ->
+                            MovieGenreCrossRef(
+                                movieId = movie.id,
+                                genreId = genre.id
+                            )
+                        }
+                    }
+                )
             }
         }
     }
