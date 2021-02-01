@@ -10,7 +10,7 @@ import com.github.mik629.android.fundamentals.data.db.models.*
 
 @Database(
     entities = [
-        MovieEntity::class, ActorEntity::class, GenreEntity::class, MovieActorCrossRef::class, MovieGenreCrossRef::class
+        MovieDbEntity::class, ActorDbEntity::class, GenreDbEntity::class, MovieActorCrossRef::class, MovieGenreCrossRef::class
     ],
     version = 1,
     exportSchema = false

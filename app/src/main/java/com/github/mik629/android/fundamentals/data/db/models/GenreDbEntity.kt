@@ -7,7 +7,7 @@ import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Genre
 import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Genres.GENRES_TABLE_NAME
 
 @Entity(tableName = GENRES_TABLE_NAME)
-data class GenreEntity(
+data class GenreDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_GENRE_ID)
     val genreId: Int,

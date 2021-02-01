@@ -7,7 +7,7 @@ import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Movie
 import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Movies.MOVIES_TABLE_NAME
 
 @Entity(tableName = MOVIES_TABLE_NAME)
-data class MovieEntity(
+data class MovieDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_MOVIE_ID)
     val movieId: Int,

@@ -1,8 +1,8 @@
 package com.github.mik629.android.fundamentals.data.mappers
 
-import com.github.mik629.android.fundamentals.data.db.models.ActorEntity
-import com.github.mik629.android.fundamentals.data.db.models.GenreEntity
-import com.github.mik629.android.fundamentals.data.db.models.MovieEntity
+import com.github.mik629.android.fundamentals.data.db.models.ActorDbEntity
+import com.github.mik629.android.fundamentals.data.db.models.GenreDbEntity
+import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity
 import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndGenres
 import com.github.mik629.android.fundamentals.domain.model.ActorItem
 import com.github.mik629.android.fundamentals.domain.model.GenreItem
@@ -29,7 +29,7 @@ class MovieMapper : Mapper<MovieWithActorsAndGenres, MovieItem> {
     override fun reverseMap(obj: MovieItem) =
         with(obj) {
             MovieWithActorsAndGenres(
-                MovieEntity(
+                MovieDbEntity(
                     id,
                     title,
                     overview,
@@ -40,8 +40,8 @@ class MovieMapper : Mapper<MovieWithActorsAndGenres, MovieItem> {
                     rating,
                     runtime
                 ),
-                actors.map { ActorEntity(it.id, it.name, it.ava) },
-                genres.map { GenreEntity(it.id, it.name) }
+                actors.map { ActorDbEntity(it.id, it.name, it.ava) },
+                genres.map { GenreDbEntity(it.id, it.name) }
             )
         }
 }

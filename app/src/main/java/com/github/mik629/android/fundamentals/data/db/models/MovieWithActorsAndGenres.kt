@@ -9,17 +9,17 @@ import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Movie
 
 data class MovieWithActorsAndGenres(
     @Embedded
-    val movieEntity: MovieEntity,
+    val movieEntity: MovieDbEntity,
     @Relation(
         parentColumn = COLUMN_NAME_MOVIE_ID,
         entityColumn = COLUMN_NAME_ACTOR_ID,
         associateBy = Junction(MovieActorCrossRef::class)
     )
-    val actors: List<ActorEntity>,
+    val actors: List<ActorDbEntity>,
     @Relation(
         parentColumn = COLUMN_NAME_MOVIE_ID,
         entityColumn = COLUMN_NAME_GENRE_ID,
         associateBy = Junction(MovieGenreCrossRef::class)
     )
-    val genres: List<GenreEntity>
+    val genres: List<GenreDbEntity>
 )

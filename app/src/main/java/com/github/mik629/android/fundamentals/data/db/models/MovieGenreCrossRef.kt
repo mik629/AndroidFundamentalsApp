@@ -11,13 +11,13 @@ data class MovieGenreCrossRef(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     @ForeignKey(
-        entity = MovieEntity::class,
+        entity = MovieDbEntity::class,
         parentColumns = [COLUMN_NAME_MOVIE_ID],
         childColumns = [COLUMN_NAME_MOVIE_ID]
     )
     val movieId: Int,
     @ForeignKey(
-        entity = GenreEntity::class,
+        entity = GenreDbEntity::class,
         parentColumns = [COLUMN_NAME_GENRE_ID],
         childColumns = [COLUMN_NAME_GENRE_ID]
     )

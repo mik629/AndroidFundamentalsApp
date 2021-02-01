@@ -15,16 +15,16 @@ interface MovieDao {
     suspend fun getAllMovies(): List<MovieWithActorsAndGenres>
 
     @Insert
-    suspend fun insertMovies(movies: List<MovieEntity>)
+    suspend fun insertMovies(movies: List<MovieDbEntity>)
 
     @Insert
-    suspend fun insertActors(actors: List<ActorEntity>)
+    suspend fun insertActors(actors: List<ActorDbEntity>)
 
     @Insert
     suspend fun insertMovieActors(movieActors: List<MovieActorCrossRef>)
 
     @Insert
-    suspend fun insertGenres(genres: List<GenreEntity>)
+    suspend fun insertGenres(genres: List<GenreDbEntity>)
 
     @Insert
     suspend fun insertMovieGenres(movieGenres: List<MovieGenreCrossRef>)

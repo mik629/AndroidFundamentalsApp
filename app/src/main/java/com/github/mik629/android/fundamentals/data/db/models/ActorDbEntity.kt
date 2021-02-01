@@ -7,7 +7,7 @@ import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Actor
 import com.github.mik629.android.fundamentals.data.db.contracts.DbContract.Actors.COLUMN_NAME_ACTOR_ID
 
 @Entity(tableName = ACTORS_TABLE_NAME)
-data class ActorEntity(
+data class ActorDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_ACTOR_ID)
     val actorId: Int,
