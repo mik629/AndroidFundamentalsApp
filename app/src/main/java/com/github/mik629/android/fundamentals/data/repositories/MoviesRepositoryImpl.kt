@@ -79,7 +79,7 @@ class MoviesRepositoryImpl(
                 movieDao.insertActors(
                     res.flatMap { it.actors }
                         .distinct()
-                        .map { ActorDbEntity(it.id, it.name, it.ava) }
+                        .map { ActorDbEntity(it.id, it.name, it.photoUrl) }
                 )
                 movieDao.insertMovieActors(
                     res.flatMap { movie ->

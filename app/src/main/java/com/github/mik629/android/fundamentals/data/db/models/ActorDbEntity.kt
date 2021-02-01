@@ -11,7 +11,7 @@ data class ActorDbEntity(
     @ColumnInfo(name = COLUMN_NAME_ACTOR_ID)
     val actorId: Int,
     val name: String,
-    val ava: String?
+    val photoUrl: String?
 ) {
     companion object {
         const val ACTORS_TABLE_NAME = "actors"

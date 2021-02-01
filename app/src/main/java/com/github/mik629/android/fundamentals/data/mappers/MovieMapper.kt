@@ -17,7 +17,7 @@ class MovieMapper : Mapper<MovieWithActorsAndGenres, MovieItem> {
                 overview,
                 poster,
                 backdrop,
-                obj.actors.map { ActorItem(it.actorId, it.name, it.ava) },
+                obj.actors.map { ActorItem(it.actorId, it.name, it.photoUrl) },
                 obj.genres.map { GenreItem(it.genreId, it.name) },
                 minAge,
                 reviews,
@@ -40,7 +40,7 @@ class MovieMapper : Mapper<MovieWithActorsAndGenres, MovieItem> {
                     rating,
                     runtime
                 ),
-                actors.map { ActorDbEntity(it.id, it.name, it.ava) },
+                actors.map { ActorDbEntity(it.id, it.name, it.photoUrl) },
                 genres.map { GenreDbEntity(it.id, it.name) }
             )
         }

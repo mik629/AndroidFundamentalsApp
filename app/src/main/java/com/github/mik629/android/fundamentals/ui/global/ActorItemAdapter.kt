@@ -28,9 +28,9 @@ class ActorItemAdapter(
         fun updateViewItem(item: ActorItem) {
             with(binding) {
                 name.text = item.name
-                if (!item.ava.isNullOrEmpty()) {
+                if (!item.photoUrl.isNullOrEmpty()) {
                     glideRequest.centerCrop()
-                        .load("${BuildConfig.BASE_IMAGE_URL}${item.ava}")
+                        .load("${BuildConfig.BASE_IMAGE_URL}${item.photoUrl}")
                         .into(ava)
                 }
             }
