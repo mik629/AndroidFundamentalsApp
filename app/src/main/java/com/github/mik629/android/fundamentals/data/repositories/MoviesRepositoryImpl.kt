@@ -5,7 +5,7 @@ import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.*
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
-import com.github.mik629.android.fundamentals.domain.model.Genre
+import com.github.mik629.android.fundamentals.data.network.model.toGenre
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.Dispatchers
@@ -36,9 +36,16 @@ class MoviesRepositoryImpl(
                     with(movieDetails) {
                         res.add(
                             Movie(
-                                id, title, overview, posterPath, backdropPath, actors,
-                                genres.map { genre -> Genre(genre.id, genre.name) },
-                                if (isAdult) 18 else 0, reviews, rating, runtime
+                                id = id,
+                                title = title,
+                                overview = overview,
+                                poster = posterPath,
+                                backdrop = backdropPath, actors,
+                                genres = genres.map(::toGenre),
+                                minAge = if (isAdult) 18 else 0,
+                                reviews = reviews,
+                                rating = rating,
+                                runtime = runtime
                             )
                         )
                     }

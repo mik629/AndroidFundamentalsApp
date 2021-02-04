@@ -35,22 +35,20 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            back.setOnClickListener {
-                parentFragmentManager.popBackStack()
-            }
+        binding.back.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
 
-            movieItem?.let {
-                age.text = getString(R.string.movie_min_age, it.minAge)
-                movieTitle.text = it.title
-                genre.text = it.genres.joinToString { genre -> genre.name }
-                ratingLayout.setRating(requireContext(), it.rating / 2)
-                storyline.text = it.overview
-                reviews.text = getString(R.string.movie_reviews, it.reviews)
-                val actorItemAdapter = ActorItemAdapter(glideRequest)
-                actors.adapter = actorItemAdapter
-                actorItemAdapter.submitList(it.actors)
-            }
+        movieItem?.let {
+            binding.age.text = getString(R.string.movie_min_age, it.minAge)
+            binding.movieTitle.text = it.title
+            binding.genre.text = it.genres.joinToString { genre -> genre.name }
+            binding.ratingLayout.setRating(requireContext(), it.rating / 2)
+            binding.storyline.text = it.overview
+            binding.reviews.text = getString(R.string.movie_reviews, it.reviews)
+            val actorItemAdapter = ActorItemAdapter(glideRequest)
+            binding.actors.adapter = actorItemAdapter
+            actorItemAdapter.submitList(it.actors)
         }
 
         movieItem?.let {

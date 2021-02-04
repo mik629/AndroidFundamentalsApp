@@ -30,21 +30,21 @@ class MovieItemAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun updateViewItem(item: Movie) {
-            with(binding) {
-                root.setOnClickListener { clickListener(item) }
-                if (!item.poster.isNullOrEmpty()) {
-                    val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.poster}"
-                    glideRequest.fitCenter()
-                        .load(imageUrl)
-                        .into(moviePoster)
-                }
-                minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
-                movieTitle.text = item.title
-                genres.text = item.genres.joinToString { it.name }
-                ratingLayout.setRating(root.context, item.rating / 2)
-                reviews.text = root.resources.getString(R.string.movie_reviews, item.reviews)
-                movieLength.text = root.resources.getString(R.string.movie_length, item.runtime)
+            val rootView = binding.root
+            rootView.setOnClickListener { clickListener(item) }
+            if (!item.poster.isNullOrEmpty()) {
+                val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.poster}"
+                glideRequest.fitCenter()
+                    .load(imageUrl)
+                    .into(binding.moviePoster)
             }
+            val resources = rootView.resources
+            binding.minAge.text = resources.getString(R.string.movie_min_age, item.minAge)
+            binding.movieTitle.text = item.title
+            binding.genres.text = item.genres.joinToString { it.name }
+            binding.ratingLayout.setRating(rootView.context, item.rating / 2)
+            binding.reviews.text = resources.getString(R.string.movie_reviews, item.reviews)
+            binding.movieLength.text = resources.getString(R.string.movie_length, item.runtime)
         }
     }
 

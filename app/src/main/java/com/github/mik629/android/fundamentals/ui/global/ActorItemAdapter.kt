@@ -26,13 +26,11 @@ class ActorItemAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun updateViewItem(item: Actor) {
-            with(binding) {
-                name.text = item.name
-                if (!item.photoUrl.isNullOrEmpty()) {
-                    glideRequest.centerCrop()
-                        .load("${BuildConfig.BASE_IMAGE_URL}${item.photoUrl}")
-                        .into(ava)
-                }
+            binding.name.text = item.name
+            if (!item.photoUrl.isNullOrEmpty()) {
+                glideRequest.centerCrop()
+                    .load("${BuildConfig.BASE_IMAGE_URL}${item.photoUrl}")
+                    .into(binding.avatar)
             }
         }
     }
