@@ -8,8 +8,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.data.db.MovieDb
-import com.github.mik629.android.fundamentals.data.mappers.ActorMapper
-import com.github.mik629.android.fundamentals.data.mappers.MovieMapper
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
@@ -20,13 +18,12 @@ import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetai
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
+    // fixme add factory
     private val viewModel by lazy {
         MoviesListViewModel(
             MoviesRepositoryImpl(
                 AppModule().retrofit.create(ServerApi::class.java),
-                MovieDb.createDb(requireContext()),
-                MovieMapper(),
-                ActorMapper()
+                MovieDb.createDb(requireContext())
             )
         )
     }
@@ -36,7 +33,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             { movieTitle ->
                 parentFragmentManager
                     .beginTransaction()
-                    .addToBackStack(FragmentMoviesList::class.simpleName)
+                    .addToBackStack(FragmentMoviesList::class.qualifiedName) // fixme add cicerone
                     .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle))
                     .commit()
             },

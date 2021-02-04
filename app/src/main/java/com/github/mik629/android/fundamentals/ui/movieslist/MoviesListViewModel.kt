@@ -15,11 +15,13 @@ class MoviesListViewModel(
 
     private val scope = CoroutineScope(Dispatchers.Main)
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
-    val movies: LiveData<List<Movie>> = _movies
+    val movies: LiveData<List<Movie>>
+        get() =
+            _movies
 
     init {
         scope.launch {
-            _movies.postValue(moviesRepository.getMovies())
+            _movies.value = moviesRepository.getMovies()
         }
     }
 }

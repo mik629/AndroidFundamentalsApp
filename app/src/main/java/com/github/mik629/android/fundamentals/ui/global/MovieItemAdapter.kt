@@ -13,6 +13,7 @@ import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 
+// same as other adapter
 class MovieItemAdapter(
     private val clickListener: (Movie) -> Unit,
     private val glideRequest: GlideRequest<Drawable>

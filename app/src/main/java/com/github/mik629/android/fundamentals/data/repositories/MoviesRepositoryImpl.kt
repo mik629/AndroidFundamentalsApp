@@ -3,10 +3,8 @@ package com.github.mik629.android.fundamentals.data.repositories
 import com.github.mik629.android.fundamentals.data.db.MovieDb
 import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.*
-import com.github.mik629.android.fundamentals.data.mappers.Mapper
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
-import com.github.mik629.android.fundamentals.domain.model.Actor
 import com.github.mik629.android.fundamentals.domain.model.Genre
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
@@ -17,9 +15,7 @@ import kotlinx.coroutines.withContext
 
 class MoviesRepositoryImpl(
     private val serverApi: ServerApi,
-    private val movieDb: MovieDb,
-    private val movieMapper: Mapper<MovieWithActorsAndGenres, Movie>,
-    private val actorMapper: Mapper<ActorDTO, Actor>
+    private val movieDb: MovieDb
 ) : MoviesRepository {
 
     override suspend fun getMovies(): List<Movie> {
@@ -35,7 +31,7 @@ class MoviesRepositoryImpl(
                     val movieDetails = serverApi.getMovieDetails(movie.id)
                     val actors = serverApi.getMovieActors(movieDetails.id)
                         .cast
-                        .map { actor -> actorMapper.map(actor) }
+                        .map(ActorDTO::toActor)
 
                     with(movieDetails) {
                         res.add(
@@ -51,7 +47,7 @@ class MoviesRepositoryImpl(
                 saveToDb(movieDao, res)
                 res
             } else {
-                cachedMovies.map(movieMapper::map)
+                cachedMovies.map(::toMovie)
             }
         }
     }
