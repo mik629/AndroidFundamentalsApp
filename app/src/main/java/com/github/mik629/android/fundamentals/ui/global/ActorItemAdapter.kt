@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
-import com.github.mik629.android.fundamentals.domain.model.ActorItem
+import com.github.mik629.android.fundamentals.domain.model.Actor
 
 class ActorItemAdapter(
     private val glideRequest: GlideRequest<Drawable>
-) : ListAdapter<ActorItem, ActorItemAdapter.ViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Actor, ActorItemAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(ActorItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -25,7 +25,7 @@ class ActorItemAdapter(
     inner class ViewHolder(private val binding: ActorItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun updateViewItem(item: ActorItem) {
+        fun updateViewItem(item: Actor) {
             with(binding) {
                 name.text = item.name
                 if (!item.photoUrl.isNullOrEmpty()) {
@@ -38,11 +38,11 @@ class ActorItemAdapter(
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ActorItem>() {
-            override fun areItemsTheSame(oldItem: ActorItem, newItem: ActorItem): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Actor>() {
+            override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean =
                 oldItem.name == newItem.name
 
-            override fun areContentsTheSame(oldItem: ActorItem, newItem: ActorItem): Boolean =
+            override fun areContentsTheSame(oldItem: Actor, newItem: Actor): Boolean =
                 oldItem == newItem
 
         }

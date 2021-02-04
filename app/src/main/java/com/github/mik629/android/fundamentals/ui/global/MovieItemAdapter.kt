@@ -10,13 +10,13 @@ import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
-import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 
 class MovieItemAdapter(
-    private val clickListener: (MovieItem) -> Unit,
+    private val clickListener: (Movie) -> Unit,
     private val glideRequest: GlideRequest<Drawable>
-) : ListAdapter<MovieItem, MovieItemAdapter.ViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Movie, MovieItemAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -28,7 +28,7 @@ class MovieItemAdapter(
     inner class ViewHolder(private val binding: MovieItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun updateViewItem(item: MovieItem) {
+        fun updateViewItem(item: Movie) {
             with(binding) {
                 root.setOnClickListener { clickListener(item) }
                 if (!item.poster.isNullOrEmpty()) {
@@ -48,11 +48,11 @@ class MovieItemAdapter(
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieItem>() {
-            override fun areItemsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
                 oldItem == newItem
         }
     }

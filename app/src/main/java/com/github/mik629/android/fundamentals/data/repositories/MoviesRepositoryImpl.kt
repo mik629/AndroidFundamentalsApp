@@ -6,9 +6,9 @@ import com.github.mik629.android.fundamentals.data.db.models.*
 import com.github.mik629.android.fundamentals.data.mappers.Mapper
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
-import com.github.mik629.android.fundamentals.domain.model.ActorItem
-import com.github.mik629.android.fundamentals.domain.model.GenreItem
-import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.domain.model.Actor
+import com.github.mik629.android.fundamentals.domain.model.Genre
+import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,11 +18,11 @@ import kotlinx.coroutines.withContext
 class MoviesRepositoryImpl(
     private val serverApi: ServerApi,
     private val movieDb: MovieDb,
-    private val movieMapper: Mapper<MovieWithActorsAndGenres, MovieItem>,
-    private val actorMapper: Mapper<ActorDTO, ActorItem>
+    private val movieMapper: Mapper<MovieWithActorsAndGenres, Movie>,
+    private val actorMapper: Mapper<ActorDTO, Actor>
 ) : MoviesRepository {
 
-    override suspend fun getMovies(): List<MovieItem> {
+    override suspend fun getMovies(): List<Movie> {
         val movieDao = movieDb.dao
         return withContext(Dispatchers.IO) {
             val cachedMovies = movieDao.getAllMovies()
@@ -30,7 +30,7 @@ class MoviesRepositoryImpl(
                 val movies = serverApi.getMovieList()
                     .results
 
-                val res = mutableListOf<MovieItem>()
+                val res = mutableListOf<Movie>()
                 for (movie in movies) {
                     val movieDetails = serverApi.getMovieDetails(movie.id)
                     val actors = serverApi.getMovieActors(movieDetails.id)
@@ -39,9 +39,9 @@ class MoviesRepositoryImpl(
 
                     with(movieDetails) {
                         res.add(
-                            MovieItem(
+                            Movie(
                                 id, title, overview, posterPath, backdropPath, actors,
-                                genres.map { genre -> GenreItem(genre.id, genre.name) },
+                                genres.map { genre -> Genre(genre.id, genre.name) },
                                 if (isAdult) 18 else 0, reviews, rating, runtime
                             )
                         )
@@ -56,7 +56,7 @@ class MoviesRepositoryImpl(
         }
     }
 
-    private fun saveToDb(movieDao: MovieDao, res: MutableList<MovieItem>) {
+    private fun saveToDb(movieDao: MovieDao, res: MutableList<Movie>) {
         movieDb.runInTransaction {
             GlobalScope.launch {
                 movieDao.insertMovies(

@@ -9,7 +9,7 @@ import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
-import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 
@@ -26,7 +26,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
             .fitCenter()
     }
 
-    private var movieItem: MovieItem? = null
+    private var movieItem: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         movieItem = (savedInstanceState ?: arguments)?.getParcelable(ARG_MOVIE_ITEM)
@@ -71,7 +71,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         const val ARG_MOVIE_ITEM = "movieItem"
 
         @JvmStatic
-        fun newInstance(movieItem: MovieItem) = FragmentMovieDetails().apply {
+        fun newInstance(movieItem: Movie) = FragmentMovieDetails().apply {
             arguments = Bundle().apply {
                 putParcelable(ARG_MOVIE_ITEM, movieItem)
             }
