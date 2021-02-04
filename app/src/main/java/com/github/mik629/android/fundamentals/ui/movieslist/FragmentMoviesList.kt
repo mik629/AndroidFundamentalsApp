@@ -16,7 +16,6 @@ import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBind
 import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
-import com.github.mik629.android.fundamentals.vm.MoviesListViewModel
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)

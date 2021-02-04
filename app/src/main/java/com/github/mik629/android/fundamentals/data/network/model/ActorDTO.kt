@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Actor(
+data class ActorDTO(
     val id: Int,
     val name: String,
     @Json(name = "profile_path")

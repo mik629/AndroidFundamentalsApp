@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class MovieDetails(
+data class MovieDetailsDTO(
     val id: Int,
     val title: String,
     val overview: String,
@@ -16,7 +16,7 @@ data class MovieDetails(
     val rating: Float,
     @Json(name = "vote_count")
     val reviews: Int,
-    val genres: List<Genre>,
+    val genres: List<GenreDTO>,
     @Json(name = "adult")
     val isAdult: Boolean,
     val runtime: Int

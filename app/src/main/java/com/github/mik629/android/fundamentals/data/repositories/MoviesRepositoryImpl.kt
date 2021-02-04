@@ -5,7 +5,7 @@ import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.*
 import com.github.mik629.android.fundamentals.data.mappers.Mapper
 import com.github.mik629.android.fundamentals.data.network.ServerApi
-import com.github.mik629.android.fundamentals.data.network.model.Actor
+import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
 import com.github.mik629.android.fundamentals.domain.model.ActorItem
 import com.github.mik629.android.fundamentals.domain.model.GenreItem
 import com.github.mik629.android.fundamentals.domain.model.MovieItem
@@ -19,7 +19,7 @@ class MoviesRepositoryImpl(
     private val serverApi: ServerApi,
     private val movieDb: MovieDb,
     private val movieMapper: Mapper<MovieWithActorsAndGenres, MovieItem>,
-    private val actorMapper: Mapper<Actor, ActorItem>
+    private val actorMapper: Mapper<ActorDTO, ActorItem>
 ) : MoviesRepository {
 
     override suspend fun getMovies(): List<MovieItem> {

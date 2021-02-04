@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ConfigurationResponse(
     @Json(name = "images")
-    val baseUrlInfo: BaseUrlInfo
+    val baseUrlInfo: BaseUrlInfoDTO
 )
