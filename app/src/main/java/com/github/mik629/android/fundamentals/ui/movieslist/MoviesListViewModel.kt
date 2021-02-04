@@ -1,4 +1,4 @@
-package com.github.mik629.android.fundamentals.vm
+package com.github.mik629.android.fundamentals.ui.movieslist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
