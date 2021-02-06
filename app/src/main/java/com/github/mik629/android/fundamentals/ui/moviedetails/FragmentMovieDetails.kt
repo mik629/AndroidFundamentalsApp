@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.BuildConfig
-import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
+import com.github.mik629.android.fundamentals.di.buildGlideRequest
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.setRating
@@ -17,13 +16,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
 
     private val glideRequest by lazy {
-        GlideApp.with(this)
-            .asDrawable()
-            .thumbnail(0.1f)
-            .placeholder(R.drawable.ic_image_loading)
-            .fallback(R.drawable.ic_broken_image)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .fitCenter()
+        buildGlideRequest(this)
     }
 
     private var movieItem: Movie? = null

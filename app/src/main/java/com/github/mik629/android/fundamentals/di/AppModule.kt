@@ -1,6 +1,10 @@
 package com.github.mik629.android.fundamentals.di
 
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.BuildConfig
+import com.github.mik629.android.fundamentals.GlideApp
+import com.github.mik629.android.fundamentals.R
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -46,3 +50,12 @@ class AppModule {
         }
     }
 }
+
+fun buildGlideRequest(fragment: Fragment) =
+    GlideApp.with(fragment)
+        .asDrawable()
+        .thumbnail(0.1f)
+        .placeholder(R.drawable.ic_image_loading)
+        .fallback(R.drawable.ic_broken_image)
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .fitCenter()
