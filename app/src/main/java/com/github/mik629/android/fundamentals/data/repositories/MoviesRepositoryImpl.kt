@@ -1,6 +1,5 @@
 package com.github.mik629.android.fundamentals.data.repositories
 
-import com.github.mik629.android.fundamentals.data.db.MovieDb
 import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.*
 import com.github.mik629.android.fundamentals.data.network.ServerApi
@@ -15,11 +14,10 @@ import kotlinx.coroutines.withContext
 
 class MoviesRepositoryImpl(
     private val serverApi: ServerApi,
-    private val movieDb: MovieDb
+    private val movieDao: MovieDao
 ) : MoviesRepository {
 
     override suspend fun getMovies(): List<Movie> {
-        val movieDao = movieDb.dao
         return withContext(Dispatchers.IO) {
             val cachedMovies = movieDao.getAllMovies()
             if (cachedMovies.isEmpty()) {
@@ -52,7 +50,7 @@ class MoviesRepositoryImpl(
                 }
 
                 saveToDb(movieDao, res)
-                res
+                res.sortedByDescending { it.rating }
             } else {
                 cachedMovies.map(::toMovie)
             }
@@ -60,57 +58,50 @@ class MoviesRepositoryImpl(
     }
 
     private fun saveToDb(movieDao: MovieDao, res: MutableList<Movie>) {
-        movieDb.runInTransaction {
-            GlobalScope.launch {
-                movieDao.insertMovies(
-                    res.map {
-                        with(it) {
-                            MovieDbEntity(
-                                movieId = id,
-                                title = title,
-                                overview = overview,
-                                poster = poster,
-                                backdrop = backdrop,
-                                minAge = minAge,
-                                reviews = reviews,
-                                rating = rating,
-                                runtime = runtime
-                            )
-                        }
+        GlobalScope.launch {
+            movieDao.insertData(
+                res.map {
+                    with(it) {
+                        MovieDbEntity(
+                            movieId = id,
+                            title = title,
+                            overview = overview,
+                            poster = poster,
+                            backdrop = backdrop,
+                            minAge = minAge,
+                            reviews = reviews,
+                            rating = rating,
+                            runtime = runtime
+                        )
                     }
-                )
-                movieDao.insertActors(
-                    res.flatMap { it.actors }
-                        .distinct()
-                        .map { ActorDbEntity(it.id, it.name, it.photoUrl) }
-                )
-                movieDao.insertMovieActors(
-                    res.flatMap { movie ->
-                        movie.actors.map { actor ->
-                            MovieActorCrossRef(
-                                movieId = movie.id,
-                                actorId = actor.id
-                            )
-                        }
-                    }
-                )
+                },
 
-                movieDao.insertGenres(
-                    res.flatMap { it.genres }
-                        .distinct()
-                        .map { GenreDbEntity(it.id, it.name) }
-                )
-                movieDao.insertMovieGenres(
-                    res.flatMap { movie ->
-                        movie.genres.map { genre ->
-                            MovieGenreCrossRef(
-                                movieId = movie.id,
-                                genreId = genre.id
-                            )
-                        }
+                res.flatMap { it.actors }
+                    .distinct()
+                    .map { ActorDbEntity(it.id, it.name, it.photoUrl) },
+
+                res.flatMap { movie ->
+                    movie.actors.map { actor ->
+                        MovieActorCrossRef(
+                            movieId = movie.id,
+                            actorId = actor.id
+                        )
                     }
-                )
-            }
+                },
+
+                res.flatMap { it.genres }
+                    .distinct()
+                    .map { GenreDbEntity(it.id, it.name) },
+
+                res.flatMap { movie ->
+                    movie.genres.map { genre ->
+                        MovieGenreCrossRef(
+                            movieId = movie.id,
+                            genreId = genre.id
+                        )
+                    }
+                }
+            )
         }
     }
 }

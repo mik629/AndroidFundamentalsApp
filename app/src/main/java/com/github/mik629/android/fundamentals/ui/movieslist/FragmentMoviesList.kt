@@ -23,7 +23,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         MoviesListViewModel(
             MoviesRepositoryImpl(
                 AppModule().retrofit.create(ServerApi::class.java),
-                MovieDb.createDb(requireContext())
+                MovieDb.createDb(requireContext()).dao
             )
         )
     }
