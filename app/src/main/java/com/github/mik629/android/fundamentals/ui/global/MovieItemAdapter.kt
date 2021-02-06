@@ -13,20 +13,27 @@ import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 
-// same as other adapter
 class MovieItemAdapter(
     private val clickListener: (Movie) -> Unit,
     private val glideRequest: GlideRequest<Drawable>
-) : ListAdapter<Movie, MovieItemAdapter.ViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<Movie, MovieItemAdapter.ViewHolder>(MovieItemAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(
+            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            glideRequest,
+            clickListener
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.updateViewItem(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: MovieItemBinding) :
+    class ViewHolder(
+        private val binding: MovieItemBinding,
+        private val glideRequest: GlideRequest<Drawable>,
+        private val clickListener: (Movie) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun updateViewItem(item: Movie) {
@@ -47,14 +54,12 @@ class MovieItemAdapter(
             binding.movieLength.text = resources.getString(R.string.movie_length, item.runtime)
         }
     }
+}
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
-            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-                oldItem.id == newItem.id
+private class MovieItemAdapterDiffCallback : DiffUtil.ItemCallback<Movie>() {
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
-                oldItem == newItem
-        }
-    }
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        oldItem == newItem
 }
