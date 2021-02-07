@@ -1,9 +1,6 @@
 package com.github.mik629.android.fundamentals.data.db.daos
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.github.mik629.android.fundamentals.data.db.models.*
 import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.COLUMN_NAME_RATING
 import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.MOVIES_TABLE_NAME
@@ -15,23 +12,23 @@ interface MovieDao {
     suspend fun getAllMovies(): List<MovieWithActorsAndGenres>
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<MovieDbEntity>)
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertActors(actors: List<ActorDbEntity>)
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieActors(movieActors: List<MovieActorCrossRef>)
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGenres(genres: List<GenreDbEntity>)
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovieGenres(movieGenres: List<MovieGenreCrossRef>)
 
     @Transaction
