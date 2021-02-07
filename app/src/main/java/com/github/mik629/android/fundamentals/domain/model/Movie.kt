@@ -1,9 +1,5 @@
 package com.github.mik629.android.fundamentals.domain.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
 data class Movie(
     val id: Int,
     val title: String,
@@ -16,4 +12,4 @@ data class Movie(
     val reviews: Int,
     val rating: Float,
     val runtime: Int
-) : Parcelable
+)

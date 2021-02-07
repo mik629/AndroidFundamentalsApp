@@ -5,9 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
-import com.github.mik629.android.fundamentals.data.db.MovieDb
-import com.github.mik629.android.fundamentals.data.network.ServerApi
-import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.di.buildGlideRequest
@@ -19,12 +16,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     // fixme add factory
     private val viewModel by lazy {
-        MoviesListViewModel(
-            MoviesRepositoryImpl(
-                AppModule().retrofit.create(ServerApi::class.java),
-                MovieDb.createDb(requireContext()).dao
-            )
-        )
+        AppModule.instance.provideViewModel(requireContext())
     }
 
     private val movieItemAdapter by lazy {
@@ -33,7 +25,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 parentFragmentManager
                     .beginTransaction()
                     .addToBackStack(FragmentMoviesList::class.qualifiedName) // fixme add cicerone
-                    .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle))
+                    .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle.id))
                     .commit()
             },
             buildGlideRequest(this)

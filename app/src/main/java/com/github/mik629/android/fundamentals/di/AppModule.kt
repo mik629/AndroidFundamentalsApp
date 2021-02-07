@@ -1,10 +1,15 @@
 package com.github.mik629.android.fundamentals.di
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.data.db.MovieDb
+import com.github.mik629.android.fundamentals.data.network.ServerApi
+import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
+import com.github.mik629.android.fundamentals.ui.movieslist.MoviesListViewModel
 import com.squareup.moshi.Moshi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -13,8 +18,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class AppModule {
+class AppModule private constructor() {
     val retrofit: Retrofit
+    var viewModel: MoviesListViewModel? = null
 
     init {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -48,6 +54,22 @@ class AppModule {
 
             return chain.proceed(newRequest)
         }
+    }
+
+    fun provideViewModel(context: Context): MoviesListViewModel {
+        if (viewModel == null) {
+            viewModel = MoviesListViewModel(
+                MoviesRepositoryImpl(
+                    retrofit.create(ServerApi::class.java),
+                    MovieDb.createDb(context).dao
+                )
+            )
+        }
+        return viewModel!!
+    }
+
+    companion object {
+        val instance: AppModule = AppModule()
     }
 }
 

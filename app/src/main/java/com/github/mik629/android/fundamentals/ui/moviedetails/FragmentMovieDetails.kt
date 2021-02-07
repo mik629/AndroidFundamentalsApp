@@ -7,6 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
+import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.di.buildGlideRequest
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
@@ -19,10 +20,15 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         buildGlideRequest(this)
     }
 
-    private var movieItem: Movie? = null
+    private val viewModel by lazy {
+        AppModule.instance.provideViewModel(requireContext())
+    }
+
+    private var movie: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        movieItem = (savedInstanceState ?: arguments)?.getParcelable(ARG_MOVIE_ITEM)
+        movie = arguments?.getInt(ARG_MOVIE_ID)
+            ?.let { viewModel.getMovie(it) }
         super.onCreate(savedInstanceState)
     }
 
@@ -32,7 +38,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
             parentFragmentManager.popBackStack()
         }
 
-        movieItem?.let {
+        movie?.let {
             binding.age.text = getString(R.string.movie_min_age, it.minAge)
             binding.movieTitle.text = it.title
             binding.genre.text = it.genres.joinToString { genre -> genre.name }
@@ -44,7 +50,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
             actorItemAdapter.submitList(it.actors)
         }
 
-        movieItem?.let {
+        movie?.let {
             if (!it.backdrop.isNullOrEmpty()) {
                 glideRequest.centerCrop()
                     .load("${BuildConfig.BASE_IMAGE_URL}${it.backdrop}")
@@ -53,19 +59,16 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(ARG_MOVIE_ITEM, movieItem)
-    }
-
     companion object {
-        const val ARG_MOVIE_ITEM = "movieItem"
+        const val ARG_MOVIE_ID = "movieId"
 
         @JvmStatic
-        fun newInstance(movieItem: Movie) = FragmentMovieDetails().apply {
-            arguments = Bundle().apply {
-                putParcelable(ARG_MOVIE_ITEM, movieItem)
-            }
+        fun newInstance(movieId: Int): FragmentMovieDetails {
+            val fragment = FragmentMovieDetails()
+            val args = Bundle(1)
+            args.putInt(ARG_MOVIE_ID, movieId)
+            fragment.arguments = args
+            return fragment
         }
     }
 }
