@@ -10,7 +10,7 @@ import com.github.mik629.android.fundamentals.domain.model.Genre
 data class GenreDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_GENRE_ID)
-    val genreId: Int,
+    val genreId: String,
     val name: String
 ) {
     companion object {

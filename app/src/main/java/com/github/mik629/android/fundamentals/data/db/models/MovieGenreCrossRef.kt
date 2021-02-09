@@ -15,11 +15,11 @@ data class MovieGenreCrossRef(
         parentColumns = [COLUMN_NAME_MOVIE_ID],
         childColumns = [COLUMN_NAME_MOVIE_ID]
     )
-    val movieId: Int,
+    val movieId: String,
     @ForeignKey(
         entity = GenreDbEntity::class,
         parentColumns = [COLUMN_NAME_GENRE_ID],
         childColumns = [COLUMN_NAME_GENRE_ID]
     )
-    val genreId: Int
+    val genreId: String
 )

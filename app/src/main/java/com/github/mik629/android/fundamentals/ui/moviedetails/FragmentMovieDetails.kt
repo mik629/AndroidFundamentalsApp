@@ -27,7 +27,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private var movie: Movie? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        movie = arguments?.getInt(ARG_MOVIE_ID)
+        movie = arguments?.getString(ARG_MOVIE_ID)
             ?.let { viewModel.getMovie(it) }
         super.onCreate(savedInstanceState)
     }
@@ -63,10 +63,10 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         const val ARG_MOVIE_ID = "movieId"
 
         @JvmStatic
-        fun newInstance(movieId: Int): FragmentMovieDetails {
+        fun newInstance(movieId: String): FragmentMovieDetails {
             val fragment = FragmentMovieDetails()
             val args = Bundle(1)
-            args.putInt(ARG_MOVIE_ID, movieId)
+            args.putString(ARG_MOVIE_ID, movieId)
             fragment.arguments = args
             return fragment
         }

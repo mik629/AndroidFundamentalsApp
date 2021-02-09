@@ -12,5 +12,5 @@ data class ActorDTO(
     val avaPath: String?
 ) {
     fun toActor() =
-        Actor(id, name, avaPath)
+        Actor(id.toString(), name, avaPath)
 }

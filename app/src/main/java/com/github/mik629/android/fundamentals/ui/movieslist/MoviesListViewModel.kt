@@ -1,6 +1,5 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
-import android.util.SparseArray
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,13 +12,13 @@ class MoviesListViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    private val cached = SparseArray<Movie>()
+    private val cached = HashMap<String, Movie>()
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() =
             _movies
 
-    fun getMovie(id: Int) =
+    fun getMovie(id: String) =
         requireNotNull(cached[id])
 
     init {
@@ -28,7 +27,7 @@ class MoviesListViewModel(
                 .also {
                     _movies.value = it
                     it.forEach { item ->
-                        cached.put(item.id, item)
+                        cached[item.id] = item
                     }
                 }
         }

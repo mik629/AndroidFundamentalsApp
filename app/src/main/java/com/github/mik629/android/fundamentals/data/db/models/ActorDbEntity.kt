@@ -10,7 +10,7 @@ import com.github.mik629.android.fundamentals.domain.model.Actor
 data class ActorDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_ACTOR_ID)
-    val actorId: Int,
+    val actorId: String,
     val name: String,
     val photoUrl: String?
 ) {

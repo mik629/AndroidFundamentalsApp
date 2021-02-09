@@ -34,7 +34,7 @@ class MoviesRepositoryImpl(
                     with(movieDetails) {
                         res.add(
                             Movie(
-                                id = id,
+                                id = id.toString(),
                                 title = title,
                                 overview = overview,
                                 poster = posterPath,

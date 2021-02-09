@@ -9,7 +9,7 @@ import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Compa
 data class MovieDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_MOVIE_ID)
-    val movieId: Int,
+    val movieId: String,
     val title: String,
     val overview: String,
     val posterImageUrl: String?,

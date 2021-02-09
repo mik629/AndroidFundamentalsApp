@@ -1,7 +1,7 @@
 package com.github.mik629.android.fundamentals.domain.model
 
 data class Movie(
-    val id: Int,
+    val id: String,
     val title: String,
     val overview: String,
     val poster: String?,

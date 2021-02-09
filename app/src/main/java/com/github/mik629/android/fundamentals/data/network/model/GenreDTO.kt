@@ -8,6 +8,6 @@ data class GenreDTO(val id: Int, val name: String)
 
 fun toGenre(dto: GenreDTO) =
     Genre(
-        id = dto.id,
+        id = dto.id.toString(),
         name = dto.name
     )
