@@ -28,9 +28,9 @@ data class ActorDbEntity(
     }
 }
 
-fun fromActor(actor: Actor) =
+fun Actor.toEntity() =
     ActorDbEntity(
-        actorId = actor.id,
-        name = actor.name,
-        photoUrl = actor.photoUrl
+        actorId = id,
+        name = this.name,
+        photoUrl = this.photoUrl
     )

@@ -31,8 +31,8 @@ data class MovieWithActorsAndGenres(
             id = movieEntity.movieId,
             title = movieEntity.title,
             overview = movieEntity.overview,
-            poster = movieEntity.posterImageUrl,
-            backdrop = movieEntity.backdropImageUrl,
+            posterUrl = movieEntity.posterImageUrl,
+            backdropImageUrl = movieEntity.backdropImageUrl,
             actors = actors.map(ActorDbEntity::toActor),
             genres = genres.map(GenreDbEntity::toGenre),
             minAge = movieEntity.minAge,
@@ -42,19 +42,19 @@ data class MovieWithActorsAndGenres(
         )
 }
 
-fun fromMovie(movie: Movie, actors: List<Actor>, genres: List<Genre>) =
+fun Movie.toComplexEntity() =
     MovieWithActorsAndGenres(
         MovieDbEntity(
-            movieId = movie.id,
-            title = movie.title,
-            overview = movie.overview,
-            posterImageUrl = movie.poster,
-            backdropImageUrl = movie.backdrop,
-            minAge = movie.minAge,
-            reviews = movie.reviews,
-            rating = movie.rating,
-            runtime = movie.runtime
+            movieId = this.id,
+            title = this.title,
+            overview = this.overview,
+            posterImageUrl = this.posterUrl,
+            backdropImageUrl = this.backdropImageUrl,
+            minAge = this.minAge,
+            reviews = this.reviews,
+            rating = this.rating,
+            runtime = this.runtime
         ),
-        actors = actors.map(::fromActor),
-        genres = genres.map(::fromGenre)
+        actors = actors.map(Actor::toEntity),
+        genres = genres.map(Genre::toEntity)
     )

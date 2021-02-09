@@ -1,14 +1,18 @@
 package com.github.mik629.android.fundamentals.data.repositories
 
 import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
-import com.github.mik629.android.fundamentals.data.db.models.*
+import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndGenres
+import com.github.mik629.android.fundamentals.data.db.models.toCrossRef
+import com.github.mik629.android.fundamentals.data.db.models.toEntity
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
-import com.github.mik629.android.fundamentals.data.network.model.toGenre
+import com.github.mik629.android.fundamentals.domain.model.Actor
+import com.github.mik629.android.fundamentals.domain.model.Genre
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -16,9 +20,10 @@ class MoviesRepositoryImpl(
     private val serverApi: ServerApi,
     private val movieDao: MovieDao
 ) : MoviesRepository {
+    private val scope: CoroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
-    override suspend fun getMovies(): List<Movie> {
-        return withContext(Dispatchers.IO) {
+    override suspend fun getMovies() =
+        withContext(Dispatchers.IO) {
             val cachedMovies = movieDao.getAllMovies()
             if (cachedMovies.isEmpty()) {
                 val movies = serverApi.getMovieList()
@@ -31,22 +36,9 @@ class MoviesRepositoryImpl(
                         .cast
                         .map(ActorDTO::toActor)
 
-                    with(movieDetails) {
-                        res.add(
-                            Movie(
-                                id = id.toString(),
-                                title = title,
-                                overview = overview,
-                                poster = posterPath,
-                                backdrop = backdropPath, actors,
-                                genres = genres.map(::toGenre),
-                                minAge = if (isAdult) 18 else 0,
-                                reviews = reviews,
-                                rating = rating,
-                                runtime = runtime
-                            )
-                        )
-                    }
+                    res.add(
+                        movieDetails.toMovie(actors)
+                    )
                 }
 
                 saveToDb(movieDao, res)
@@ -55,50 +47,29 @@ class MoviesRepositoryImpl(
                 cachedMovies.map(MovieWithActorsAndGenres::toMovie)
             }
         }
-    }
 
-    private fun saveToDb(movieDao: MovieDao, res: MutableList<Movie>) {
-        GlobalScope.launch {
+    private fun saveToDb(movieDao: MovieDao, res: List<Movie>) {
+        scope.launch {
             movieDao.insertData(
-                res.map {
-                    with(it) {
-                        MovieDbEntity(
-                            movieId = id,
-                            title = title,
-                            overview = overview,
-                            posterImageUrl = poster,
-                            backdropImageUrl = backdrop,
-                            minAge = minAge,
-                            reviews = reviews,
-                            rating = rating,
-                            runtime = runtime
-                        )
-                    }
-                },
+                res.map(Movie::toEntity),
 
                 res.flatMap { it.actors }
                     .distinct()
-                    .map { ActorDbEntity(it.id, it.name, it.photoUrl) },
+                    .map(Actor::toEntity),
 
                 res.flatMap { movie ->
                     movie.actors.map { actor ->
-                        MovieActorCrossRef(
-                            movieId = movie.id,
-                            actorId = actor.id
-                        )
+                        actor.toCrossRef(movie)
                     }
                 },
 
                 res.flatMap { it.genres }
                     .distinct()
-                    .map { GenreDbEntity(it.id, it.name) },
+                    .map(Genre::toEntity),
 
                 res.flatMap { movie ->
                     movie.genres.map { genre ->
-                        MovieGenreCrossRef(
-                            movieId = movie.id,
-                            genreId = genre.id
-                        )
+                        genre.toCrossRef(movie)
                     }
                 }
             )

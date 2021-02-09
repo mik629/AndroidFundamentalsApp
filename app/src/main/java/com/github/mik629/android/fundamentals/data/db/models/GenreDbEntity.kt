@@ -26,8 +26,8 @@ data class GenreDbEntity(
     }
 }
 
-fun fromGenre(genre: Genre) =
+fun Genre.toEntity(): GenreDbEntity =
     GenreDbEntity(
-        genreId = genre.id,
-        name = genre.name
+        genreId = id,
+        name = this.name
     )

@@ -39,8 +39,8 @@ class MovieItemAdapter(
         fun updateViewItem(item: Movie) {
             val rootView = binding.root
             rootView.setOnClickListener { clickListener(item) }
-            if (!item.poster.isNullOrEmpty()) {
-                val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.poster}"
+            if (!item.posterUrl.isNullOrEmpty()) {
+                val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.posterUrl}"
                 glideRequest.fitCenter()
                     .load(imageUrl)
                     .into(binding.moviePoster)

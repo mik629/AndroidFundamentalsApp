@@ -51,9 +51,9 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
 
         movie?.let {
-            if (!it.backdrop.isNullOrEmpty()) {
+            if (!it.backdropImageUrl.isNullOrEmpty()) {
                 glideRequest.centerCrop()
-                    .load("${BuildConfig.BASE_IMAGE_URL}${it.backdrop}")
+                    .load("${BuildConfig.BASE_IMAGE_URL}${it.backdropImageUrl}")
                     .into(binding.backgroundImg)
             }
         }

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.MOVIES_TABLE_NAME
+import com.github.mik629.android.fundamentals.domain.model.Movie
 
 @Entity(tableName = MOVIES_TABLE_NAME)
 data class MovieDbEntity(
@@ -27,3 +28,16 @@ data class MovieDbEntity(
         const val COLUMN_NAME_MOVIE_ID = "movieId"
     }
 }
+
+fun Movie.toEntity(): MovieDbEntity =
+    MovieDbEntity(
+        movieId = id,
+        title = title,
+        overview = overview,
+        posterImageUrl = posterUrl,
+        backdropImageUrl = backdropImageUrl,
+        minAge = minAge,
+        reviews = reviews,
+        rating = rating,
+        runtime = runtime
+    )
