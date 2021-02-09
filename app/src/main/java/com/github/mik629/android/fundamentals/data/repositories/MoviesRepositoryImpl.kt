@@ -52,7 +52,7 @@ class MoviesRepositoryImpl(
                 saveToDb(movieDao, res)
                 res.sortedByDescending { it.rating }
             } else {
-                cachedMovies.map(::toMovie)
+                cachedMovies.map(MovieWithActorsAndGenres::toMovie)
             }
         }
     }

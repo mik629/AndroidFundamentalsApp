@@ -25,22 +25,22 @@ data class MovieWithActorsAndGenres(
         associateBy = Junction(MovieGenreCrossRef::class)
     )
     val genres: List<GenreDbEntity>
-)
-
-fun toMovie(entity: MovieWithActorsAndGenres) =
-    Movie(
-        id = entity.movieEntity.movieId,
-        title = entity.movieEntity.title,
-        overview = entity.movieEntity.overview,
-        poster = entity.movieEntity.posterImageUrl,
-        backdrop = entity.movieEntity.backdropImageUrl,
-        actors = entity.actors.map(::toActor),
-        genres = entity.genres.map(::toGenre),
-        minAge = entity.movieEntity.minAge,
-        reviews = entity.movieEntity.reviews,
-        rating = entity.movieEntity.rating,
-        runtime = entity.movieEntity.runtime
-    )
+) {
+    fun toMovie(): Movie =
+        Movie(
+            id = movieEntity.movieId,
+            title = movieEntity.title,
+            overview = movieEntity.overview,
+            poster = movieEntity.posterImageUrl,
+            backdrop = movieEntity.backdropImageUrl,
+            actors = actors.map(ActorDbEntity::toActor),
+            genres = genres.map(GenreDbEntity::toGenre),
+            minAge = movieEntity.minAge,
+            reviews = movieEntity.reviews,
+            rating = movieEntity.rating,
+            runtime = movieEntity.runtime
+        )
+}
 
 fun fromMovie(movie: Movie, actors: List<Actor>, genres: List<Genre>) =
     MovieWithActorsAndGenres(
