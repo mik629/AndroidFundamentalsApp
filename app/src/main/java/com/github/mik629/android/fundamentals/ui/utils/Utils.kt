@@ -23,11 +23,10 @@ inline fun RatingBarBinding.setRating(context: Context, value: Float) {
 inline fun RatingBarSmallBinding.setRating(context: Context, value: Float) {
     val grey = ContextCompat.getColor(context, R.color.grey)
     with(this) {
-        starFive.setGreyIf(grey, value, 5)
-        starFour.setGreyIf(grey, value, 4)
-        starThree.setGreyIf(grey, value, 3)
-        starTwo.setGreyIf(grey, value, 2)
-        starOne.setGreyIf(grey, value, 1)
+        arrayOf(starOne, starTwo, starThree, starFour, starFive)
+            .forEachIndexed { index, star ->
+                star.setGreyIf(grey, value, index)
+            }
     }
 }
 
