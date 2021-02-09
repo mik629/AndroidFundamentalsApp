@@ -18,18 +18,26 @@ class MoviesListViewModel(
         get() =
             _movies
 
+    private val _error: MutableLiveData<Throwable> = MutableLiveData()
+    val error: LiveData<Throwable>
+        get() =
+            _error
+
     fun getMovie(id: String) =
         requireNotNull(cached[id])
 
     init {
         viewModelScope.launch {
-            moviesRepository.getMovies()
-                .also {
-                    _movies.value = it
-                    it.forEach { item ->
-                        cached[item.id] = item
-                    }
+            runCatching {
+                moviesRepository.getMovies()
+            }.onSuccess {
+                _movies.value = it
+                it.forEach { item ->
+                    cached[item.id] = item
                 }
+            }.onFailure {
+                _error.value = it
+            }
         }
     }
 }

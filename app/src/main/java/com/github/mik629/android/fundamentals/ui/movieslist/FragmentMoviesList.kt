@@ -10,6 +10,8 @@ import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.di.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
+import com.google.android.material.snackbar.Snackbar
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
@@ -37,6 +39,10 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         binding.movieList.adapter = movieItemAdapter
         viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
             movieItemAdapter.submitList(it)
+        }
+        viewModel.error.observe(this@FragmentMoviesList.viewLifecycleOwner) {
+            Snackbar.make(binding.root, getString(R.string.error_no_data), LENGTH_LONG)
+                .show()
         }
     }
 

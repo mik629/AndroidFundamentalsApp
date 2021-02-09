@@ -7,4 +7,6 @@
     <string name="back">Back</string>
     <string name="movies_list_title">Movies list</string>
     <string name="movie_length">%1$d Min</string>
+
+    <string name="error_no_data">Whoops, we can\'t load movie data, sorry</string>
 </resources>
