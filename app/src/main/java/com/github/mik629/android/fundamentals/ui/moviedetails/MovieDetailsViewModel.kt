@@ -1,23 +1,22 @@
-package com.github.mik629.android.fundamentals.ui.movieslist
+package com.github.mik629.android.fundamentals.ui.moviedetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class MoviesListViewModel(
-    private val moviesRepository: MoviesRepository
+class MovieDetailsViewModel(
+    private val moviesRepository: MoviesRepository,
+    private val id: Long
 ) : ViewModel() {
 
-    private val cached = HashMap<Long, Movie>()
-    private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
-    val movies: LiveData<List<Movie>>
+    private val _movieDetails: MutableLiveData<MovieDetails> = MutableLiveData()
+    val movieDetails: LiveData<MovieDetails>
         get() =
-            _movies
+            _movieDetails
 
     private val _error: MutableLiveData<Throwable> = MutableLiveData()
     val error: LiveData<Throwable>
@@ -27,15 +26,11 @@ class MoviesListViewModel(
     init {
         viewModelScope.launch {
             runCatching {
-                moviesRepository.getMovies()
+                moviesRepository.getMovieDetails(id)
             }.onSuccess {
-                _movies.value = it
-                it.forEach { item ->
-                    cached[item.id] = item
-                }
+                _movieDetails.value = it
             }.onFailure {
                 _error.value = it
-                Timber.e(it)
             }
         }
     }

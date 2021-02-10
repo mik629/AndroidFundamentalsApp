@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ActorDTO(
-    val id: Int,
+    val id: Long,
     val name: String,
     @Json(name = "profile_path")
     val photoUrl: String?
@@ -14,7 +14,7 @@ data class ActorDTO(
 
 fun ActorDTO.toActor(): Actor =
     Actor(
-        id = this.id.toString(),
+        id = this.id,
         name = this.name,
         photoUrl = this.photoUrl
     )

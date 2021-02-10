@@ -21,11 +21,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
-            { movieTitle ->
+            { movie ->
                 parentFragmentManager
                     .beginTransaction()
                     .addToBackStack(FragmentMoviesList::class.qualifiedName) // fixme add cicerone
-                    .add(R.id.main_container, FragmentMovieDetails.newInstance(movieTitle.id))
+                    .add(R.id.main_container, FragmentMovieDetails.newInstance(movie.id))
                     .commit()
             },
             buildGlideRequest(this)
@@ -34,7 +34,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     override fun onStart() {
         super.onStart()
-        viewModel = AppModule.instance.provideViewModel(requireContext())
+        viewModel = AppModule.instance.provideMovieListViewModel(requireContext())
         viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
             movieItemAdapter.submitList(it)
         }

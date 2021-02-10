@@ -8,8 +8,8 @@ import com.github.mik629.android.fundamentals.domain.model.Movie
 
 @Entity(primaryKeys = [COLUMN_NAME_MOVIE_ID, COLUMN_NAME_GENRE_ID])
 data class MovieGenreCrossRef(
-    val movieId: String,
-    val genreId: String
+    val movieId: Long,
+    val genreId: Long
 )
 
 fun Genre.toCrossRef(movie: Movie): MovieGenreCrossRef =

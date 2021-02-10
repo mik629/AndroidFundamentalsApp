@@ -4,13 +4,16 @@ import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.toCrossRef
 import com.github.mik629.android.fundamentals.data.db.models.toEntity
 import com.github.mik629.android.fundamentals.data.db.models.toMovie
+import com.github.mik629.android.fundamentals.data.db.models.toMovieDetails
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
 import com.github.mik629.android.fundamentals.data.network.model.toActor
 import com.github.mik629.android.fundamentals.data.network.model.toMovie
+import com.github.mik629.android.fundamentals.data.network.model.toMovieDetails
 import com.github.mik629.android.fundamentals.domain.model.Actor
 import com.github.mik629.android.fundamentals.domain.model.Genre
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,14 +46,26 @@ class MoviesRepositoryImpl(
                     )
                 }
 
-                saveToDb(movieDao, res)
+                saveToDb(res)
                 res.sortedByDescending { it.rating }
             } else {
                 cachedMovies.map { it.toMovie() }
             }
         }
 
-    private fun saveToDb(movieDao: MovieDao, res: List<Movie>) {
+    override suspend fun getMovieDetails(id: Long): MovieDetails =
+        withContext(Dispatchers.IO) {
+            val movie = movieDao.getMovie(id)
+            movie?.toMovieDetails()
+                ?: serverApi.getMovieDetails(id)
+                    .toMovieDetails(
+                        serverApi.getMovieActors(id)
+                            .cast
+                            .map(ActorDTO::toActor)
+                    )
+        }
+
+    private fun saveToDb(res: List<Movie>) {
         scope.launch {
             movieDao.insertData(
                 res.map(Movie::toEntity),

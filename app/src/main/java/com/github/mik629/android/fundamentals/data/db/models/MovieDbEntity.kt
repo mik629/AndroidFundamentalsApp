@@ -10,7 +10,7 @@ import com.github.mik629.android.fundamentals.domain.model.Movie
 data class MovieDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_NAME_MOVIE_ID)
-    val movieId: String,
+    val movieId: Long,
     val title: String,
     val overview: String,
     val posterImageUrl: String?,

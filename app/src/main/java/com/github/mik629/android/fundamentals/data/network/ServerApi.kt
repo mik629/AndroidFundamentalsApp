@@ -19,12 +19,12 @@ interface ServerApi {
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
-        @Path("movie_id") movieId: Int,
+        @Path("movie_id") movieId: Long,
         @Query("language") language: String = "en-US"
     ): MovieDetailsDTO
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieActors(
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Long
     ): MovieActorsResponse
 }

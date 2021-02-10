@@ -9,6 +9,7 @@ import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Compa
 import com.github.mik629.android.fundamentals.domain.model.Actor
 import com.github.mik629.android.fundamentals.domain.model.Genre
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 
 data class MovieWithActorsAndGenres(
     @Embedded
@@ -40,6 +41,18 @@ fun MovieWithActorsAndGenres.toMovie(): Movie =
         reviews = this.movieEntity.reviews,
         rating = this.movieEntity.rating,
         runtime = this.movieEntity.runtime
+    )
+
+fun MovieWithActorsAndGenres.toMovieDetails(): MovieDetails =
+    MovieDetails(
+        title = this.movieEntity.title,
+        background = this.movieEntity.backdropImageUrl,
+        storyline = this.movieEntity.overview,
+        genres = this.genres.map { it.name },
+        actors = this.actors.map(ActorDbEntity::toActor),
+        minAge = this.movieEntity.minAge,
+        reviews = this.movieEntity.reviews,
+        rating = this.movieEntity.rating
     )
 
 fun Movie.toComplexEntity() =

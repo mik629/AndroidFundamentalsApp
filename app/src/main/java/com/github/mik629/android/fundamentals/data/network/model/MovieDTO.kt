@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MovieDTO(
     @Json(name = "id")
-    val id: Int,
+    val id: Long,
     @Json(name = "title")
     val title: String,
     @Json(name = "overview")
@@ -22,5 +22,7 @@ data class MovieDTO(
     @Json(name = "genre_ids")
     val genres: List<Int>,
     @Json(name = "adult")
-    val isAdult: Boolean
+    val isAdult: Boolean,
+    @Json(name = "runtime")
+    val runtime: Int? = 0
 )
