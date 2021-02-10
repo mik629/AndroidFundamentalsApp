@@ -6,8 +6,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class GenreDTO(val id: Int, val name: String)
 
-fun toGenre(dto: GenreDTO) =
+fun GenreDTO.toGenre() =
     Genre(
-        id = dto.id.toString(),
-        name = dto.name
+        id = this.id.toString(),
+        name = this.name
     )

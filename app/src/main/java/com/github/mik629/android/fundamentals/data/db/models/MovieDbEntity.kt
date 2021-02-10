@@ -31,13 +31,13 @@ data class MovieDbEntity(
 
 fun Movie.toEntity(): MovieDbEntity =
     MovieDbEntity(
-        movieId = id,
-        title = title,
-        overview = overview,
-        posterImageUrl = posterUrl,
-        backdropImageUrl = backdropImageUrl,
-        minAge = minAge,
-        reviews = reviews,
-        rating = rating,
-        runtime = runtime
+        movieId = this.id,
+        title = this.title,
+        overview = this.overview,
+        posterImageUrl = this.posterUrl,
+        backdropImageUrl = this.backdropImageUrl,
+        minAge = this.minAge,
+        reviews = this.reviews,
+        rating = this.rating,
+        runtime = this.runtime
     )

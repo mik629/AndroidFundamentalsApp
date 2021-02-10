@@ -22,19 +22,19 @@ data class MovieDetailsDTO(
     @Json(name = "adult")
     val isAdult: Boolean,
     val runtime: Int
-) {
-    fun toMovie(actors: List<Actor>) =
-        Movie(
-            id = id.toString(),
-            title = title,
-            overview = overview,
-            posterUrl = posterPath,
-            backdropImageUrl = backdropPath,
-            actors = actors,
-            genres = genres.map(::toGenre),
-            minAge = if (isAdult) 18 else 0,
-            reviews = reviews,
-            rating = rating,
-            runtime = runtime
-        )
-}
+)
+
+fun MovieDetailsDTO.toMovie(actors: List<Actor>) =
+    Movie(
+        id = this.id.toString(),
+        title = this.title,
+        overview = this.overview,
+        posterUrl = this.posterPath,
+        backdropImageUrl = this.backdropPath,
+        actors = actors,
+        genres = this.genres.map(GenreDTO::toGenre),
+        minAge = if (this.isAdult) 18 else 0, // fixme determine age appropriately
+        reviews = this.reviews,
+        rating = this.rating,
+        runtime = this.runtime
+    )

@@ -25,22 +25,22 @@ data class MovieWithActorsAndGenres(
         associateBy = Junction(MovieGenreCrossRef::class)
     )
     val genres: List<GenreDbEntity>
-) {
-    fun toMovie(): Movie =
-        Movie(
-            id = movieEntity.movieId,
-            title = movieEntity.title,
-            overview = movieEntity.overview,
-            posterUrl = movieEntity.posterImageUrl,
-            backdropImageUrl = movieEntity.backdropImageUrl,
-            actors = actors.map(ActorDbEntity::toActor),
-            genres = genres.map(GenreDbEntity::toGenre),
-            minAge = movieEntity.minAge,
-            reviews = movieEntity.reviews,
-            rating = movieEntity.rating,
-            runtime = movieEntity.runtime
-        )
-}
+)
+
+fun MovieWithActorsAndGenres.toMovie(): Movie =
+    Movie(
+        id = this.movieEntity.movieId,
+        title = this.movieEntity.title,
+        overview = this.movieEntity.overview,
+        posterUrl = this.movieEntity.posterImageUrl,
+        backdropImageUrl = this.movieEntity.backdropImageUrl,
+        actors = this.actors.map(ActorDbEntity::toActor),
+        genres = this.genres.map(GenreDbEntity::toGenre),
+        minAge = this.movieEntity.minAge,
+        reviews = this.movieEntity.reviews,
+        rating = this.movieEntity.rating,
+        runtime = this.movieEntity.runtime
+    )
 
 fun Movie.toComplexEntity() =
     MovieWithActorsAndGenres(
@@ -55,6 +55,6 @@ fun Movie.toComplexEntity() =
             rating = this.rating,
             runtime = this.runtime
         ),
-        actors = actors.map(Actor::toEntity),
-        genres = genres.map(Genre::toEntity)
+        actors = this.actors.map(Actor::toEntity),
+        genres = this.genres.map(Genre::toEntity)
     )

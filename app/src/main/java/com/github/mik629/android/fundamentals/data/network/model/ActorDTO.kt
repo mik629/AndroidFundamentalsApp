@@ -10,11 +10,11 @@ data class ActorDTO(
     val name: String,
     @Json(name = "profile_path")
     val photoUrl: String?
-) {
-    fun toActor(): Actor =
-        Actor(
-            id = id.toString(),
-            name = this.name,
-            photoUrl = this.photoUrl
-        )
-}
+)
+
+fun ActorDTO.toActor(): Actor =
+    Actor(
+        id = this.id.toString(),
+        name = this.name,
+        photoUrl = this.photoUrl
+    )

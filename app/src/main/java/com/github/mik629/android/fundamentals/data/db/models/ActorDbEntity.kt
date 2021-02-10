@@ -14,13 +14,6 @@ data class ActorDbEntity(
     val name: String,
     val photoUrl: String?
 ) {
-    fun toActor(): Actor =
-        Actor(
-            id = actorId,
-            name = name,
-            photoUrl = photoUrl
-        )
-
     companion object {
         const val ACTORS_TABLE_NAME = "actors"
 
@@ -28,9 +21,16 @@ data class ActorDbEntity(
     }
 }
 
+fun ActorDbEntity.toActor(): Actor =
+    Actor(
+        id = this.actorId,
+        name = this.name,
+        photoUrl = this.photoUrl
+    )
+
 fun Actor.toEntity() =
     ActorDbEntity(
-        actorId = id,
+        actorId = this.id,
         name = this.name,
         photoUrl = this.photoUrl
     )

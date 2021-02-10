@@ -13,12 +13,6 @@ data class GenreDbEntity(
     val genreId: String,
     val name: String
 ) {
-    fun toGenre(): Genre =
-        Genre(
-            id = genreId,
-            name = this.name
-        )
-
     companion object {
         const val COLUMN_NAME_GENRE_ID = "genreId"
 
@@ -26,8 +20,14 @@ data class GenreDbEntity(
     }
 }
 
+fun GenreDbEntity.toGenre(): Genre =
+    Genre(
+        id = this.genreId,
+        name = this.name
+    )
+
 fun Genre.toEntity(): GenreDbEntity =
     GenreDbEntity(
-        genreId = id,
+        genreId = this.id,
         name = this.name
     )

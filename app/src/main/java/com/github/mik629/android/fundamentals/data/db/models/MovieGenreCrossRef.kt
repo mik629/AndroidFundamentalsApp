@@ -15,5 +15,5 @@ data class MovieGenreCrossRef(
 fun Genre.toCrossRef(movie: Movie): MovieGenreCrossRef =
     MovieGenreCrossRef(
         movieId = movie.id,
-        genreId = id
+        genreId = this.id
     )

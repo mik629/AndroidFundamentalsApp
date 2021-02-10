@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
+import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
 import com.github.mik629.android.fundamentals.domain.model.Actor
 
@@ -37,6 +38,8 @@ class ActorItemAdapter(
                 glideRequest.centerCrop()
                     .load("${BuildConfig.BASE_IMAGE_URL}${item.photoUrl}")
                     .into(binding.avatar)
+            } else {
+                binding.avatar.setImageResource(R.drawable.ic_broken_image)
             }
         }
     }
