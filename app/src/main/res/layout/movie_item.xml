@@ -98,7 +98,9 @@
 
                 <include
                     android:id="@+id/rating_layout"
-                    layout="@layout/rating_bar_small" />
+                    layout="@layout/rating_bar"
+                    android:layout_width="40dp"
+                    android:layout_height="8dp" />
 
                 <TextView
                     android:id="@+id/reviews"

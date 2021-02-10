@@ -1,27 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rating_bar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="60dp"
+    android:layout_height="12dp"
     android:orientation="horizontal">
 
     <include
         android:id="@+id/star_one"
-        layout="@layout/rating_bar_item" />
+        layout="@layout/rating_bar_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/star_two"
-        layout="@layout/rating_bar_item" />
+        layout="@layout/rating_bar_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_three"
+        app:layout_constraintStart_toEndOf="@id/star_one"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
 
     <include
         android:id="@+id/star_three"
-        layout="@layout/rating_bar_item" />
+        layout="@layout/rating_bar_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_four"
+        app:layout_constraintStart_toEndOf="@id/star_two"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
 
     <include
         android:id="@+id/star_four"
-        layout="@layout/rating_bar_item" />
+        layout="@layout/rating_bar_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_five"
+        app:layout_constraintStart_toEndOf="@id/star_three"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
 
     <include
         android:id="@+id/star_five"
-        layout="@layout/rating_bar_item" />
-</LinearLayout>
+        layout="@layout/rating_bar_item"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/star_four" />
+</androidx.constraintlayout.widget.ConstraintLayout>
