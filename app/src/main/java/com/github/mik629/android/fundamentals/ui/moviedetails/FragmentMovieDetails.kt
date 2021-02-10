@@ -3,6 +3,7 @@ package com.github.mik629.android.fundamentals.ui.moviedetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
@@ -23,16 +24,12 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
 
     private lateinit var viewModel: MovieDetailsViewModel
 
-    private var movieId: Long? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        movieId = arguments?.getLong(ARG_MOVIE_ID)
-        super.onCreate(savedInstanceState)
-    }
+    private var movieId: MutableLiveData<Long> = MutableLiveData()
 
     override fun onStart() {
         super.onStart()
-        viewModel = AppModule.instance.provideMovieDetailsViewModel(requireContext(), movieId ?: 0)
+        viewModel =
+            AppModule.instance.provideMovieDetailsViewModel(requireContext(), movieId.value ?: 0)
         viewModel.movieDetails.observe(viewLifecycleOwner) {
             it.let {
                 binding.age.text = getString(R.string.movie_min_age, it.minAge)
@@ -69,14 +66,10 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     }
 
     companion object {
-        const val ARG_MOVIE_ID = "movieId"
-
         @JvmStatic
         fun newInstance(movieId: Long): FragmentMovieDetails {
             val fragment = FragmentMovieDetails()
-            val args = Bundle(1)
-            args.putLong(ARG_MOVIE_ID, movieId)
-            fragment.arguments = args
+            fragment.movieId.value = movieId
             return fragment
         }
     }
