@@ -22,7 +22,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class AppModule private constructor() {
     val retrofit: Retrofit
-    var viewModel: MoviesListViewModel? = null
 
     init {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
@@ -58,17 +57,13 @@ class AppModule private constructor() {
         }
     }
 
-    fun provideViewModel(context: Context): MoviesListViewModel {
-        if (viewModel == null) {
-            viewModel = MoviesListViewModel(
-                MoviesRepositoryImpl(
-                    retrofit.create(ServerApi::class.java),
-                    MovieDb.createDb(context).dao
-                )
+    fun provideViewModel(context: Context): MoviesListViewModel =
+        MoviesListViewModel(
+            MoviesRepositoryImpl(
+                retrofit.create(ServerApi::class.java),
+                MovieDb.createDb(context).dao
             )
-        }
-        return viewModel!!
-    }
+        )
 
     companion object {
         val instance: AppModule = AppModule()

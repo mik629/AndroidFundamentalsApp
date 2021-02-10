@@ -17,9 +17,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
     // fixme add factory
-    private val viewModel by lazy {
-        AppModule.instance.provideViewModel(requireContext())
-    }
+    private lateinit var viewModel: MoviesListViewModel
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
@@ -34,9 +32,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.movieList.adapter = movieItemAdapter
+    override fun onStart() {
+        super.onStart()
+        viewModel = AppModule.instance.provideViewModel(requireContext())
         viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
             movieItemAdapter.submitList(it)
         }
@@ -44,6 +42,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             Snackbar.make(binding.root, getString(R.string.error_no_data), LENGTH_LONG)
                 .show()
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.movieList.adapter = movieItemAdapter
     }
 
     companion object {
