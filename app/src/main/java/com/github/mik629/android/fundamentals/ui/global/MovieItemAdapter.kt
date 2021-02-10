@@ -44,6 +44,8 @@ class MovieItemAdapter(
                 glideRequest.fitCenter()
                     .load(imageUrl)
                     .into(binding.moviePoster)
+            } else {
+                binding.moviePoster.setImageResource(R.drawable.ic_broken_image) // or som better image
             }
             val resources = rootView.resources
             binding.minAge.text = resources.getString(R.string.movie_min_age, item.minAge)

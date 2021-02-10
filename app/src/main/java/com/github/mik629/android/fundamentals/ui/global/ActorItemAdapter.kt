@@ -39,7 +39,7 @@ class ActorItemAdapter(
                     .load("${BuildConfig.BASE_IMAGE_URL}${item.photoUrl}")
                     .into(binding.avatar)
             } else {
-                binding.avatar.setImageResource(R.drawable.ic_broken_image)
+                binding.avatar.setImageResource(R.drawable.ic_broken_image) // or som better image
             }
         }
     }
