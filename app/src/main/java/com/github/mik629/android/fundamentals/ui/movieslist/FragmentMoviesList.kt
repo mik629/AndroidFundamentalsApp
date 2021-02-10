@@ -3,6 +3,7 @@ package com.github.mik629.android.fundamentals.ui.movieslist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
@@ -47,6 +48,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.movieList.adapter = movieItemAdapter
+        binding.movieList.layoutManager = GridLayoutManager(
+            requireContext(),
+            resources.getInteger(R.integer.span_count),
+            resources.getInteger(R.integer.scroll_orientation),
+            false
+        )
     }
 
     companion object {
