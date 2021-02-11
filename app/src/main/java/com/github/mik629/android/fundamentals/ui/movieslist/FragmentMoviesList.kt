@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -22,11 +23,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val viewModel: MoviesListViewModel by viewModels(
         factoryProducer = {
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return AppModule.instance.provideMovieListViewModel(requireContext()) as T
-                }
-            }
+            MoviesListViewModelFactory(requireContext())
         }
     )
 
@@ -68,5 +65,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     companion object {
         @JvmStatic
         fun newInstance() = FragmentMoviesList()
+    }
+}
+
+private class MoviesListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return AppModule.instance.provideMovieListViewModel(context) as T
     }
 }

@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -31,14 +32,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
 
     private val viewModel: MovieDetailsViewModel by viewModels(
         factoryProducer = {
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return AppModule.instance.provideMovieDetailsViewModel(
-                        requireContext(),
-                        movieId
-                    ) as T
-                }
-            }
+            MovieDetailsViewModelFactory(requireContext(), movieId)
         }
     )
 
@@ -93,5 +87,18 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
             fragment.arguments = args
             return fragment
         }
+    }
+}
+
+private class MovieDetailsViewModelFactory(
+    private val context: Context,
+    private val movieId: Long
+) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return AppModule.instance.provideMovieDetailsViewModel(
+            context,
+            movieId
+        ) as T
     }
 }
