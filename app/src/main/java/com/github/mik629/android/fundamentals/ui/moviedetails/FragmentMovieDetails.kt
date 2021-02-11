@@ -3,7 +3,9 @@ package com.github.mik629.android.fundamentals.ui.moviedetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
@@ -21,15 +23,32 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val glideRequest by lazy {
         buildGlideRequest(this)
     }
+    private val actorItemAdapter by lazy {
+        ActorItemAdapter(glideRequest)
+    }
 
-    private lateinit var viewModel: MovieDetailsViewModel
+    private var movieId: Long = 0
 
-    private var movieId: MutableLiveData<Long> = MutableLiveData()
+    private val viewModel: MovieDetailsViewModel by viewModels(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return AppModule.instance.provideMovieDetailsViewModel(
+                        requireContext(),
+                        movieId
+                    ) as T
+                }
+            }
+        }
+    )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0
+    }
 
     override fun onStart() {
         super.onStart()
-        viewModel =
-            AppModule.instance.provideMovieDetailsViewModel(requireContext(), movieId.value ?: 0)
         viewModel.movieDetails.observe(viewLifecycleOwner) {
             it.let {
                 binding.age.text = getString(R.string.movie_min_age, it.minAge)
@@ -38,8 +57,6 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
                 binding.ratingLayout.setRating(requireContext(), it.rating / 2)
                 binding.storyline.text = it.storyline
                 binding.reviews.text = getString(R.string.movie_reviews, it.reviews)
-                val actorItemAdapter = ActorItemAdapter(glideRequest)
-                binding.actors.adapter = actorItemAdapter
                 actorItemAdapter.submitList(it.actors)
                 if (!it.background.isNullOrEmpty()) {
                     glideRequest.centerCrop()
@@ -53,23 +70,27 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
                 binding.root,
                 getString(R.string.error_no_data),
                 BaseTransientBottomBar.LENGTH_LONG
-            )
-                .show()
+            ).show()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.actors.adapter = actorItemAdapter
         binding.back.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
     }
 
     companion object {
+        const val ARG_MOVIE_ID = "movieId"
+
         @JvmStatic
         fun newInstance(movieId: Long): FragmentMovieDetails {
             val fragment = FragmentMovieDetails()
-            fragment.movieId.value = movieId
+            val args = Bundle()
+            args.putLong(ARG_MOVIE_ID, movieId)
+            fragment.arguments = args
             return fragment
         }
     }

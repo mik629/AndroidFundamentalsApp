@@ -3,6 +3,9 @@ package com.github.mik629.android.fundamentals.ui.movieslist
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
@@ -17,8 +20,15 @@ import com.google.android.material.snackbar.Snackbar
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
-    // fixme add factory
-    private lateinit var viewModel: MoviesListViewModel
+    private val viewModel: MoviesListViewModel by viewModels(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return AppModule.instance.provideMovieListViewModel(requireContext()) as T
+                }
+            }
+        }
+    )
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
@@ -35,7 +45,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     override fun onStart() {
         super.onStart()
-        viewModel = AppModule.instance.provideMovieListViewModel(requireContext())
         viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
             movieItemAdapter.submitList(it)
         }

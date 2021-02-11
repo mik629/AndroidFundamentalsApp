@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(
     private val moviesRepository: MoviesRepository,
-    private val id: Long
+    id: Long
 ) : ViewModel() {
 
     private val _movieDetails: MutableLiveData<MovieDetails> = MutableLiveData()

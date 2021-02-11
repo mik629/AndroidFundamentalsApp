@@ -25,6 +25,7 @@ object Versions {
     const val lifecycle = "2.2.0"
     const val workManager = "2.5.0-beta02"
     const val room = "2.2.6"
+    const val fragmentKtx = "1.2.5"
 
     // third party libs
     const val adapterDelegates = "4.3.0"
@@ -58,6 +59,7 @@ object Libs {
     const val room = "androidx.room:room-runtime:${Versions.room}"
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
 
     const val adapterDelegates = "com.hannesdorfmann:adapterdelegates4:${Versions.adapterDelegates}"
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"

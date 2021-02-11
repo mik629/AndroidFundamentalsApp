@@ -58,6 +58,7 @@ dependencies {
     implementation(Libs.viewModel)
     implementation(Libs.room)
     implementation(Libs.roomKtx)
+    implementation(Libs.fragmentKtx)
     kapt(Libs.roomCompiler)
 
     implementation(Libs.adapterDelegates)
