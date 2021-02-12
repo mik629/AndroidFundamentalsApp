@@ -28,7 +28,7 @@ fun ActorDbEntity.toActor(): Actor =
         photoUrl = this.photoUrl
     )
 
-fun Actor.toEntity() =
+fun Actor.toEntity(): ActorDbEntity =
     ActorDbEntity(
         actorId = this.id,
         name = this.name,

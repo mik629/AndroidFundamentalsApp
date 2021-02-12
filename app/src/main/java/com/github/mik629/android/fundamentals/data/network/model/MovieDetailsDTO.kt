@@ -25,7 +25,7 @@ data class MovieDetailsDTO(
     val runtime: Int
 )
 
-fun MovieDetailsDTO.toMovie(actors: List<Actor>) =
+fun MovieDetailsDTO.toMovie(actors: List<Actor>): Movie =
     Movie(
         id = this.id,
         title = this.title,
@@ -40,7 +40,7 @@ fun MovieDetailsDTO.toMovie(actors: List<Actor>) =
         runtime = this.runtime
     )
 
-fun MovieDetailsDTO.toMovieDetails(actors: List<Actor>) =
+fun MovieDetailsDTO.toMovieDetails(actors: List<Actor>): MovieDetails =
     MovieDetails(
         title = this.title,
         background = this.backdropPath,

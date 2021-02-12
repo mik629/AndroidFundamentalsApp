@@ -13,7 +13,6 @@ class MoviesListViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    private val cached = HashMap<Long, Movie>()
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>>
         get() =
@@ -30,9 +29,6 @@ class MoviesListViewModel(
                 moviesRepository.getMovies()
             }.onSuccess {
                 _movies.value = it
-                it.forEach { item ->
-                    cached[item.id] = item
-                }
             }.onFailure {
                 _error.value = it
                 Timber.e(it)

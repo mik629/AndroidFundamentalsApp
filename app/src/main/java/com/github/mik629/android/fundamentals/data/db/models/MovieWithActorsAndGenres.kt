@@ -55,19 +55,9 @@ fun MovieWithActorsAndGenres.toMovieDetails(): MovieDetails =
         rating = this.movieEntity.rating
     )
 
-fun Movie.toComplexEntity() =
+fun Movie.toComplexEntity(): MovieWithActorsAndGenres =
     MovieWithActorsAndGenres(
-        MovieDbEntity(
-            movieId = this.id,
-            title = this.title,
-            overview = this.overview,
-            posterImageUrl = this.posterUrl,
-            backdropImageUrl = this.backdropImageUrl,
-            minAge = this.minAge,
-            reviews = this.reviews,
-            rating = this.rating,
-            runtime = this.runtime
-        ),
+        toEntity(),
         actors = this.actors.map(Actor::toEntity),
         genres = this.genres.map(Genre::toEntity)
     )

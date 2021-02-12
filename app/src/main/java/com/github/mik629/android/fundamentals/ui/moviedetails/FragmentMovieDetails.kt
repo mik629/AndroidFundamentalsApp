@@ -1,6 +1,5 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -8,10 +7,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.mik629.android.fundamentals.App
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
-import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.di.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.setRating
@@ -28,35 +27,28 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         ActorItemAdapter(glideRequest)
     }
 
-    private var movieId: Long = 0
-
     private val viewModel: MovieDetailsViewModel by viewModels(
         factoryProducer = {
-            MovieDetailsViewModelFactory(requireContext(), movieId)
+            MovieDetailsViewModelFactory(
+                arguments?.getLong(ARG_MOVIE_ID) ?: 0
+            )
         }
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0
-    }
-
     override fun onStart() {
         super.onStart()
-        viewModel.movieDetails.observe(viewLifecycleOwner) {
-            it.let {
-                binding.age.text = getString(R.string.movie_min_age, it.minAge)
-                binding.movieTitle.text = it.title
-                binding.genre.text = it.genres.joinToString()
-                binding.ratingLayout.setRating(requireContext(), it.rating / 2)
-                binding.storyline.text = it.storyline
-                binding.reviews.text = getString(R.string.movie_reviews, it.reviews)
-                actorItemAdapter.submitList(it.actors)
-                if (!it.background.isNullOrEmpty()) {
-                    glideRequest.centerCrop()
-                        .load("${BuildConfig.BASE_IMAGE_URL}${it.background}")
-                        .into(binding.backgroundImg)
-                }
+        viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
+            binding.age.text = getString(R.string.movie_min_age, movieDetails.minAge)
+            binding.movieTitle.text = movieDetails.title
+            binding.genre.text = movieDetails.genres.joinToString()
+            binding.ratingLayout.setRating(requireContext(), movieDetails.rating / 2)
+            binding.storyline.text = movieDetails.storyline
+            binding.reviews.text = getString(R.string.movie_reviews, movieDetails.reviews)
+            actorItemAdapter.submitList(movieDetails.actors)
+            if (!movieDetails.background.isNullOrEmpty()) {
+                glideRequest.centerCrop()
+                    .load("${BuildConfig.BASE_IMAGE_URL}${movieDetails.background}")
+                    .into(binding.backgroundImg)
             }
         }
         viewModel.error.observe(viewLifecycleOwner) {
@@ -91,14 +83,10 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
 }
 
 private class MovieDetailsViewModelFactory(
-    private val context: Context,
     private val movieId: Long
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return AppModule.instance.provideMovieDetailsViewModel(
-            context,
-            movieId
-        ) as T
+        return App.appModule.provideMovieDetailsViewModel(movieId) as T
     }
 }

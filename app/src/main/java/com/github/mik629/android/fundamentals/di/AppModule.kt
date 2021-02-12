@@ -8,7 +8,9 @@ import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.data.MoviesLoader
 import com.github.mik629.android.fundamentals.data.db.MovieDb
+import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
@@ -23,11 +25,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 
-class AppModule private constructor() {
-    val retrofit: Retrofit
-    var moviesRepository: MoviesRepository? = null
-
-    init {
+class AppModule private constructor(applicationContext: Context) {
+    val retrofit: Retrofit by lazy {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -37,13 +36,26 @@ class AppModule private constructor() {
             .addNetworkInterceptor(loggingInterceptor)
             .addInterceptor(AuthInterceptor())
             .build()
-
-        retrofit = Retrofit.Builder()
+        Retrofit.Builder()
             .client(okhttp)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
             .build()
+    }
+    val dao: MovieDao by lazy {
+        MovieDb.createDb(applicationContext).dao
+    }
+    val movieLoader: MoviesLoader by lazy {
+        MoviesLoader(
+            retrofit.create(ServerApi::class.java),
+            dao
+        )
+    }
+    val moviesRepository: MoviesRepository by lazy {
+        MoviesRepositoryImpl(movieLoader, dao)
+    }
 
+    init {
         Timber.plant(Timber.DebugTree())
     }
 
@@ -63,30 +75,24 @@ class AppModule private constructor() {
         }
     }
 
-    fun provideMovieListViewModel(context: Context): MoviesListViewModel =
-        MoviesListViewModel(
-            provideMoviesRepository(context)
-        )
+    fun provideMovieListViewModel(): MoviesListViewModel =
+        MoviesListViewModel(moviesRepository)
 
-    fun provideMovieDetailsViewModel(context: Context, id: Long): MovieDetailsViewModel =
+    fun provideMovieDetailsViewModel(id: Long): MovieDetailsViewModel =
         MovieDetailsViewModel(
-            provideMoviesRepository(context),
+            moviesRepository,
             id
         )
 
-    private fun provideMoviesRepository(context: Context): MoviesRepository {
-        if (moviesRepository == null) {
-            moviesRepository = MoviesRepositoryImpl(
-                retrofit.create(ServerApi::class.java),
-                MovieDb.createDb(context).dao
-            )
-        }
-        return moviesRepository!!
-    }
-
-
     companion object {
-        val instance: AppModule = AppModule()
+        var instance: AppModule? = null
+
+        fun getInstance(context: Context): AppModule {
+            if (instance == null) {
+                instance = AppModule(context)
+            }
+            return instance!!
+        }
     }
 }
 

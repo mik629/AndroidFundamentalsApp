@@ -1,6 +1,5 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.mik629.android.fundamentals.App
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
-import com.github.mik629.android.fundamentals.di.AppModule
 import com.github.mik629.android.fundamentals.di.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
@@ -23,7 +22,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val viewModel: MoviesListViewModel by viewModels(
         factoryProducer = {
-            MoviesListViewModelFactory(requireContext())
+            MoviesListViewModelFactory()
         }
     )
 
@@ -68,8 +67,8 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     }
 }
 
-private class MoviesListViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+private class MoviesListViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return AppModule.instance.provideMovieListViewModel(context) as T
+        return App.appModule.provideMovieListViewModel() as T
     }
 }
