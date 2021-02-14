@@ -39,8 +39,8 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         )
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
             movieItemAdapter.submitList(it)
         }

@@ -35,8 +35,8 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
     )
 
-    override fun onStart() {
-        super.onStart()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
             binding.age.text = getString(R.string.movie_min_age, movieDetails.minAge)
             binding.movieTitle.text = movieDetails.title
