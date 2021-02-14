@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.mik629.android.fundamentals.domain.model.MovieDetails
+import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,8 +15,8 @@ class MovieDetailsViewModel @Inject constructor(
     @Named(FragmentMovieDetails.ARG_MOVIE_ID) id: Long
 ) : ViewModel() {
 
-    private val _movieDetails: MutableLiveData<MovieDetails> = MutableLiveData()
-    val movieDetails: LiveData<MovieDetails>
+    private val _movieDetails: MutableLiveData<Movie> = MutableLiveData()
+    val movieDetails: LiveData<Movie>
         get() =
             _movieDetails
 
@@ -28,7 +28,7 @@ class MovieDetailsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             runCatching {
-                moviesRepository.getMovieDetails(id)
+                moviesRepository.getMovie(id)
             }.onSuccess {
                 _movieDetails.value = it
             }.onFailure {

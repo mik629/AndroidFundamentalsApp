@@ -43,12 +43,12 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
             binding.movieTitle.text = movieDetails.title
             binding.genre.text = movieDetails.genres.joinToString()
             binding.ratingLayout.setRating(requireContext(), movieDetails.rating / 2)
-            binding.storyline.text = movieDetails.storyline
+            binding.storyline.text = movieDetails.overview
             binding.reviews.text = getString(R.string.movie_reviews, movieDetails.reviews)
             actorItemAdapter.submitList(movieDetails.actors)
-            if (!movieDetails.background.isNullOrEmpty()) {
+            if (!movieDetails.backdropImageUrl.isNullOrEmpty()) {
                 glideRequest.centerCrop()
-                    .load("${BuildConfig.BASE_IMAGE_URL}${movieDetails.background}")
+                    .load("${BuildConfig.BASE_IMAGE_URL}${movieDetails.backdropImageUrl}")
                     .into(binding.backgroundImg)
             }
         }

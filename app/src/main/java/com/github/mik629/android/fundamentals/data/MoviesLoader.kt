@@ -3,14 +3,11 @@ package com.github.mik629.android.fundamentals.data
 import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndGenres
 import com.github.mik629.android.fundamentals.data.db.models.toMovie
-import com.github.mik629.android.fundamentals.data.db.models.toMovieDetails
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
 import com.github.mik629.android.fundamentals.data.network.model.toActor
 import com.github.mik629.android.fundamentals.data.network.model.toMovie
-import com.github.mik629.android.fundamentals.data.network.model.toMovieDetails
 import com.github.mik629.android.fundamentals.domain.model.Movie
-import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -36,17 +33,18 @@ class MoviesLoader @Inject constructor(
             }.sortedByDescending { movie -> movie.rating }
     }
 
-    suspend fun getMovieDetails(id: Long): MovieDetails =
+    suspend fun getMovieDetails(id: Long): Movie =
         getMovieDetailsFromCache(id) ?: loadMovieDetailsFromNetwork(id)
 
     private suspend fun getMovieDetailsFromCache(id: Long) =
-        dao.getMovie(id)?.toMovieDetails()
+        dao.getMovie(id)
+            ?.toMovie()
 
-    private suspend fun loadMovieDetailsFromNetwork(id: Long): MovieDetails {
+    private suspend fun loadMovieDetailsFromNetwork(id: Long): Movie {
         val actors = serverApi.getMovieActors(id)
             .cast
             .map(ActorDTO::toActor)
         return serverApi.getMovieDetails(id)
-            .toMovieDetails(actors)
+            .toMovie(actors)
     }
 }

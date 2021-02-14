@@ -7,7 +7,6 @@ import com.github.mik629.android.fundamentals.data.db.models.toEntity
 import com.github.mik629.android.fundamentals.domain.model.Actor
 import com.github.mik629.android.fundamentals.domain.model.Genre
 import com.github.mik629.android.fundamentals.domain.model.Movie
-import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +34,7 @@ class MoviesRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getMovieDetails(id: Long): MovieDetails =
+    override suspend fun getMovie(id: Long): Movie =
         withContext(Dispatchers.IO) {
             moviesLoader.getMovieDetails(id)
         }
