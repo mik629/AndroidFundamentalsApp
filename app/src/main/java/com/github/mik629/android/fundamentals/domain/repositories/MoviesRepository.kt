@@ -7,6 +7,4 @@ interface MoviesRepository {
     suspend fun getMovies(): List<Movie>
 
     suspend fun getMovieDetails(id: Long): MovieDetails
-
-    suspend fun save(res: List<Movie>)
 }

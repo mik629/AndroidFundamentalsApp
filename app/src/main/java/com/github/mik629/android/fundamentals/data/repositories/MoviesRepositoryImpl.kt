@@ -40,7 +40,7 @@ class MoviesRepositoryImpl @Inject constructor(
             moviesLoader.getMovieDetails(id)
         }
 
-    override suspend fun save(res: List<Movie>) {
+    private suspend fun save(res: List<Movie>) {
         scope.launch {
             Timber.d("Saving to db")
             movieDao.insertData(
