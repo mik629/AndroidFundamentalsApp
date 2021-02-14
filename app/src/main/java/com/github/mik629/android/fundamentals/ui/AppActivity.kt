@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.ui.movieslist.FragmentMoviesList
 
-class MainActivity : AppCompatActivity() {
+class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

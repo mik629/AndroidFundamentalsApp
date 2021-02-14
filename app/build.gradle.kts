@@ -75,4 +75,6 @@ dependencies {
     implementation(Libs.moshiAdapters)
     implementation(Libs.retrofitConverter)
     implementation(Libs.viewBindingProperty)
+    implementation(Libs.dagger)
+    kapt(Libs.daggerProcessor)
 }

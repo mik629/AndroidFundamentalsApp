@@ -11,9 +11,10 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.App
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
-import com.github.mik629.android.fundamentals.di.buildGlideRequest
+import com.github.mik629.android.fundamentals.di.movies_list.DaggerMoviesListViewModelComponent
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 
@@ -69,6 +70,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
 private class MoviesListViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return App.appModule.provideMovieListViewModel() as T
+        return DaggerMoviesListViewModelComponent.builder()
+            .appComponent(App.appComponent)
+            .build()
+            .viewModel as T
     }
 }

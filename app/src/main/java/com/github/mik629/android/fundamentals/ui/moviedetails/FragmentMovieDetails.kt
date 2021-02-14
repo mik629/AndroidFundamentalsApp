@@ -11,8 +11,9 @@ import com.github.mik629.android.fundamentals.App
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
-import com.github.mik629.android.fundamentals.di.buildGlideRequest
+import com.github.mik629.android.fundamentals.di.movie_details.DaggerMovieDetailsViewModelComponent
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -87,6 +88,10 @@ private class MovieDetailsViewModelFactory(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return App.appModule.provideMovieDetailsViewModel(movieId) as T
+        return DaggerMovieDetailsViewModelComponent.builder()
+            .appComponent(App.appComponent)
+            .movieId(movieId)
+            .build()
+            .viewModel as T
     }
 }

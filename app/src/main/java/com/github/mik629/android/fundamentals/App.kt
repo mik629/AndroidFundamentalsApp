@@ -1,17 +1,28 @@
 package com.github.mik629.android.fundamentals
 
 import android.app.Application
-import com.github.mik629.android.fundamentals.di.AppModule
+import com.github.mik629.android.fundamentals.di.AppComponent
+import com.github.mik629.android.fundamentals.di.DaggerAppComponent
+import timber.log.Timber
+import javax.inject.Inject
 
 class App : Application() {
+
+    @Inject
+    lateinit var tree: Timber.Tree
 
     override fun onCreate() {
         super.onCreate()
 
-        appModule = AppModule.getInstance(applicationContext)
+        appComponent = DaggerAppComponent.builder()
+            .appContext(this)
+            .apiUrl(BuildConfig.BASE_URL)
+            .build()
+        appComponent.inject(this)
+        Timber.plant(tree)
     }
 
     companion object {
-        lateinit var appModule: AppModule
+        lateinit var appComponent: AppComponent
     }
 }

@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
-class MovieDetailsViewModel(
+class MovieDetailsViewModel @Inject constructor(
     private val moviesRepository: MoviesRepository,
-    id: Long
+    @Named(FragmentMovieDetails.ARG_MOVIE_ID) id: Long
 ) : ViewModel() {
 
     private val _movieDetails: MutableLiveData<MovieDetails> = MutableLiveData()

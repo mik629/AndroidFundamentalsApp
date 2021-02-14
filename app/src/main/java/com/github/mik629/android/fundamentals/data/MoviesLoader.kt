@@ -12,8 +12,9 @@ import com.github.mik629.android.fundamentals.data.network.model.toMovieDetails
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import timber.log.Timber
+import javax.inject.Inject
 
-class MoviesLoader(
+class MoviesLoader @Inject constructor(
     private val serverApi: ServerApi,
     private val dao: MovieDao
 ) {
