@@ -9,9 +9,8 @@ import com.github.mik629.android.fundamentals.data.network.model.toActor
 import com.github.mik629.android.fundamentals.data.network.model.toMovie
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import timber.log.Timber
-import javax.inject.Inject
 
-class MoviesLoader @Inject constructor(
+class MoviesLoader constructor(
     private val serverApi: ServerApi,
     private val dao: MovieDao
 ) {
@@ -24,7 +23,7 @@ class MoviesLoader @Inject constructor(
         return serverApi.getMovieList(category)
             .results
             .map { movie ->
-                val movieDetails = serverApi.getMovieDetails(movie.id)
+                val movieDetails = serverApi.getMovie(movie.id)
                 val actors = serverApi.getMovieActors(movieDetails.id)
                     .cast
                     .map(ActorDTO::toActor)
@@ -33,18 +32,18 @@ class MoviesLoader @Inject constructor(
             }.sortedByDescending { movie -> movie.rating }
     }
 
-    suspend fun getMovieDetails(id: Long): Movie =
-        getMovieDetailsFromCache(id) ?: loadMovieDetailsFromNetwork(id)
+    suspend fun getMovie(id: Long): Movie =
+        getMovieFromCache(id) ?: loadMovieFromNetwork(id)
 
-    private suspend fun getMovieDetailsFromCache(id: Long) =
+    private suspend fun getMovieFromCache(id: Long) =
         dao.getMovie(id)
             ?.toMovie()
 
-    private suspend fun loadMovieDetailsFromNetwork(id: Long): Movie {
+    private suspend fun loadMovieFromNetwork(id: Long): Movie {
         val actors = serverApi.getMovieActors(id)
             .cast
             .map(ActorDTO::toActor)
-        return serverApi.getMovieDetails(id)
+        return serverApi.getMovie(id)
             .toMovie(actors)
     }
 }

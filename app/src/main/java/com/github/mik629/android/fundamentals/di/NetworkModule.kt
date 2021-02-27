@@ -15,10 +15,10 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class NetworkModule {
+internal class NetworkModule {
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
@@ -31,7 +31,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(
+    fun provideRetrofit(
         @Named(BASE_URL) baseUrl: String,
         okHttpClient: OkHttpClient
     ): Retrofit {
@@ -44,7 +44,7 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideApi(retrofit: Retrofit): ServerApi = retrofit.create(ServerApi::class.java)
+    fun provideApi(retrofit: Retrofit): ServerApi = retrofit.create(ServerApi::class.java)
 
     companion object {
         const val BASE_URL = "baseUrl"

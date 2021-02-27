@@ -36,7 +36,7 @@ class MoviesRepositoryImpl @Inject constructor(
 
     override suspend fun getMovie(id: Long): Movie =
         withContext(Dispatchers.IO) {
-            moviesLoader.getMovieDetails(id)
+            moviesLoader.getMovie(id)
         }
 
     private suspend fun save(res: List<Movie>) {

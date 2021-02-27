@@ -18,7 +18,7 @@ interface ServerApi {
     ): MovieListResponse
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(
+    suspend fun getMovie(
         @Path("movie_id") movieId: Long,
         @Query("language") language: String = "en-US"
     ): MovieDetailsDTO

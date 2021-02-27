@@ -40,17 +40,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         )
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) {
-            movieItemAdapter.submitList(it)
-        }
-        viewModel.error.observe(this@FragmentMoviesList.viewLifecycleOwner) {
-            Snackbar.make(binding.root, getString(R.string.error_no_data), LENGTH_LONG)
-                .show()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.movieList.adapter = movieItemAdapter
@@ -60,6 +49,14 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             resources.getInteger(R.integer.scroll_orientation),
             false
         )
+
+        viewModel.movies.observe(this@FragmentMoviesList.viewLifecycleOwner) { movies ->
+            movieItemAdapter.submitList(movies)
+        }
+        viewModel.error.observe(this@FragmentMoviesList.viewLifecycleOwner) {
+            Snackbar.make(binding.root, getString(R.string.error_no_data), LENGTH_LONG)
+                .show()
+        }
     }
 
     companion object {

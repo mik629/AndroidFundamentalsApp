@@ -12,6 +12,7 @@ import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
 import com.github.mik629.android.fundamentals.di.movie_details.DaggerMovieDetailsViewModelComponent
+import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
@@ -31,26 +32,20 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val viewModel: MovieDetailsViewModel by viewModels(
         factoryProducer = {
             MovieDetailsViewModelFactory(
-                arguments?.getLong(ARG_MOVIE_ID) ?: 0
+                movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0
             )
         }
     )
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.actors.adapter = actorItemAdapter
+        binding.back.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
         viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
-            binding.age.text = getString(R.string.movie_min_age, movieDetails.minAge)
-            binding.movieTitle.text = movieDetails.title
-            binding.genre.text = movieDetails.genres.joinToString()
-            binding.ratingLayout.setRating(requireContext(), movieDetails.rating / 2)
-            binding.storyline.text = movieDetails.overview
-            binding.reviews.text = getString(R.string.movie_reviews, movieDetails.reviews)
-            actorItemAdapter.submitList(movieDetails.actors)
-            if (!movieDetails.backdropImageUrl.isNullOrEmpty()) {
-                glideRequest.centerCrop()
-                    .load("${BuildConfig.BASE_IMAGE_URL}${movieDetails.backdropImageUrl}")
-                    .into(binding.backgroundImg)
-            }
+            setMovieDetailsData(movieDetails)
         }
         viewModel.error.observe(viewLifecycleOwner) {
             Snackbar.make(
@@ -61,11 +56,18 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.actors.adapter = actorItemAdapter
-        binding.back.setOnClickListener {
-            parentFragmentManager.popBackStack()
+    private fun setMovieDetailsData(movieDetails: Movie) {
+        binding.age.text = getString(R.string.movie_min_age, movieDetails.minAge)
+        binding.movieTitle.text = movieDetails.title
+        binding.genre.text = movieDetails.genres.joinToString()
+        binding.ratingLayout.setRating(requireContext(), movieDetails.rating / 2)
+        binding.storyline.text = movieDetails.overview
+        binding.reviews.text = getString(R.string.movie_reviews, movieDetails.reviews)
+        actorItemAdapter.submitList(movieDetails.actors)
+        if (!movieDetails.backdropImageUrl.isNullOrEmpty()) {
+            glideRequest.centerCrop()
+                .load("${BuildConfig.BASE_IMAGE_URL}${movieDetails.backdropImageUrl}")
+                .into(binding.backgroundImg)
         }
     }
 

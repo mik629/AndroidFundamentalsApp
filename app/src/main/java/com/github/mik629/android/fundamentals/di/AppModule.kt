@@ -15,9 +15,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideTimberTree(): Timber.Tree {
-        return Timber.DebugTree()
-    }
+    fun provideTimberTree(): Timber.Tree =
+        Timber.DebugTree()
 
     companion object {
         const val APP_CONTEXT = "appcontext"
