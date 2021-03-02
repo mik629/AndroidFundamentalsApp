@@ -11,7 +11,7 @@ import javax.inject.Named
 @VM
 @Component(dependencies = [AppComponent::class])
 interface MovieDetailsViewModelComponent {
-    val viewModel: MovieDetailsViewModel
+    fun provideViewModel(): MovieDetailsViewModel
 
     @Component.Builder
     interface Builder {

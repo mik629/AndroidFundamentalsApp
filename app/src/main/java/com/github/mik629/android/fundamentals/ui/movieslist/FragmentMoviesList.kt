@@ -70,6 +70,6 @@ private class MoviesListViewModelFactory : ViewModelProvider.Factory {
         return DaggerMoviesListViewModelComponent.builder()
             .appComponent(App.appComponent)
             .build()
-            .viewModel as T
+            .provideViewModel() as T
     }
 }

@@ -8,5 +8,5 @@ import dagger.Component
 @VM
 @Component(dependencies = [AppComponent::class])
 interface MoviesListViewModelComponent {
-    val viewModel: MoviesListViewModel
+    fun provideViewModel(): MoviesListViewModel
 }

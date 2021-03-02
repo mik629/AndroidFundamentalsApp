@@ -94,6 +94,6 @@ private class MovieDetailsViewModelFactory(
             .appComponent(App.appComponent)
             .movieId(movieId)
             .build()
-            .viewModel as T
+            .provideViewModel() as T
     }
 }
