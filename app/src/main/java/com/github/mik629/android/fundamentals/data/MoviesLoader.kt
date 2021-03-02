@@ -22,14 +22,8 @@ class MoviesLoader constructor(
         Timber.d("Loading from the network")
         return serverApi.getMovieList(category)
             .results
-            .map { movie ->
-                val movieDetails = serverApi.getMovie(movie.id)
-                val actors = serverApi.getMovieActors(movieDetails.id)
-                    .cast
-                    .map(ActorDTO::toActor)
-
-                movieDetails.toMovie(actors)
-            }.sortedByDescending { movie -> movie.rating }
+            .map { movie -> loadMovieFromNetwork(movie.id) }
+            .sortedByDescending { movie -> movie.rating }
     }
 
     suspend fun getMovie(id: Long): Movie =

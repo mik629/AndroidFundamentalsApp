@@ -6,11 +6,9 @@ import com.github.mik629.android.fundamentals.data.db.MovieDb
 import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
-import com.github.mik629.android.fundamentals.di.AppModule.Companion.APP_CONTEXT
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -22,7 +20,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideMovieDao(@Named(APP_CONTEXT) context: Context): MovieDao =
+    fun provideMovieDao(context: Context): MovieDao =
         MovieDb.createDb(context).dao
 
     @Provides

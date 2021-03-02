@@ -28,6 +28,6 @@ interface AppComponent {
         fun apiUrl(@Named(NetworkModule.BASE_URL) url: String): Builder
 
         @BindsInstance
-        fun appContext(@Named(AppModule.APP_CONTEXT) context: Context): Builder
+        fun appContext(context: Context): Builder
     }
 }
