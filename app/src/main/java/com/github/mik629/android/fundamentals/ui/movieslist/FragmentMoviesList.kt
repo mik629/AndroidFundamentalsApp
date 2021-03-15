@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
+import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -23,7 +24,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private val viewModel: MoviesListViewModel by viewModels(
         factoryProducer = {
-            MoviesListViewModelFactory()
+            MoviesListViewModelFactory(
+                app = requireActivity().application
+            )
         }
     )
 
@@ -65,10 +68,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     }
 }
 
-private class MoviesListViewModelFactory : ViewModelProvider.Factory {
+private class MoviesListViewModelFactory(
+    private val app: Application
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return DaggerMoviesListViewModelComponent.builder()
-            .appComponent(App.appComponent)
+            .appComponent((app as App).appComponent)
             .build()
             .provideViewModel() as T
     }

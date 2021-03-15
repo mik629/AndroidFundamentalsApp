@@ -11,18 +11,16 @@ class App : Application() {
     @Inject
     lateinit var tree: Timber.Tree
 
-    override fun onCreate() {
-        super.onCreate()
-
-        appComponent = DaggerAppComponent.builder()
+    val appComponent: AppComponent by lazy {
+        DaggerAppComponent.builder()
             .appContext(this)
             .apiUrl(BuildConfig.BASE_URL)
             .build()
-        appComponent.inject(this)
-        Timber.plant(tree)
     }
 
-    companion object {
-        lateinit var appComponent: AppComponent
+    override fun onCreate() {
+        super.onCreate()
+        appComponent.inject(this)
+        Timber.plant(tree)
     }
 }

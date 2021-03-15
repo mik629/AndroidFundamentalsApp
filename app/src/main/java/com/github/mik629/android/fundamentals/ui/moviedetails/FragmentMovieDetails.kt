@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
+import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -32,7 +33,8 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val viewModel: MovieDetailsViewModel by viewModels(
         factoryProducer = {
             MovieDetailsViewModelFactory(
-                movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0
+                movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0,
+                app = requireActivity().application
             )
         }
     )
@@ -86,12 +88,13 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
 }
 
 private class MovieDetailsViewModelFactory(
-    private val movieId: Long
+    private val movieId: Long,
+    private val app: Application
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return DaggerMovieDetailsViewModelComponent.builder()
-            .appComponent(App.appComponent)
+            .appComponent((app as App).appComponent)
             .movieId(movieId)
             .build()
             .provideViewModel() as T
