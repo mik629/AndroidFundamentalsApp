@@ -1,26 +1,22 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
-import android.app.Application
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.mik629.android.fundamentals.App
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
-import com.github.mik629.android.fundamentals.di.movie_details.DaggerMovieDetailsViewModelComponent
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.ui.BaseFragment
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
-class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
+class FragmentMovieDetails : BaseFragment(R.layout.fragment_movie_details) {
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
 
     private val glideRequest by lazy {
@@ -30,14 +26,14 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         ActorItemAdapter(glideRequest)
     }
 
-    private val viewModel: MovieDetailsViewModel by viewModels(
-        factoryProducer = {
-            MovieDetailsViewModelFactory(
-                movieId = arguments?.getLong(ARG_MOVIE_ID) ?: 0,
-                app = requireActivity().application
-            )
-        }
-    )
+    private val viewModel: MovieDetailsViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
+        arguments?.getLong(ARG_MOVIE_ID)
+            ?.also { id -> viewModel.setId(id = id) }
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,19 +80,5 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
             fragment.arguments = args
             return fragment
         }
-    }
-}
-
-private class MovieDetailsViewModelFactory(
-    private val movieId: Long,
-    private val app: Application
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return DaggerMovieDetailsViewModelComponent.builder()
-            .appComponent((app as App).appComponent)
-            .movieId(movieId)
-            .build()
-            .provideViewModel() as T
     }
 }

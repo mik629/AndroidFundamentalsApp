@@ -1,34 +1,25 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
-import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.mik629.android.fundamentals.App
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
-import com.github.mik629.android.fundamentals.di.movies_list.DaggerMoviesListViewModelComponent
+import com.github.mik629.android.fundamentals.ui.BaseFragment
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
 
-class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
+class FragmentMoviesList : BaseFragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
-    private val viewModel: MoviesListViewModel by viewModels(
-        factoryProducer = {
-            MoviesListViewModelFactory(
-                app = requireActivity().application
-            )
-        }
-    )
+    private val viewModel: MoviesListViewModel by viewModels()
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
@@ -62,19 +53,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         }
     }
 
+    override fun onAttach(context: Context) {
+        appComponent.inject(this)
+        super.onAttach(context)
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = FragmentMoviesList()
-    }
-}
-
-private class MoviesListViewModelFactory(
-    private val app: Application
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return DaggerMoviesListViewModelComponent.builder()
-            .appComponent((app as App).appComponent)
-            .build()
-            .provideViewModel() as T
     }
 }

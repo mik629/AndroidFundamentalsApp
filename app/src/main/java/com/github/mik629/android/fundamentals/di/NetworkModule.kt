@@ -11,7 +11,6 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -32,12 +31,11 @@ internal class NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        @Named(BASE_URL) baseUrl: String,
         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(baseUrl)
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
             .build()
     }
@@ -46,9 +44,6 @@ internal class NetworkModule {
     @Singleton
     fun provideApi(retrofit: Retrofit): ServerApi = retrofit.create(ServerApi::class.java)
 
-    companion object {
-        const val BASE_URL = "baseUrl"
-    }
 }
 
 private class AuthInterceptor : Interceptor {

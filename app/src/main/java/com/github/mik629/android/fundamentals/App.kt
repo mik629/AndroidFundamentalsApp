@@ -1,6 +1,8 @@
 package com.github.mik629.android.fundamentals
 
+import android.app.Activity
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.github.mik629.android.fundamentals.di.AppComponent
 import com.github.mik629.android.fundamentals.di.DaggerAppComponent
 import timber.log.Timber
@@ -12,10 +14,9 @@ class App : Application() {
     lateinit var tree: Timber.Tree
 
     val appComponent: AppComponent by lazy {
-        DaggerAppComponent.builder()
-            .appContext(this)
-            .apiUrl(BuildConfig.BASE_URL)
-            .build()
+        DaggerAppComponent
+            .factory()
+            .create(this)
     }
 
     override fun onCreate() {
@@ -24,3 +25,6 @@ class App : Application() {
         Timber.plant(tree)
     }
 }
+
+val Activity.appComponent get() = (application as App).appComponent
+val Fragment.appComponent get() = (requireActivity().application as App).appComponent

@@ -35,7 +35,7 @@ object Versions {
     const val timber = "4.7.1"
     const val moshi = "1.11.0"
     const val viewBindingProperty = "1.4.1"
-    const val dagger = "2.31"
+    const val dagger = "2.33"
 }
 
 object Plugins {
@@ -55,7 +55,7 @@ object Libs {
     const val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-savedstate:${Versions.lifecycle}"
     const val lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
     const val room = "androidx.room:room-runtime:${Versions.room}"
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
