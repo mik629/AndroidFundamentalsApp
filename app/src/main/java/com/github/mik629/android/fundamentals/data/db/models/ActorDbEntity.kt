@@ -9,15 +9,19 @@ import com.github.mik629.android.fundamentals.domain.model.Actor
 @Entity(tableName = ACTORS_TABLE_NAME)
 data class ActorDbEntity(
     @PrimaryKey
-    @ColumnInfo(name = COLUMN_NAME_ACTOR_ID)
+    @ColumnInfo(name = COLUMN_ACTOR_ID)
     val actorId: Long,
+    @ColumnInfo(name = COLUMN_NAME)
     val name: String,
+    @ColumnInfo(name = COLUMN_PHOTO_URL)
     val photoUrl: String?
 ) {
     companion object {
         const val ACTORS_TABLE_NAME = "actors"
 
-        const val COLUMN_NAME_ACTOR_ID = "actorId"
+        const val COLUMN_ACTOR_ID = "actor_id"
+        const val COLUMN_NAME = "name"
+        const val COLUMN_PHOTO_URL = "photo_url"
     }
 }
 

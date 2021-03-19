@@ -9,14 +9,16 @@ import com.github.mik629.android.fundamentals.domain.model.Genre
 @Entity(tableName = GENRES_TABLE_NAME)
 data class GenreDbEntity(
     @PrimaryKey
-    @ColumnInfo(name = COLUMN_NAME_GENRE_ID)
+    @ColumnInfo(name = COLUMN_GENRE_ID)
     val genreId: Long,
+    @ColumnInfo(name = COLUMN_NAME)
     val name: String
 ) {
     companion object {
-        const val COLUMN_NAME_GENRE_ID = "genreId"
-
         const val GENRES_TABLE_NAME = "genres"
+
+        const val COLUMN_GENRE_ID = "genre_id"
+        const val COLUMN_NAME = "name"
     }
 }
 
