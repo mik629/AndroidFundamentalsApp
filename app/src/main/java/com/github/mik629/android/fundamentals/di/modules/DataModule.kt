@@ -1,4 +1,4 @@
-package com.github.mik629.android.fundamentals.di
+package com.github.mik629.android.fundamentals.di.modules
 
 import android.content.Context
 import com.github.mik629.android.fundamentals.data.MoviesLoader
@@ -12,7 +12,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DataModule {
+internal class DataModule {
     @Provides
     @Singleton
     fun provideMoviesRepository(moviesRepository: MoviesRepositoryImpl): MoviesRepository =

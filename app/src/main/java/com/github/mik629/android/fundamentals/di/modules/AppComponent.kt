@@ -1,4 +1,4 @@
-package com.github.mik629.android.fundamentals.di
+package com.github.mik629.android.fundamentals.di.modules
 
 import android.app.Application
 import com.github.mik629.android.fundamentals.App

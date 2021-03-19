@@ -3,8 +3,8 @@ package com.github.mik629.android.fundamentals
 import android.app.Activity
 import android.app.Application
 import androidx.fragment.app.Fragment
-import com.github.mik629.android.fundamentals.di.AppComponent
-import com.github.mik629.android.fundamentals.di.DaggerAppComponent
+import com.github.mik629.android.fundamentals.di.modules.AppComponent
+import com.github.mik629.android.fundamentals.di.modules.DaggerAppComponent
 import timber.log.Timber
 import javax.inject.Inject
 

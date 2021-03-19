@@ -1,11 +1,12 @@
-package com.github.mik629.android.fundamentals.di
+package com.github.mik629.android.fundamentals.di.modules
 
 import androidx.lifecycle.ViewModel
+import com.github.mik629.android.fundamentals.di.AssistedSavedStateViewModelFactory
 import dagger.Module
 import dagger.multibindings.Multibinds
 
 @Module
-abstract class CommonUiModule {
+internal abstract class CommonUiModule {
     @Multibinds
     abstract fun viewModels(): Map<Class<out ViewModel>, @JvmSuppressWildcards ViewModel>
 

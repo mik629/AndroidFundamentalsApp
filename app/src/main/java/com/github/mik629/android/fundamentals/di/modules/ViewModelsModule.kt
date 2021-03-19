@@ -1,6 +1,8 @@
-package com.github.mik629.android.fundamentals.di
+package com.github.mik629.android.fundamentals.di.modules
 
 import androidx.lifecycle.ViewModel
+import com.github.mik629.android.fundamentals.di.AssistedSavedStateViewModelFactory
+import com.github.mik629.android.fundamentals.di.ViewModelKey
 import com.github.mik629.android.fundamentals.ui.moviedetails.MovieDetailsViewModel
 import com.github.mik629.android.fundamentals.ui.movieslist.MoviesListViewModel
 import dagger.Binds
@@ -8,7 +10,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-abstract class ViewModelsModule {
+internal abstract class ViewModelsModule {
     @Binds
     @IntoMap
     @ViewModelKey(MoviesListViewModel::class)
