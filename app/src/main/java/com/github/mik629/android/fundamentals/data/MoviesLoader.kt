@@ -14,7 +14,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import timber.log.Timber
 
-class MoviesLoader constructor(
+class MoviesLoader(
     private val serverApi: ServerApi,
     private val dao: MovieDao
 ) {

@@ -26,5 +26,5 @@ class App : Application() {
     }
 }
 
-val Activity.appComponent get() = (application as App).appComponent
-val Fragment.appComponent get() = (requireActivity().application as App).appComponent
+val Activity.appComponent get(): AppComponent = (application as App).appComponent
+val Fragment.appComponent get(): AppComponent = requireActivity().appComponent

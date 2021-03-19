@@ -18,10 +18,10 @@ import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndG
 @Dao
 abstract class MovieDao {
     @Transaction
-    @Query(value = "SELECT * FROM $MOVIES_TABLE_NAME ORDER BY $COLUMN_NAME_RATING DESC")
+    @Query("SELECT * FROM $MOVIES_TABLE_NAME ORDER BY $COLUMN_NAME_RATING DESC")
     abstract suspend fun getAllMovies(): List<MovieWithActorsAndGenres>
 
-    @Query(value = "SELECT * FROM $MOVIES_TABLE_NAME WHERE $COLUMN_NAME_MOVIE_ID = :id")
+    @Query("SELECT * FROM $MOVIES_TABLE_NAME WHERE $COLUMN_NAME_MOVIE_ID = :id")
     abstract suspend fun getMovie(id: Long): MovieWithActorsAndGenres?
 
     @Transaction
