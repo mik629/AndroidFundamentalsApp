@@ -2,22 +2,25 @@ package com.github.mik629.android.fundamentals.ui.moviedetails
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
 import com.github.mik629.android.fundamentals.domain.model.Movie
-import com.github.mik629.android.fundamentals.ui.BaseFragment
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
-class FragmentMovieDetails : BaseFragment(R.layout.fragment_movie_details) {
+class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
+
+    @Inject
+    lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory
 
     private val glideRequest by lazy {
         buildGlideRequest(this)
@@ -26,12 +29,11 @@ class FragmentMovieDetails : BaseFragment(R.layout.fragment_movie_details) {
         ActorItemAdapter(glideRequest)
     }
 
-    private val viewModel: MovieDetailsViewModel by viewModels()
+    private lateinit var viewModel: MovieDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.inject(this)
-        arguments?.getLong(ARG_MOVIE_ID)
-            ?.also { id -> viewModel.setId(id = id) }
+        viewModel = movieDetailsViewModelFactory.create(arguments?.getLong(ARG_MOVIE_ID) ?: -1)
         super.onCreate(savedInstanceState)
     }
 

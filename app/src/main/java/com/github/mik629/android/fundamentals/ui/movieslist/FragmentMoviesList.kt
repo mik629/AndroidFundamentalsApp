@@ -1,25 +1,31 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
-import com.github.mik629.android.fundamentals.ui.BaseFragment
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
-class FragmentMoviesList : BaseFragment(R.layout.fragment_movies_list) {
+class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
-    private val viewModel: MoviesListViewModel by viewModels()
+    @Inject
+    lateinit var moviesListViewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: MoviesListViewModel by viewModels(
+        factoryProducer = { moviesListViewModelFactory }
+    )
 
     private val movieItemAdapter by lazy {
         MovieItemAdapter(
@@ -32,6 +38,11 @@ class FragmentMoviesList : BaseFragment(R.layout.fragment_movies_list) {
             },
             buildGlideRequest(this)
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,11 +62,6 @@ class FragmentMoviesList : BaseFragment(R.layout.fragment_movies_list) {
             Snackbar.make(binding.root, getString(R.string.error_no_data), LENGTH_LONG)
                 .show()
         }
-    }
-
-    override fun onAttach(context: Context) {
-        appComponent.inject(this)
-        super.onAttach(context)
     }
 
     companion object {
