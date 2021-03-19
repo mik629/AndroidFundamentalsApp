@@ -75,7 +75,7 @@ class FragmentMovieDetails : BaseFragment(R.layout.fragment_movie_details) {
         @JvmStatic
         fun newInstance(movieId: Long): FragmentMovieDetails {
             val fragment = FragmentMovieDetails()
-            val args = Bundle()
+            val args = Bundle(1)
             args.putLong(ARG_MOVIE_ID, movieId)
             fragment.arguments = args
             return fragment
