@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 
@@ -23,17 +24,24 @@ class MovieDetailsViewModel @AssistedInject constructor(
     private val _error: MutableLiveData<Throwable> = MutableLiveData()
     val error: LiveData<Throwable>
         get() =
-            _error
+            _error // convert to two states: success, error (like in hackathon)
 
     init {
         viewModelScope.launch {
             runCatching {
                 moviesRepository.getMovie(id)
-            }.onSuccess {
-                _movieDetails.value = it
+            }.onSuccess { movie ->
+                _movieDetails.value = movie
             }.onFailure {
                 _error.value = it
             }
         }
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            @Assisted movieId: Long
+        ): MovieDetailsViewModel
     }
 }
