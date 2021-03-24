@@ -3,10 +3,9 @@ package com.github.mik629.android.fundamentals.data.db.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.github.mik629.android.fundamentals.data.db.models.ActorDbEntity.Companion.ACTORS_TABLE_NAME
 import com.github.mik629.android.fundamentals.domain.model.Actor
 
-@Entity(tableName = ACTORS_TABLE_NAME)
+@Entity(tableName = ActorDbEntity.TABLE_NAME)
 data class ActorDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ACTOR_ID)
@@ -17,11 +16,11 @@ data class ActorDbEntity(
     val photoUrl: String?
 ) {
     companion object {
-        const val ACTORS_TABLE_NAME = "actors"
+        const val TABLE_NAME = "actors"
 
-        const val COLUMN_ACTOR_ID = "actor_id"
-        const val COLUMN_NAME = "name"
-        const val COLUMN_PHOTO_URL = "photo_url"
+        private const val COLUMN_ACTOR_ID = "actor_id"
+        private const val COLUMN_NAME = "name"
+        private const val COLUMN_PHOTO_URL = "photo_url"
     }
 }
 

@@ -9,19 +9,16 @@ import com.github.mik629.android.fundamentals.data.db.models.ActorDbEntity
 import com.github.mik629.android.fundamentals.data.db.models.GenreDbEntity
 import com.github.mik629.android.fundamentals.data.db.models.MovieActorCrossRef
 import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity
-import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.COLUMN_MOVIE_ID
-import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.COLUMN_RATING
-import com.github.mik629.android.fundamentals.data.db.models.MovieDbEntity.Companion.MOVIES_TABLE_NAME
 import com.github.mik629.android.fundamentals.data.db.models.MovieGenreCrossRef
 import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndGenres
 
 @Dao
 abstract class MovieDao {
     @Transaction
-    @Query("SELECT * FROM $MOVIES_TABLE_NAME ORDER BY $COLUMN_RATING DESC")
+    @Query("SELECT * FROM ${MovieDbEntity.TABLE_NAME} ORDER BY ${MovieDbEntity.COLUMN_RATING} DESC")
     abstract suspend fun getAllMovies(): List<MovieWithActorsAndGenres>
 
-    @Query("SELECT * FROM $MOVIES_TABLE_NAME WHERE $COLUMN_MOVIE_ID = :id")
+    @Query("SELECT * FROM ${MovieDbEntity.TABLE_NAME} WHERE ${MovieDbEntity.COLUMN_MOVIE_ID} = :id")
     abstract suspend fun getMovie(id: Long): MovieWithActorsAndGenres?
 
     @Transaction
