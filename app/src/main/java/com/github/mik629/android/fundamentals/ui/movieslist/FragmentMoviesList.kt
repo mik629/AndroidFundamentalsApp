@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
@@ -15,16 +14,12 @@ import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetai
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
-    @Inject
-    lateinit var moviesListViewModelFactory: ViewModelProvider.Factory
-
     private val viewModel: MoviesListViewModel by viewModels(
-        factoryProducer = { moviesListViewModelFactory }
+        factoryProducer = { appComponent.provideMoviesListViewModelFactory() }
     )
 
     private val movieItemAdapter by lazy {
@@ -38,11 +33,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             },
             buildGlideRequest(this)
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        appComponent.inject(this)
-        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
