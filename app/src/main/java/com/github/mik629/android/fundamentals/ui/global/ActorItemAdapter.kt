@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
@@ -36,7 +35,7 @@ class ActorItemAdapter(
             binding.name.text = item.name
             if (!item.photoUrl.isNullOrEmpty()) {
                 glideRequest.centerCrop()
-                    .load("${BuildConfig.BASE_IMAGE_URL}${item.photoUrl}")
+                    .load(item.photoUrl)
                     .into(binding.avatar)
             } else {
                 binding.avatar.setImageResource(R.drawable.ic_broken_image) // or som better image

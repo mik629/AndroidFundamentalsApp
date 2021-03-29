@@ -12,9 +12,9 @@ data class ActorDTO(
     val photoUrl: String?
 )
 
-fun ActorDTO.toActor(): Actor =
+fun ActorDTO.toActor(imageBaseUrl: String): Actor =
     Actor(
         id = this.id,
         name = this.name,
-        photoUrl = this.photoUrl
+        photoUrl = "$imageBaseUrl${this.photoUrl}"
     )

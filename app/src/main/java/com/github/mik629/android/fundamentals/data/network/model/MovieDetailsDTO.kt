@@ -24,13 +24,13 @@ data class MovieDetailsDTO(
     val runtime: Int
 )
 
-fun MovieDetailsDTO.toMovie(actors: List<Actor>): Movie =
+fun MovieDetailsDTO.toMovie(actors: List<Actor>, imageBaseUrl: String): Movie =
     Movie(
         id = this.id,
         title = this.title,
         overview = this.overview,
-        posterUrl = this.posterPath,
-        backdropImageUrl = this.backdropPath,
+        posterUrl = "$imageBaseUrl${this.posterPath}",
+        backdropImageUrl = "$imageBaseUrl${this.backdropPath}",
         actors = actors,
         genres = this.genres.map(GenreDTO::toGenre),
         minAge = if (this.isAdult) 18 else 0, // fixme determine age appropriately

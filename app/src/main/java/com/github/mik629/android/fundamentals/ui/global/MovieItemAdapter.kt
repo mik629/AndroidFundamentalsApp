@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
@@ -40,9 +39,8 @@ class MovieItemAdapter(
             val rootView = binding.root
             rootView.setOnClickListener { clickListener(item) }
             if (!item.posterUrl.isNullOrEmpty()) {
-                val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.posterUrl}"
                 glideRequest.fitCenter()
-                    .load(imageUrl)
+                    .load(item.posterUrl)
                     .into(binding.moviePoster)
             } else {
                 binding.moviePoster.setImageResource(R.drawable.ic_broken_image) // or som better image

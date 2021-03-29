@@ -6,7 +6,6 @@ import com.github.mik629.android.fundamentals.data.db.models.toCrossRef
 import com.github.mik629.android.fundamentals.data.db.models.toEntity
 import com.github.mik629.android.fundamentals.data.db.models.toMovie
 import com.github.mik629.android.fundamentals.data.network.ServerApi
-import com.github.mik629.android.fundamentals.data.network.model.ActorDTO
 import com.github.mik629.android.fundamentals.data.network.model.toActor
 import com.github.mik629.android.fundamentals.data.network.model.toMovie
 import com.github.mik629.android.fundamentals.domain.model.Actor
@@ -19,7 +18,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,20 +27,26 @@ class MoviesRepositoryImpl @Inject constructor(
 ) : MoviesRepository {
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
-    override suspend fun getMovies() =
-        withContext(Dispatchers.IO) {
-            val cachedMovies = getMoviesFromCache()
-            if (cachedMovies.isEmpty()) {
-                loadMoviesFromNetwork()
-            } else {
-                cachedMovies
-            }
-        }
+    private lateinit var imageBaseUrl: String
 
-    override suspend fun getMovie(id: Long): Movie =
-        withContext(Dispatchers.IO) {
-            getMovieFromCache(id) ?: loadMovieFromNetwork(id = id)
+    init {
+        scope.launch {
+            imageBaseUrl = "${serverApi.getConfiguration().baseUrlInfo.baseUrl}original"
         }
+    }
+
+    override suspend fun getMovies(): List<Movie> {
+        val cachedMovies = getMoviesFromCache()
+        return if (cachedMovies.isEmpty()) {
+            loadMoviesFromNetwork()
+        } else {
+            cachedMovies
+        }
+    }
+
+    override suspend fun getMovie(id: Long): Movie {
+        return getMovieFromCache(id) ?: loadMovieFromNetwork(id = id)
+    }
 
     private suspend fun getMoviesFromCache(): List<Movie> =
         dao.getAllMovies()
@@ -50,8 +54,7 @@ class MoviesRepositoryImpl @Inject constructor(
 
     private suspend fun loadMoviesFromNetwork(category: String = "popular"): List<Movie> {
         Timber.d("Loading from the network")
-        return scope.async { serverApi.getMovieList(category) }
-            .await()
+        return serverApi.getMovieList(category)
             .results
             .map { movie -> scope.async { loadMovieFromNetwork(movie.id) } }
             .awaitAll()
@@ -67,12 +70,11 @@ class MoviesRepositoryImpl @Inject constructor(
         val actors = scope.async {
             serverApi.getMovieActors(id)
                 .cast
-                .map(ActorDTO::toActor)
-        }.await()
-
-        return scope.async { serverApi.getMovie(id) }
-            .await()
-            .toMovie(actors)
+                .map { dto -> dto.toActor(imageBaseUrl = imageBaseUrl) }
+        }
+        val movie = scope.async { serverApi.getMovie(id) }
+        return movie.await()
+            .toMovie(actors = actors.await(), imageBaseUrl = imageBaseUrl)
     }
 
     private fun save(res: List<Movie>) {

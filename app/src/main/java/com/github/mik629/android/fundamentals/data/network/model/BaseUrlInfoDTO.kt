@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class BaseUrlInfoDTO(
-    @Json(name = "base_url")
+    @Json(name = "secure_base_url")
     val baseUrl: String,
     @Json(name = "poster_sizes")
     val posterSizes: List<String>
