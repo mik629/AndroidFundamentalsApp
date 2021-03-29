@@ -8,7 +8,7 @@ import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.network.ServerApi
 import com.github.mik629.android.fundamentals.data.repositories.MoviesRepositoryImpl
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
-import com.github.mik629.android.fundamentals.ui.movieslist.MoviesListViewModelFactory
+import com.github.mik629.android.fundamentals.ui.movieslist.MoviesListViewModel
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,14 +21,18 @@ internal class DataModule {
         moviesRepository
 
     @Provides
-    @Singleton
-    fun provideMoviesListViewModelFactory(factory: MoviesListViewModelFactory): ViewModelProvider.Factory =
+    fun provideMoviesListViewModelFactory(factory: MoviesListViewModel.Factory): ViewModelProvider.Factory =
         factory
 
     @Provides
     @Singleton
-    fun provideMovieDao(context: Context): MovieDao =
-        MovieDb.createDb(context).dao
+    fun provideMovieDb(context: Context): MovieDb =
+        MovieDb.createDb(context)
+
+    @Provides
+    @Singleton
+    fun provideMovieDao(movieDb: MovieDb): MovieDao =
+        movieDb.dao
 
     @Provides
     @Singleton

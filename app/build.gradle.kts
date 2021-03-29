@@ -57,14 +57,14 @@ dependencies {
     implementation(Libs.lifecycle)
     implementation(Libs.viewModel)
     implementation(Libs.room)
-    implementation(Libs.roomKtx)
+    implementation(Libs.roomKtx) // needed by coroutines
     implementation(Libs.fragmentKtx)
     kapt(Libs.roomCompiler)
 
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)
     kapt(Libs.glideCompiler)
-    kapt(Libs.moshiCodeGen)
+    kapt(Libs.moshiCodeGen) // migrate to kotlin serialization - better for multiplatform
     implementation(Libs.glideOkhttp)
     implementation(Libs.glideRecyclerView)
     implementation(Libs.retrofit)
