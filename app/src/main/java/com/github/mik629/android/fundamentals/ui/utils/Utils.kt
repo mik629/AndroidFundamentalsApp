@@ -1,7 +1,10 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.github.mik629.android.fundamentals.ui.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -10,8 +13,9 @@ import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.RatingBarBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
-@Suppress("NOTHING_TO_INLINE")
 inline fun RatingBarBinding.setRating(context: Context, value: Float) {
     @ColorInt val grey = ContextCompat.getColor(context, R.color.grey)
     @ColorInt val pink = ContextCompat.getColor(context, R.color.pink)
@@ -25,7 +29,6 @@ inline fun RatingBarBinding.setRating(context: Context, value: Float) {
         }
 }
 
-@Suppress("NOTHING_TO_INLINE")
 inline fun buildGlideRequest(fragment: Fragment): GlideRequest<Drawable> =
     GlideApp.with(fragment)
         .asDrawable()
@@ -34,6 +37,14 @@ inline fun buildGlideRequest(fragment: Fragment): GlideRequest<Drawable> =
         .fallback(R.drawable.ic_broken_image)
         .transition(DrawableTransitionOptions.withCrossFade())
         .fitCenter()
+
+inline fun View.showSnackBar(message: String) {
+    Snackbar.make(
+        this,
+        message,
+        BaseTransientBottomBar.LENGTH_LONG
+    ).show()
+}
 
 // fixme add extension
 // LazyThreadSafetyMode.NONE -> UnsafeLazyImpl(initializer)

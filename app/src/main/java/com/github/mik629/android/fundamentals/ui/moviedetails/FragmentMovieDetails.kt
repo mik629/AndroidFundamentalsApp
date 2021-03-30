@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.mik629.android.fundamentals.BuildConfig
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
@@ -12,19 +11,18 @@ import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
+import com.github.mik629.android.fundamentals.ui.utils.showSnackBar
 import javax.inject.Inject
 
 class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
 
     @Inject
-    lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory
+    lateinit var movieDetailsViewModelFactory: MovieDetailsViewModel.Factory // fixme see video https://www.youtube.com/watch?v=OAwyIlE4_K8
 
     private val glideRequest by lazy {
         buildGlideRequest(this)
-    }
+    } // stop storing link on this
     private val actorItemAdapter by lazy {
         ActorItemAdapter(glideRequest)
     }
@@ -41,18 +39,14 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         super.onViewCreated(view, savedInstanceState)
         binding.actors.adapter = actorItemAdapter
         binding.back.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            activity?.onBackPressed()
         }
 
         viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
             setMovieDetailsData(movieDetails)
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            Snackbar.make(
-                binding.root,
-                getString(R.string.error_no_data),
-                BaseTransientBottomBar.LENGTH_LONG
-            ).show()
+            binding.root.showSnackBar(message = getString(R.string.error_no_data))
         }
     }
 
@@ -66,7 +60,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         actorItemAdapter.submitList(movieDetails.actors)
         if (!movieDetails.backdropImageUrl.isNullOrEmpty()) {
             glideRequest.centerCrop()
-                .load("${BuildConfig.BASE_IMAGE_URL}${movieDetails.backdropImageUrl}")
+                .load(movieDetails.backdropImageUrl)
                 .into(binding.backgroundImg)
         }
     }
