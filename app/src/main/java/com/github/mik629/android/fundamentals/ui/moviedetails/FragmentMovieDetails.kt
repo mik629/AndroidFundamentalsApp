@@ -3,6 +3,7 @@ package com.github.mik629.android.fundamentals.ui.moviedetails
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
@@ -18,7 +19,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
 
     @Inject
-    lateinit var movieDetailsViewModelFactory: MovieDetailsViewModel.Factory // fixme see video https://www.youtube.com/watch?v=OAwyIlE4_K8
+    lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory.Factory
 
     private val glideRequest by lazy {
         buildGlideRequest(this)
@@ -27,11 +28,16 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         ActorItemAdapter(glideRequest)
     }
 
-    private lateinit var viewModel: MovieDetailsViewModel
+    private val viewModel: MovieDetailsViewModel by viewModels(
+        factoryProducer = {
+            movieDetailsViewModelFactory.create(
+                id = arguments?.getLong(ARG_MOVIE_ID) ?: -1
+            )
+        }
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.inject(this)
-        viewModel = movieDetailsViewModelFactory.create(arguments?.getLong(ARG_MOVIE_ID) ?: -1)
         super.onCreate(savedInstanceState)
     }
 

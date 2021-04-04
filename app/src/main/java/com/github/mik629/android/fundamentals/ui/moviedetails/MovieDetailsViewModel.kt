@@ -3,6 +3,7 @@ package com.github.mik629.android.fundamentals.ui.moviedetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
@@ -40,8 +41,21 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(
-            @Assisted movieId: Long
-        ): MovieDetailsViewModel
+        fun create(movieId: Long): MovieDetailsViewModel
+    }
+}
+
+class MovieDetailsViewModelFactory @AssistedInject constructor(
+    @Assisted private val id: Long,
+    private val viewModelFactory: MovieDetailsViewModel.Factory
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        require(modelClass == MovieDetailsViewModel::class.java)
+        return viewModelFactory.create(movieId = id) as T
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(id: Long): MovieDetailsViewModelFactory
     }
 }
