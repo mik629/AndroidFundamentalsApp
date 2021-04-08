@@ -16,7 +16,7 @@ data class GenreDbEntity(
     companion object {
         const val TABLE_NAME = "genres"
 
-        private const val COLUMN_GENRE_ID = "genre_id"
+        const val COLUMN_GENRE_ID = "genre_id"
         private const val COLUMN_NAME = "name"
     }
 }

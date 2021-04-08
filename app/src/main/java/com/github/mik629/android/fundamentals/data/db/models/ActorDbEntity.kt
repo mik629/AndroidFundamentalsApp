@@ -18,7 +18,7 @@ data class ActorDbEntity(
     companion object {
         const val TABLE_NAME = "actors"
 
-        private const val COLUMN_ACTOR_ID = "actor_id"
+        const val COLUMN_ACTOR_ID = "actor_id"
         private const val COLUMN_NAME = "name"
         private const val COLUMN_PHOTO_URL = "photo_url"
     }
