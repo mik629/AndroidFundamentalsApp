@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.github.mik629.android.fundamentals.GlideApp
 import com.github.mik629.android.fundamentals.GlideRequest
@@ -29,8 +28,8 @@ inline fun RatingBarBinding.setRating(context: Context, value: Float) {
         }
 }
 
-inline fun buildGlideRequest(fragment: Fragment): GlideRequest<Drawable> =
-    GlideApp.with(fragment)
+inline fun buildGlideRequest(context: Context): GlideRequest<Drawable> =
+    GlideApp.with(context)
         .asDrawable()
         .thumbnail(0.1f)
         .placeholder(R.drawable.ic_image_loading)

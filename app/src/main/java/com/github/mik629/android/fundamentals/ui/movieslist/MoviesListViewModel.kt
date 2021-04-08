@@ -42,7 +42,10 @@ class MoviesListViewModel(
         private val moviesRepository: MoviesRepository
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T =
-            MoviesListViewModel(moviesRepository) as T
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            require(modelClass == MoviesListViewModel::class.java)
+            return MoviesListViewModel(moviesRepository) as T
+        }
+
     }
 }

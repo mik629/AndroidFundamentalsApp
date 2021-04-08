@@ -16,5 +16,5 @@ fun ActorDTO.toActor(imageBaseUrl: String): Actor =
     Actor(
         id = this.id,
         name = this.name,
-        photoUrl = "$imageBaseUrl${this.photoUrl}"
+        photoUrl = imageBaseUrl + this.photoUrl
     )

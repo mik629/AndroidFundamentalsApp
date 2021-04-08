@@ -13,12 +13,16 @@ import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.showSnackBar
+import javax.inject.Inject
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     private val binding by viewBinding(FragmentMoviesListBinding::bind)
 
+    @Inject
+    lateinit var moviesListViewModelFactory: MoviesListViewModel.Factory
+
     private val viewModel: MoviesListViewModel by viewModels(
-        factoryProducer = { appComponent.provideMoviesListViewModelFactory() }
+        factoryProducer = { moviesListViewModelFactory }
     )
 
     private val movieItemAdapter by lazy {
@@ -30,8 +34,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                     .add(R.id.main_container, FragmentMovieDetails.newInstance(movie.id))
                     .commit()
             },
-            buildGlideRequest(this)
+            buildGlideRequest(requireContext())
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,14 +27,6 @@ class MoviesRepositoryImpl @Inject constructor(
     private val dao: MovieDao
 ) : MoviesRepository {
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-
-    private lateinit var imageBaseUrl: String
-
-    init {
-        scope.launch {
-            imageBaseUrl = "${serverApi.getConfiguration().baseUrlInfo.baseUrl}original"
-        }
-    }
 
     override suspend fun getMovies(): List<Movie> {
         val cachedMovies = getMoviesFromCache()
@@ -56,7 +49,7 @@ class MoviesRepositoryImpl @Inject constructor(
         Timber.d("Loading from the network")
         return serverApi.getMovieList(category)
             .results
-            .map { movie -> scope.async { loadMovieFromNetwork(movie.id) } }
+            .map { movie -> coroutineScope { async { loadMovieFromNetwork(movie.id) } } }
             .awaitAll()
             .sortedByDescending { movie -> movie.rating }
             .also { movies -> save(movies) }
@@ -67,12 +60,15 @@ class MoviesRepositoryImpl @Inject constructor(
             ?.toMovie()
 
     private suspend fun loadMovieFromNetwork(id: Long): Movie {
-        val actors = scope.async {
-            serverApi.getMovieActors(id)
-                .cast
-                .map { dto -> dto.toActor(imageBaseUrl = imageBaseUrl) }
+        val imageBaseUrl = serverApi.getConfiguration().baseUrlInfo.baseUrl + "original"
+        val actors = coroutineScope {
+            async {
+                serverApi.getMovieActors(id)
+                    .cast
+                    .map { dto -> dto.toActor(imageBaseUrl = imageBaseUrl) }
+            }
         }
-        val movie = scope.async { serverApi.getMovie(id) }
+        val movie = coroutineScope { async { serverApi.getMovie(id) } }
         return movie.await()
             .toMovie(actors = actors.await(), imageBaseUrl = imageBaseUrl)
     }

@@ -22,8 +22,9 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory.Factory
 
     private val glideRequest by lazy {
-        buildGlideRequest(this)
-    } // stop storing link on this
+        buildGlideRequest(requireContext())
+    }
+
     private val actorItemAdapter by lazy {
         ActorItemAdapter(glideRequest)
     }

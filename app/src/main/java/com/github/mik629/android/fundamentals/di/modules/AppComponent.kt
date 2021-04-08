@@ -1,10 +1,9 @@
 package com.github.mik629.android.fundamentals.di.modules
 
 import android.app.Application
-import androidx.lifecycle.ViewModelProvider
 import com.github.mik629.android.fundamentals.App
-import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
+import com.github.mik629.android.fundamentals.ui.movieslist.FragmentMoviesList
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -14,11 +13,9 @@ import javax.inject.Singleton
 interface AppComponent {
     //    fun provideRouter(): Router
 
-    fun provideMoviesRepository(): MoviesRepository // fixme remove if not needed
-
-    fun provideMoviesListViewModelFactory(): ViewModelProvider.Factory
-
     fun inject(app: App)
+
+    fun inject(fragment: FragmentMoviesList)
 
     fun inject(fragment: FragmentMovieDetails)
 
