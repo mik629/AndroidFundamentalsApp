@@ -32,7 +32,6 @@ class MovieGenreCrossRef(
     val genreId: Long
 ) {
     companion object {
-        // rename columns to avoid extra renamings during migrations
         const val COLUMN_MOVIE_ID = "movie_id"
         const val COLUMN_GENRE_ID = "genre_id"
     }

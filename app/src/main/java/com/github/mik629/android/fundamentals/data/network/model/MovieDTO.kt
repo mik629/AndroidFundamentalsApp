@@ -24,5 +24,5 @@ data class MovieDTO(
     @Json(name = "adult")
     val isAdult: Boolean,
     @Json(name = "runtime")
-    val runtime: Int? = 0
+    val runtime: Int?
 )
