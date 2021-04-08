@@ -5,7 +5,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 import com.github.mik629.android.fundamentals.domain.model.Movie
 
-data class MovieWithActorsAndGenres(
+class MovieWithActorsAndGenres(
     @Embedded
     val movieEntity: MovieDbEntity,
     @Relation(

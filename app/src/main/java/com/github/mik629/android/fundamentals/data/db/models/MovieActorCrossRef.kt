@@ -25,7 +25,7 @@ import com.github.mik629.android.fundamentals.domain.model.Movie
         )
     ]
 )
-data class MovieActorCrossRef(
+class MovieActorCrossRef(
     @ColumnInfo(name = COLUMN_MOVIE_ID)
     val movieId: Long,
     @ColumnInfo(name = COLUMN_ACTOR_ID)

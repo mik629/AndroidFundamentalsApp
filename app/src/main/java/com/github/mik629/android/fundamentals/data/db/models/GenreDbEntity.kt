@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.github.mik629.android.fundamentals.domain.model.Genre
 
 @Entity(tableName = GenreDbEntity.TABLE_NAME)
-data class GenreDbEntity(
+class GenreDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_GENRE_ID)
     val genreId: Long,

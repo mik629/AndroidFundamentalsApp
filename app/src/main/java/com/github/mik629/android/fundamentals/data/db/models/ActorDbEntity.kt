@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.github.mik629.android.fundamentals.domain.model.Actor
 
 @Entity(tableName = ActorDbEntity.TABLE_NAME)
-data class ActorDbEntity(
+class ActorDbEntity(
     @PrimaryKey
     @ColumnInfo(name = COLUMN_ACTOR_ID)
     val actorId: Long,
