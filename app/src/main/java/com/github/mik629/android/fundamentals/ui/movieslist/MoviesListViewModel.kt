@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
+import com.github.mik629.android.fundamentals.ui.ViewState
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,25 +16,21 @@ class MoviesListViewModel(
     private val moviesRepository: MoviesRepository
 ) : ViewModel() {
 
-    private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
-    val movies: LiveData<List<Movie>>
+    private val _movies: MutableLiveData<ViewState<List<Movie>, Throwable>> = MutableLiveData()
+    val movies: LiveData<ViewState<List<Movie>, Throwable>>
         get() =
             _movies
 
-    private val _error: MutableLiveData<Throwable> = MutableLiveData()
-    val error: LiveData<Throwable>
-        get() =
-            _error
-
     init {
         viewModelScope.launch {
+            _movies.value = ViewState.loading()
             runCatching {
                 moviesRepository.getMovies()
-            }.onSuccess {
-                _movies.value = it
-            }.onFailure {
-                _error.value = it
-                Timber.e(it)
+            }.onSuccess { movies ->
+                _movies.value = ViewState.success(data = movies)
+            }.onFailure { e ->
+                Timber.e(e)
+                _movies.value = ViewState.error(error = e)
             }
         }
     }

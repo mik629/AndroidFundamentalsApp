@@ -2,6 +2,7 @@ package com.github.mik629.android.fundamentals.ui.moviedetails
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -9,6 +10,7 @@ import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.ui.ViewState
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
 import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
@@ -50,10 +52,17 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
 
         viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
-            setMovieDetailsData(movieDetails)
-        }
-        viewModel.error.observe(viewLifecycleOwner) {
-            binding.root.showSnackBar(message = getString(R.string.error_no_data))
+            when (movieDetails) {
+                is ViewState.Loading -> binding.progressbar.isVisible = true
+                is ViewState.Success -> {
+                    binding.progressbar.isVisible = false
+                    setMovieDetailsData(movieDetails = movieDetails.result)
+                }
+                is ViewState.Error -> {
+                    binding.progressbar.isVisible = false
+                    binding.root.showSnackBar(message = getString(R.string.error_no_data))
+                }
+            }
         }
     }
 
