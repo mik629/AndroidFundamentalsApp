@@ -28,6 +28,8 @@ class MoviesRepositoryImpl @Inject constructor(
 ) : MoviesRepository {
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
+    private var imageBaseUrl: String? = null
+
     override suspend fun getMovies(): List<Movie> {
         val cachedMovies = getMoviesFromCache()
         return if (cachedMovies.isEmpty()) {
@@ -60,17 +62,19 @@ class MoviesRepositoryImpl @Inject constructor(
             ?.toMovie()
 
     private suspend fun loadMovieFromNetwork(id: Long): Movie {
-        val imageBaseUrl = serverApi.getConfiguration().baseUrlInfo.baseUrl + "original"
+        val baseUrl = imageBaseUrl
+            ?: (serverApi.getConfiguration().baseUrlInfo.baseUrl + "original")
+                .also { baseUrl -> imageBaseUrl = baseUrl }
         val actors = coroutineScope {
             async {
                 serverApi.getMovieActors(id)
                     .cast
-                    .map { dto -> dto.toActor(imageBaseUrl = imageBaseUrl) }
+                    .map { dto -> dto.toActor(imageBaseUrl = baseUrl) }
             }
         }
         val movie = coroutineScope { async { serverApi.getMovie(id) } }
         return movie.await()
-            .toMovie(actors = actors.await(), imageBaseUrl = imageBaseUrl)
+            .toMovie(actors = actors.await(), imageBaseUrl = baseUrl)
     }
 
     private fun save(res: List<Movie>) {
