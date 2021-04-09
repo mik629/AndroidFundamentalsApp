@@ -6,12 +6,8 @@ import androidx.fragment.app.Fragment
 import com.github.mik629.android.fundamentals.di.modules.AppComponent
 import com.github.mik629.android.fundamentals.di.modules.DaggerAppComponent
 import timber.log.Timber
-import javax.inject.Inject
 
 class App : Application() {
-
-    @Inject
-    lateinit var tree: Timber.Tree
 
     val appComponent: AppComponent by lazy {
         DaggerAppComponent
@@ -22,7 +18,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appComponent.inject(this)
-        Timber.plant(tree)
+        Timber.plant(Timber.DebugTree())
     }
 }
 
