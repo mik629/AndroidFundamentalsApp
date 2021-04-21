@@ -13,7 +13,6 @@ import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBind
 import com.github.mik629.android.fundamentals.ui.ViewState
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
 import com.github.mik629.android.fundamentals.ui.moviedetails.FragmentMovieDetails
-import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.showSnackBar
 import javax.inject.Inject
 
@@ -28,16 +27,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     )
 
     private val movieItemAdapter by lazy {
-        MovieItemAdapter(
-            { movie ->
-                parentFragmentManager
-                    .beginTransaction()
-                    .addToBackStack(FragmentMoviesList::class.qualifiedName) // fixme add cicerone
-                    .add(R.id.main_container, FragmentMovieDetails.newInstance(movie.id))
-                    .commit()
-            },
-            buildGlideRequest(requireContext())
-        )
+        MovieItemAdapter { movie ->
+            parentFragmentManager
+                .beginTransaction()
+                .addToBackStack(FragmentMoviesList::class.qualifiedName) // fixme add cicerone
+                .add(R.id.main_container, FragmentMovieDetails.newInstance(movie.id))
+                .commit()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

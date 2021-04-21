@@ -23,12 +23,8 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     @Inject
     lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory.Factory
 
-    private val glideRequest by lazy {
-        buildGlideRequest(requireContext())
-    }
-
     private val actorItemAdapter by lazy {
-        ActorItemAdapter(glideRequest)
+        ActorItemAdapter()
     }
 
     private val viewModel: MovieDetailsViewModel by viewModels(
@@ -75,7 +71,8 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         binding.reviews.text = getString(R.string.movie_reviews, movieDetails.reviews)
         actorItemAdapter.submitList(movieDetails.actors)
         if (!movieDetails.backdropImageUrl.isNullOrEmpty()) {
-            glideRequest.centerCrop()
+            buildGlideRequest(requireContext())
+                .centerCrop()
                 .load(movieDetails.backdropImageUrl)
                 .into(binding.backgroundImg)
         }

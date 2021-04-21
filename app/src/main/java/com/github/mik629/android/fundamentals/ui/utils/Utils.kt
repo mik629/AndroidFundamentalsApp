@@ -20,11 +20,13 @@ inline fun RatingBarBinding.setRating(context: Context, value: Float) {
     @ColorInt val pink = ContextCompat.getColor(context, R.color.pink)
     arrayOf(starOne, starTwo, starThree, starFour, starFive)
         .forEachIndexed { index, star ->
-            if (value < index) {
-                star.setColorFilter(grey)
-            } else {
-                star.setColorFilter(pink)
-            }
+            star.setColorFilter(
+                if (value < index) {
+                    grey
+                } else {
+                    pink
+                }
+            )
         }
 }
 

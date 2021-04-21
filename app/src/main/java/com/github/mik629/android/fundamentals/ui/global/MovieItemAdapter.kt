@@ -1,26 +1,23 @@
 package com.github.mik629.android.fundamentals.ui.global
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 import com.github.mik629.android.fundamentals.ui.utils.setRating
 
 class MovieItemAdapter(
-    private val clickListener: (Movie) -> Unit,
-    private val glideRequest: GlideRequest<Drawable>
+    private val clickListener: (Movie) -> Unit
 ) : ListAdapter<Movie, MovieItemAdapter.ViewHolder>(MovieItemAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            glideRequest,
             clickListener
         )
 
@@ -30,10 +27,12 @@ class MovieItemAdapter(
 
     class ViewHolder(
         private val binding: MovieItemBinding,
-        private val glideRequest: GlideRequest<Drawable>,
         private val clickListener: (Movie) -> Unit
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        private val glideRequest by lazy {
+            buildGlideRequest(binding.root.context)
+        }
 
         fun updateViewItem(item: Movie) {
             val rootView = binding.root

@@ -1,24 +1,21 @@
 package com.github.mik629.android.fundamentals.ui.global
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
 import com.github.mik629.android.fundamentals.domain.model.Actor
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 
-class ActorItemAdapter(
-    private val glideRequest: GlideRequest<Drawable>
-) : ListAdapter<Actor, ActorItemAdapter.ViewHolder>(ActorItemAdapterDiffCallback()) {
+class ActorItemAdapter :
+    ListAdapter<Actor, ActorItemAdapter.ViewHolder>(ActorItemAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            ActorItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            glideRequest
+            ActorItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -26,10 +23,12 @@ class ActorItemAdapter(
     }
 
     class ViewHolder(
-        private val binding: ActorItemBinding,
-        private val glideRequest: GlideRequest<Drawable>
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+        private val binding: ActorItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        private val glideRequest by lazy {
+            buildGlideRequest(binding.root.context)
+        }
 
         fun updateViewItem(item: Actor) {
             binding.name.text = item.name
