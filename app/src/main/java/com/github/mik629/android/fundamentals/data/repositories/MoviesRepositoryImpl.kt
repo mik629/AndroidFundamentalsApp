@@ -83,12 +83,12 @@ class MoviesRepositoryImpl @Inject constructor(
             dao.insertData(
                 movies = res.map(Movie::toEntity),
 
-                actors = res.flatMap { movie -> movie.actors }
+                actors = res.flatMap { movie -> movie.details.actors }
                     .distinct()
                     .map(Actor::toEntity),
 
                 movieActors = res.flatMap { movie ->
-                    movie.actors.map { actor ->
+                    movie.details.actors.map { actor ->
                         actor.toCrossRef(movie)
                     }
                 },

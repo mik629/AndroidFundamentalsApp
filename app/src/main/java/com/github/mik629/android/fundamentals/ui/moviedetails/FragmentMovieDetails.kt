@@ -52,7 +52,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
                 is ViewState.Loading -> binding.progressbar.isVisible = true
                 is ViewState.Success -> {
                     binding.progressbar.isVisible = false
-                    setMovieDetailsData(movieDetails = movieDetails.result)
+                    setMovieDetailsData(movie = movieDetails.result)
                 }
                 is ViewState.Error -> {
                     binding.progressbar.isVisible = false
@@ -62,18 +62,18 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
     }
 
-    private fun setMovieDetailsData(movieDetails: Movie) {
-        binding.age.text = getString(R.string.movie_min_age, movieDetails.minAge)
-        binding.movieTitle.text = movieDetails.title
-        binding.genre.text = movieDetails.genres.joinToString()
-        binding.ratingLayout.setRating(requireContext(), movieDetails.rating / 2)
-        binding.storyline.text = movieDetails.overview
-        binding.reviews.text = getString(R.string.movie_reviews, movieDetails.reviews)
-        actorItemAdapter.submitList(movieDetails.actors)
-        if (!movieDetails.backdropImageUrl.isNullOrEmpty()) {
+    private fun setMovieDetailsData(movie: Movie) {
+        binding.age.text = getString(R.string.movie_min_age, movie.minAge)
+        binding.movieTitle.text = movie.title
+        binding.genre.text = movie.genres.joinToString()
+        binding.ratingLayout.setRating(requireContext(), movie.rating / 2)
+        binding.storyline.text = movie.details.overview
+        binding.reviews.text = getString(R.string.movie_reviews, movie.reviews)
+        actorItemAdapter.submitList(movie.details.actors)
+        if (!movie.details.backdropImageUrl.isNullOrEmpty()) {
             buildGlideRequest(requireContext())
                 .centerCrop()
-                .load(movieDetails.backdropImageUrl)
+                .load(movie.details.backdropImageUrl)
                 .into(binding.backgroundImg)
         }
     }

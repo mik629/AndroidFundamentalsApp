@@ -47,9 +47,9 @@ fun Movie.toEntity(): MovieDbEntity =
     MovieDbEntity(
         movieId = this.id,
         title = this.title,
-        overview = this.overview,
+        overview = this.details.overview,
         posterImageUrl = this.posterUrl,
-        backdropImageUrl = this.backdropImageUrl,
+        backdropImageUrl = this.details.backdropImageUrl,
         minAge = this.minAge,
         reviews = this.reviews,
         rating = this.rating,

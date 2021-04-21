@@ -2,6 +2,7 @@ package com.github.mik629.android.fundamentals.data.network.model
 
 import com.github.mik629.android.fundamentals.domain.model.Actor
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -28,13 +29,15 @@ fun MovieDetailsDTO.toMovie(actors: List<Actor>, imageBaseUrl: String): Movie =
     Movie(
         id = this.id,
         title = this.title,
-        overview = this.overview,
-        posterUrl = "$imageBaseUrl${this.posterPath}",
-        backdropImageUrl = imageBaseUrl + this.backdropPath,
-        actors = actors,
+        posterUrl = imageBaseUrl + this.posterPath,
         genres = this.genres.map(GenreDTO::toGenre),
         minAge = if (this.isAdult) 18 else 0, // fixme determine age appropriately
         reviews = this.reviews,
         rating = this.rating,
-        runtime = this.runtime
+        runtime = this.runtime,
+        details = MovieDetails(
+            backdropImageUrl = imageBaseUrl + this.backdropPath,
+            overview = overview,
+            actors = actors
+        )
     )

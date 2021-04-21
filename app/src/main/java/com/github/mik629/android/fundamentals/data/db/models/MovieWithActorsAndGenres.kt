@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.domain.model.MovieDetails
 
 class MovieWithActorsAndGenres(
     @Embedded
@@ -26,13 +27,15 @@ fun MovieWithActorsAndGenres.toMovie(): Movie =
     Movie(
         id = this.movieEntity.movieId,
         title = this.movieEntity.title,
-        overview = this.movieEntity.overview,
         posterUrl = this.movieEntity.posterImageUrl,
-        backdropImageUrl = this.movieEntity.backdropImageUrl,
-        actors = this.actors.map(ActorDbEntity::toActor),
         genres = this.genres.map(GenreDbEntity::toGenre),
         minAge = this.movieEntity.minAge,
         reviews = this.movieEntity.reviews,
         rating = this.movieEntity.rating,
-        runtime = this.movieEntity.runtime
+        runtime = this.movieEntity.runtime,
+        details = MovieDetails(
+            backdropImageUrl = movieEntity.backdropImageUrl,
+            overview = movieEntity.overview,
+            actors = this.actors.map(ActorDbEntity::toActor)
+        )
     )
