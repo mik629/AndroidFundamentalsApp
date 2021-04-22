@@ -25,13 +25,13 @@ class MovieDetailsViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            _movieDetails.value = ViewState.loading()
+            _movieDetails.value = ViewState.Loading
             runCatching {
                 moviesRepository.getMovie(id)
             }.onSuccess { movie ->
-                _movieDetails.value = ViewState.success(data = movie)
+                _movieDetails.value = ViewState.Success(result = movie)
             }.onFailure { e ->
-                _movieDetails.value = ViewState.error(error = e)
+                _movieDetails.value = ViewState.Error(result = e)
             }
         }
     }

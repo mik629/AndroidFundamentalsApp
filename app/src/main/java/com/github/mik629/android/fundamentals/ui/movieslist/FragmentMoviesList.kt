@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.movieslist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -36,9 +37,9 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         appComponent.inject(this)
-        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

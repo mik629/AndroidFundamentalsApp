@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.ui.movieslist.FragmentMoviesList
 
-class AppActivity : AppCompatActivity() {
+class AppActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.main_container, FragmentMoviesList.newInstance())

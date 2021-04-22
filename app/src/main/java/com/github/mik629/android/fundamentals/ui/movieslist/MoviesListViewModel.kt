@@ -23,14 +23,14 @@ class MoviesListViewModel(
 
     init {
         viewModelScope.launch {
-            _movies.value = ViewState.loading()
+            _movies.value = ViewState.Loading
             runCatching {
                 moviesRepository.getMovies()
             }.onSuccess { movies ->
-                _movies.value = ViewState.success(data = movies)
+                _movies.value = ViewState.Success(result = movies)
             }.onFailure { e ->
                 Timber.e(e)
-                _movies.value = ViewState.error(error = e)
+                _movies.value = ViewState.Error(result = e)
             }
         }
     }

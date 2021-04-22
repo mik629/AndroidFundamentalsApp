@@ -12,22 +12,4 @@ sealed class ViewState<out S : Any?, out E : Any?> {
     object Loading : ViewState<Nothing, Nothing>()
 
     data class Error<out E : Any?>(val result: E) : ViewState<Nothing, E>()
-
-    companion object {
-        /**
-         * Creates [ViewState] object with [Success] state and [data].
-         */
-        fun <S> success(data: S) = Success(data)
-
-        /**
-         * Creates [ViewState] object with [Loading] state to notify
-         * the UI to showing loading.
-         */
-        fun loading() = Loading
-
-        /**
-         * Creates [ViewState] object with [Error] state and [error].
-         */
-        fun <E> error(error: E) = Error(error)
-    }
 }

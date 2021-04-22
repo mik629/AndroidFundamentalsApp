@@ -1,5 +1,6 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -23,9 +24,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     @Inject
     lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory.Factory
 
-    private val actorItemAdapter by lazy {
-        ActorItemAdapter()
-    }
+    private val actorItemAdapter = ActorItemAdapter()
 
     private val viewModel: MovieDetailsViewModel by viewModels(
         factoryProducer = {
@@ -35,9 +34,9 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         }
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         appComponent.inject(this)
-        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
