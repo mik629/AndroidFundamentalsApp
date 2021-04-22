@@ -70,7 +70,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
         binding.reviews.text = getString(R.string.movie_reviews, movie.reviews)
         actorItemAdapter.submitList(movie.details.actors)
         if (!movie.details.backdropImageUrl.isNullOrEmpty()) {
-            buildGlideRequest(requireContext())
+            buildGlideRequest(this)
                 .centerCrop()
                 .load(movie.details.backdropImageUrl)
                 .into(binding.backgroundImg)
@@ -78,7 +78,7 @@ class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
     }
 
     companion object {
-        const val ARG_MOVIE_ID = "movieId"
+        private const val ARG_MOVIE_ID = "movieId"
 
         @JvmStatic
         fun newInstance(movieId: Long): FragmentMovieDetails {
