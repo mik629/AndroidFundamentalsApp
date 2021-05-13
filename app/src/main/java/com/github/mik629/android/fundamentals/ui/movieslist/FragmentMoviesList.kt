@@ -7,6 +7,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
+import androidx.work.WorkerFactory
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
@@ -22,6 +26,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     @Inject
     lateinit var moviesListViewModelFactory: MoviesListViewModel.Factory
+
+    @Inject
+    lateinit var updateCacheWorkerRequest: WorkRequest
+
+    @Inject
+    lateinit var updateCacheWorkerFactory: WorkerFactory
 
     private val viewModel: MoviesListViewModel by viewModels(
         factoryProducer = { moviesListViewModelFactory }
@@ -40,6 +50,14 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
+        WorkManager.initialize(
+            context,
+            Configuration.Builder()
+                .setWorkerFactory(updateCacheWorkerFactory)
+                .build()
+        )
+        WorkManager.getInstance(context)
+            .enqueue(updateCacheWorkerRequest)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

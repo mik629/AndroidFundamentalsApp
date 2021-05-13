@@ -6,4 +6,6 @@ interface MoviesRepository {
     suspend fun getMovies(): List<Movie>
 
     suspend fun getMovie(id: Long): Movie
+
+    suspend fun loadMoviesFromNetwork(category: String = "popular"): List<Movie>
 }

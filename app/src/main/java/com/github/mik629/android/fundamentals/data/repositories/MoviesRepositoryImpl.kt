@@ -42,7 +42,7 @@ class MoviesRepositoryImpl @Inject constructor(
         dao.getAllMovies()
             .map(MovieWithActorsAndGenres::toMovie)
 
-    private suspend fun loadMoviesFromNetwork(category: String = "popular"): List<Movie> =
+    override suspend fun loadMoviesFromNetwork(category: String): List<Movie> =
         coroutineScope {
             Timber.d("Loading from the network")
             serverApi.getMovieList(category)
