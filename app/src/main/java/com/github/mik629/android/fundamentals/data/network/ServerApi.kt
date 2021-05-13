@@ -2,7 +2,7 @@ package com.github.mik629.android.fundamentals.data.network
 
 import com.github.mik629.android.fundamentals.data.network.model.ConfigurationResponse
 import com.github.mik629.android.fundamentals.data.network.model.MovieActorsResponse
-import com.github.mik629.android.fundamentals.data.network.model.MovieDetails
+import com.github.mik629.android.fundamentals.data.network.model.MovieDetailsDTO
 import com.github.mik629.android.fundamentals.data.network.model.MovieListResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,13 +18,13 @@ interface ServerApi {
     ): MovieListResponse
 
     @GET("movie/{movie_id}")
-    suspend fun getMovieDetails(
-        @Path("movie_id") movieId: Int,
+    suspend fun getMovie(
+        @Path("movie_id") movieId: Long,
         @Query("language") language: String = "en-US"
-    ): MovieDetails
+    ): MovieDetailsDTO
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieActors(
-        @Path("movie_id") movieId: Int
+        @Path("movie_id") movieId: Long
     ): MovieActorsResponse
 }

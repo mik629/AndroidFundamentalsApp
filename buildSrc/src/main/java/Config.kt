@@ -24,6 +24,8 @@ object Versions {
     const val coroutines = "1.4.2"
     const val lifecycle = "2.2.0"
     const val workManager = "2.5.0-beta02"
+    const val room = "2.2.6"
+    const val fragmentKtx = "1.2.5"
 
     // third party libs
     const val adapterDelegates = "4.3.0"
@@ -32,12 +34,8 @@ object Versions {
     const val okhttp = "4.9.0"
     const val timber = "4.7.1"
     const val moshi = "1.11.0"
-
-    // Libs for testing
-    const val espresso = "3.3.0"
-    const val junit = "5.7.0"
-    const val mockito = "3.6.0"
-    const val mockitoKotlin = "2.2.0"
+    const val viewBindingProperty = "1.4.1"
+    const val dagger = "2.33"
 }
 
 object Plugins {
@@ -59,8 +57,10 @@ object Libs {
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
-
-    const val kotlinStdlib = "stdlib-jdk7"
+    const val room = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
 
     const val adapterDelegates = "com.hannesdorfmann:adapterdelegates4:${Versions.adapterDelegates}"
     const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
@@ -76,12 +76,8 @@ object Libs {
     const val retrofitConverter = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:${Versions.moshi}"
     const val moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
-
-    // Test libraries
-    const val espresso = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-    const val junit = "org.junit.jupiter:junit-jupiter-api:${Versions.junit}"
-    const val junitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit}"
-    const val junitParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junit}"
-    const val mockito = "org.mockito:mockito-inline:${Versions.mockito}"
-    const val mockitoKotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
+    const val viewBindingProperty =
+        "com.kirich1409.viewbindingpropertydelegate:viewbindingpropertydelegate:${Versions.viewBindingProperty}"
+    const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
+    const val daggerProcessor = "com.google.dagger:dagger-compiler:${Versions.dagger}"
 }

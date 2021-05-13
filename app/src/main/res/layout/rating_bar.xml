@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RatingBar xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rating_bar"
-    style="@style/Widget.AppCompat.RatingBar.Small"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:indeterminateDrawable="@drawable/rating"
-    android:maxHeight="12dp"
-    android:minHeight="12dp"
-    android:numStars="5"
-    android:progressBackgroundTint="@color/grey"
-    android:progressDrawable="@drawable/rating"
-    android:rating="4.5" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/star_one"
+        style="@style/RatingStar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_two"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/star_two"
+        style="@style/RatingStar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_three"
+        app:layout_constraintStart_toEndOf="@id/star_one"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
+
+    <ImageView
+        android:id="@+id/star_three"
+        style="@style/RatingStar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_four"
+        app:layout_constraintStart_toEndOf="@id/star_two"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
+
+    <ImageView
+        android:id="@+id/star_four"
+        style="@style/RatingStar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/star_five"
+        app:layout_constraintStart_toEndOf="@id/star_three"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
+
+    <ImageView
+        android:id="@+id/star_five"
+        style="@style/RatingStar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/star_one"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/star_four"
+        app:layout_constraintTop_toTopOf="@id/star_one" />
+</androidx.constraintlayout.widget.ConstraintLayout>

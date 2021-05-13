@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_standard_margin"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="@dimen/content_title_top_margin"
         android:drawableLeft="@drawable/ic_target"
         android:drawablePadding="@dimen/activity_medium_margin"
         android:text="@string/movies_list_title"
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_standard_margin"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="@dimen/content_top_margin"
         android:layout_marginEnd="@dimen/activity_standard_margin"
         android:layout_marginBottom="@dimen/activity_standard_margin"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -38,6 +38,7 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:indeterminateTint="@color/white"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

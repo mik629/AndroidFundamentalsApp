@@ -1,58 +1,64 @@
 package com.github.mik629.android.fundamentals.ui.global
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mik629.android.fundamentals.BuildConfig
-import com.github.mik629.android.fundamentals.GlideRequest
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.MovieItemBinding
-import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
+import com.github.mik629.android.fundamentals.ui.utils.setRating
 
 class MovieItemAdapter(
-    private val clickListener: (MovieItem) -> Unit,
-    private val glideRequest: GlideRequest<Drawable>
-) : ListAdapter<MovieItem, MovieItemAdapter.ViewHolder>(DIFF_CALLBACK) {
+    private val clickListener: (Movie) -> Unit
+) : ListAdapter<Movie, MovieItemAdapter.ViewHolder>(MovieItemAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(
+            MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            clickListener
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.updateViewItem(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: MovieItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: MovieItemBinding,
+        private val clickListener: (Movie) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun updateViewItem(item: MovieItem) {
-            with(binding) {
-                root.setOnClickListener { clickListener(item) }
-                if (!item.poster.isNullOrEmpty()) {
-                    val imageUrl = "${BuildConfig.BASE_IMAGE_URL}${item.poster}"
-                    glideRequest.fitCenter()
-                        .load(imageUrl)
-                        .into(moviePoster)
-                }
-                minAge.text = root.resources.getString(R.string.movie_min_age, item.minAge)
-                movieTitle.text = item.title
-                genres.text = item.genres.joinToString { it.name }
-                ratingLayout.ratingBar.rating = item.rating / 2
-                reviews.text = root.resources.getString(R.string.movie_reviews, item.reviews)
-                movieLength.text = root.resources.getString(R.string.movie_length, item.runtime)
+        private val glideRequest by lazy {
+            buildGlideRequest(binding.root.context)
+        }
+
+        fun updateViewItem(item: Movie) {
+            val rootView = binding.root
+            rootView.setOnClickListener { clickListener(item) }
+            if (!item.posterUrl.isNullOrEmpty()) {
+                glideRequest.fitCenter()
+                    .load(item.posterUrl)
+                    .into(binding.moviePoster)
+            } else {
+                binding.moviePoster.setImageResource(R.drawable.ic_broken_image) // or som better image
             }
+            val resources = rootView.resources
+            binding.minAge.text = resources.getString(R.string.movie_min_age, item.minAge)
+            binding.movieTitle.text = item.title
+            binding.genres.text = item.genres.joinToString { it.name }
+            binding.ratingLayout.setRating(rootView.context, item.rating / 2)
+            binding.reviews.text = resources.getString(R.string.movie_reviews, item.reviews)
+            binding.movieLength.text = resources.getString(R.string.movie_length, item.runtime)
         }
     }
+}
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieItem>() {
-            override fun areItemsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
-                oldItem.id == newItem.id
+private class MovieItemAdapterDiffCallback : DiffUtil.ItemCallback<Movie>() {
+    override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        (oldItem.id == newItem.id)
 
-            override fun areContentsTheSame(oldItem: MovieItem, newItem: MovieItem): Boolean =
-                oldItem == newItem
-        }
-    }
+    override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+        oldItem == newItem
 }

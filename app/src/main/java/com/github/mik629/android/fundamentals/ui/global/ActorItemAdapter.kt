@@ -1,50 +1,52 @@
 package com.github.mik629.android.fundamentals.ui.global
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.github.mik629.android.fundamentals.BuildConfig
-import com.github.mik629.android.fundamentals.GlideRequest
+import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.databinding.ActorItemBinding
-import com.github.mik629.android.fundamentals.domain.model.ActorItem
+import com.github.mik629.android.fundamentals.domain.model.Actor
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
 
-class ActorItemAdapter(
-    private val glideRequest: GlideRequest<Drawable>
-) : ListAdapter<ActorItem, ActorItemAdapter.ViewHolder>(DIFF_CALLBACK) {
+class ActorItemAdapter :
+    ListAdapter<Actor, ActorItemAdapter.ViewHolder>(ActorItemAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(ActorItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(
+            ActorItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.updateViewItem(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ActorItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ActorItemBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun updateViewItem(item: ActorItem) {
-            with(binding) {
-                name.text = item.name
-                if (!item.ava.isNullOrEmpty()) {
-                    glideRequest.centerCrop()
-                        .load("${BuildConfig.BASE_IMAGE_URL}${item.ava}")
-                        .into(ava)
-                }
+        private val glideRequest by lazy {
+            buildGlideRequest(binding.root.context)
+        }
+
+        fun updateViewItem(item: Actor) {
+            binding.name.text = item.name
+            if (!item.photoUrl.isNullOrEmpty()) {
+                glideRequest.centerCrop()
+                    .load(item.photoUrl)
+                    .into(binding.avatar)
+            } else {
+                binding.avatar.setImageResource(R.drawable.ic_broken_image) // or som better image
             }
         }
     }
+}
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ActorItem>() {
-            override fun areItemsTheSame(oldItem: ActorItem, newItem: ActorItem): Boolean =
-                oldItem.name == newItem.name
+private class ActorItemAdapterDiffCallback : DiffUtil.ItemCallback<Actor>() {
+    override fun areItemsTheSame(oldItem: Actor, newItem: Actor): Boolean =
+        (oldItem.id == newItem.id)
 
-            override fun areContentsTheSame(oldItem: ActorItem, newItem: ActorItem): Boolean =
-                oldItem == newItem
-
-        }
-    }
+    override fun areContentsTheSame(oldItem: Actor, newItem: Actor): Boolean =
+        oldItem == newItem
 }

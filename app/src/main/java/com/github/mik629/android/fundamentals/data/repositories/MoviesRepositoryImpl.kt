@@ -1,42 +1,102 @@
 package com.github.mik629.android.fundamentals.data.repositories
 
-import com.github.mik629.android.fundamentals.data.mappers.Mapper
+import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
+import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndGenres
+import com.github.mik629.android.fundamentals.data.db.models.toCrossRef
+import com.github.mik629.android.fundamentals.data.db.models.toEntity
+import com.github.mik629.android.fundamentals.data.db.models.toMovie
 import com.github.mik629.android.fundamentals.data.network.ServerApi
-import com.github.mik629.android.fundamentals.data.network.model.Actor
-import com.github.mik629.android.fundamentals.domain.model.ActorItem
-import com.github.mik629.android.fundamentals.domain.model.GenreItem
-import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.data.network.model.toActor
+import com.github.mik629.android.fundamentals.data.network.model.toMovie
+import com.github.mik629.android.fundamentals.domain.model.Actor
+import com.github.mik629.android.fundamentals.domain.model.Genre
+import com.github.mik629.android.fundamentals.domain.model.Movie
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import timber.log.Timber
+import java.util.concurrent.atomic.AtomicReference
+import javax.inject.Inject
 
-class MoviesRepositoryImpl(
+class MoviesRepositoryImpl @Inject constructor(
     private val serverApi: ServerApi,
-    private val actorMapper: Mapper<Actor, ActorItem>
+    private val dao: MovieDao
 ) : MoviesRepository {
+    private var imageBaseUrl: AtomicReference<String> = AtomicReference()
 
-    override suspend fun getMovies() = withContext(Dispatchers.IO) {
-
-        val movies = serverApi.getMovieList()
-            .results
-
-        val res = mutableListOf<MovieItem>()
-        for (movie in movies) {
-            val movieDetails = serverApi.getMovieDetails(movie.id)
-            val actors = serverApi.getMovieActors(movieDetails.id)
-                .cast
-                .map { actor -> actorMapper.map(actor) }
-
-            with(movieDetails) {
-                res.add(
-                    MovieItem(
-                        id, title, overview, posterPath, backdropPath,
-                        genres.map { genre -> GenreItem(genre.id, genre.name) },
-                        actors, if (isAdult) 18 else 0, reviews, rating, runtime
-                    )
-                )
-            }
+    override suspend fun getMovies(): List<Movie> {
+        val cachedMovies = getMoviesFromCache()
+        return if (cachedMovies.isEmpty()) {
+            loadMoviesFromNetwork()
+        } else {
+            cachedMovies
         }
-        res
+    }
+
+    override suspend fun getMovie(id: Long): Movie {
+        return getMovieFromCache(id) ?: loadMovieFromNetwork(id = id)
+    }
+
+    private suspend fun getMoviesFromCache(): List<Movie> =
+        dao.getAllMovies()
+            .map(MovieWithActorsAndGenres::toMovie)
+
+    private suspend fun loadMoviesFromNetwork(category: String = "popular"): List<Movie> =
+        coroutineScope {
+            Timber.d("Loading from the network")
+            serverApi.getMovieList(category)
+                .results
+                .map { movie -> coroutineScope { async { loadMovieFromNetwork(movie.id) } } }
+                .awaitAll()
+                .sortedByDescending { movie -> movie.rating }
+                .also { movies -> save(movies) }
+        }
+
+    private suspend fun getMovieFromCache(id: Long): Movie? =
+        dao.getMovie(id)
+            ?.toMovie()
+
+    private suspend fun loadMovieFromNetwork(id: Long): Movie =
+        coroutineScope {
+            val baseUrl = imageBaseUrl.get()
+                ?: (serverApi.getConfiguration().baseUrlInfo.baseUrl + "original")
+                    .also { baseUrl -> imageBaseUrl.set(baseUrl) }
+            val actors =
+                async {
+                    serverApi.getMovieActors(id)
+                        .cast
+                        .map { dto -> dto.toActor(imageBaseUrl = baseUrl) }
+                }
+            val movie = coroutineScope { async { serverApi.getMovie(id) } }
+            movie.await()
+                .toMovie(actors = actors.await(), imageBaseUrl = baseUrl)
+        }
+
+    private suspend fun save(res: List<Movie>) {
+        Timber.d("Saving to db")
+        dao.insertData(
+            movies = res.map(Movie::toEntity),
+
+            actors = res.flatMap { movie -> movie.details.actors }
+                .distinct()
+                .map(Actor::toEntity),
+
+            movieActors = res.flatMap { movie ->
+                movie.details.actors.map { actor ->
+                    actor.toCrossRef(movie)
+                }
+            },
+
+            genres = res.flatMap { movie -> movie.genres }
+                .distinct()
+                .map(Genre::toEntity),
+
+            movieGenres = res.flatMap { movie ->
+                movie.genres.map { genre ->
+                    genre.toCrossRef(movie)
+                }
+            }
+        )
     }
 }

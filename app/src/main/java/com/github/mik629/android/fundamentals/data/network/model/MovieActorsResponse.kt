@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MovieActorsResponse(
     val id: Int,
-    val cast: List<Actor>
+    val cast: List<ActorDTO>
 )

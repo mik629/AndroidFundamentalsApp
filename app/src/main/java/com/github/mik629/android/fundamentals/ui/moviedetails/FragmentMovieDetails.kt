@@ -1,90 +1,92 @@
 package com.github.mik629.android.fundamentals.ui.moviedetails
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.github.mik629.android.fundamentals.BuildConfig
-import com.github.mik629.android.fundamentals.GlideApp
+import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
+import com.github.mik629.android.fundamentals.appComponent
 import com.github.mik629.android.fundamentals.databinding.FragmentMovieDetailsBinding
-import com.github.mik629.android.fundamentals.domain.model.MovieItem
+import com.github.mik629.android.fundamentals.domain.model.Movie
+import com.github.mik629.android.fundamentals.ui.ViewState
 import com.github.mik629.android.fundamentals.ui.global.ActorItemAdapter
+import com.github.mik629.android.fundamentals.ui.utils.buildGlideRequest
+import com.github.mik629.android.fundamentals.ui.utils.setRating
+import com.github.mik629.android.fundamentals.ui.utils.showSnackBar
+import javax.inject.Inject
 
-class FragmentMovieDetails : Fragment() {
-    private lateinit var binding: FragmentMovieDetailsBinding
+class FragmentMovieDetails : Fragment(R.layout.fragment_movie_details) {
+    private val binding by viewBinding(FragmentMovieDetailsBinding::bind)
 
-    private val glideRequest by lazy {
-        GlideApp.with(this)
-            .asDrawable()
-            .thumbnail(0.1f)
-            .placeholder(R.drawable.ic_image_loading)
-            .fallback(R.drawable.ic_broken_image)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .fitCenter()
-    }
+    @Inject
+    lateinit var movieDetailsViewModelFactory: MovieDetailsViewModelFactory.Factory
 
-    private var movieItem: MovieItem? = null
+    private val actorItemAdapter = ActorItemAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        movieItem = (savedInstanceState ?: arguments)?.getParcelable(ARG_MOVIE_ITEM)
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMovieDetailsBinding.inflate(layoutInflater)
-
-        with(binding) {
-            back.setOnClickListener {
-                requireFragmentManager().popBackStack()
-            }
-
-            movieItem?.let {
-                age.text = getString(R.string.movie_min_age, it.minAge)
-                movieTitle.text = it.title
-                genre.text = it.genres.joinToString { genre -> genre.name }
-                ratingLayout.ratingBar.rating = it.rating
-                storyline.text = it.overview
-                reviews.text = getString(R.string.movie_reviews, it.reviews)
-                val actorItemAdapter = ActorItemAdapter(glideRequest)
-                actors.adapter = actorItemAdapter
-                actorItemAdapter.submitList(it.actors)
-            }
-
-            return root
+    private val viewModel: MovieDetailsViewModel by viewModels(
+        factoryProducer = {
+            movieDetailsViewModelFactory.create(
+                id = arguments?.getLong(ARG_MOVIE_ID) ?: -1
+            )
         }
+    )
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        appComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        movieItem?.let {
-            if (!it.backdrop.isNullOrEmpty()) {
-                glideRequest.centerCrop()
-                    .load("${BuildConfig.BASE_IMAGE_URL}${it.backdrop}")
-                    .into(binding.backgroundImg)
+        binding.actors.adapter = actorItemAdapter
+        binding.back.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
+        viewModel.movieDetails.observe(viewLifecycleOwner) { movieDetails ->
+            when (movieDetails) {
+                is ViewState.Loading -> binding.progressbar.isVisible = true
+                is ViewState.Success -> {
+                    binding.progressbar.isVisible = false
+                    setMovieDetailsData(movie = movieDetails.result)
+                }
+                is ViewState.Error -> {
+                    binding.progressbar.isVisible = false
+                    binding.root.showSnackBar(message = getString(R.string.error_no_data))
+                }
             }
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(ARG_MOVIE_ITEM, movieItem)
+    private fun setMovieDetailsData(movie: Movie) {
+        binding.age.text = getString(R.string.movie_min_age, movie.minAge)
+        binding.movieTitle.text = movie.title
+        binding.genre.text = movie.genres.joinToString()
+        binding.ratingLayout.setRating(requireContext(), movie.rating / 2)
+        binding.storyline.text = movie.details.overview
+        binding.reviews.text = getString(R.string.movie_reviews, movie.reviews)
+        actorItemAdapter.submitList(movie.details.actors)
+        if (!movie.details.backdropImageUrl.isNullOrEmpty()) {
+            buildGlideRequest(this)
+                .centerCrop()
+                .load(movie.details.backdropImageUrl)
+                .into(binding.backgroundImg)
+        }
     }
 
     companion object {
-        const val ARG_MOVIE_ITEM = "movieItem"
+        private const val ARG_MOVIE_ID = "movieId"
 
         @JvmStatic
-        fun newInstance(movieItem: MovieItem) = FragmentMovieDetails().apply {
-            arguments = Bundle().apply {
-                putParcelable(ARG_MOVIE_ITEM, movieItem)
-            }
+        fun newInstance(movieId: Long): FragmentMovieDetails {
+            val fragment = FragmentMovieDetails()
+            val args = Bundle(1)
+            args.putLong(ARG_MOVIE_ID, movieId)
+            fragment.arguments = args
+            return fragment
         }
     }
 }

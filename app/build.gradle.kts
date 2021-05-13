@@ -24,11 +24,6 @@ android {
             signingConfig = signingConfigs["debug"]
             isDebuggable = true
             buildConfigField("String", "BASE_URL", """"https://api.themoviedb.org/3/"""")
-            buildConfigField(
-                "String",
-                "BASE_IMAGE_URL",
-                """"https://image.tmdb.org/t/p/original""""
-            )
             buildConfigField("String", "API_KEY", """"7d4faff53c09dde00a141ae9c56f2d1b"""")
         }
 
@@ -50,19 +45,21 @@ android {
 }
 
 dependencies {
-
-    implementation(kotlin(Libs.kotlinStdlib, Versions.kotlin))
     implementation(Libs.appcompat)
     implementation(Libs.material)
     implementation(Libs.constraintLayout)
     implementation(Libs.coroutines)
     implementation(Libs.lifecycle)
     implementation(Libs.viewModel)
+    implementation(Libs.room)
+    implementation(Libs.roomKtx) // needed by coroutines
+    implementation(Libs.fragmentKtx)
+    kapt(Libs.roomCompiler)
 
     implementation(Libs.adapterDelegates)
     implementation(Libs.glide)
     kapt(Libs.glideCompiler)
-    kapt(Libs.moshiCodeGen)
+    kapt(Libs.moshiCodeGen) // migrate to kotlin serialization - better for multiplatform
     implementation(Libs.glideOkhttp)
     implementation(Libs.glideRecyclerView)
     implementation(Libs.retrofit)
@@ -72,11 +69,7 @@ dependencies {
     implementation(Libs.workManager)
     implementation(Libs.moshiAdapters)
     implementation(Libs.retrofitConverter)
-
-    testImplementation(Libs.junit)
-    testImplementation(Libs.junitEngine)
-    testImplementation(Libs.junitParams)
-    testImplementation(Libs.mockito)
-    testImplementation(Libs.mockitoKotlin)
-    androidTestImplementation(Libs.espresso)
+    implementation(Libs.viewBindingProperty)
+    implementation(Libs.dagger)
+    kapt(Libs.daggerProcessor)
 }

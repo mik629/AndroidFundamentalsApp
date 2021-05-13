@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MovieListResponse(
     val page: Int,
-    val results: List<Movie>
+    val results: List<MovieDTO>
 )
