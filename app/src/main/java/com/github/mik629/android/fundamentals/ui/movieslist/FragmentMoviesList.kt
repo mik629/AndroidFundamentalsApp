@@ -7,13 +7,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.work.Configuration
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import androidx.work.WorkerFactory
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.mik629.android.fundamentals.R
 import com.github.mik629.android.fundamentals.appComponent
+import com.github.mik629.android.fundamentals.data.background.UpdateCacheWorker
 import com.github.mik629.android.fundamentals.databinding.FragmentMoviesListBinding
 import com.github.mik629.android.fundamentals.ui.ViewState
 import com.github.mik629.android.fundamentals.ui.global.MovieItemAdapter
@@ -26,9 +24,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     @Inject
     lateinit var moviesListViewModelFactory: MoviesListViewModel.Factory
-
-    @Inject
-    lateinit var updateCacheWorkerRequest: WorkRequest
 
     @Inject
     lateinit var updateCacheWorkerFactory: WorkerFactory
@@ -50,14 +45,10 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         appComponent.inject(this)
-        WorkManager.initialize(
-            context,
-            Configuration.Builder()
-                .setWorkerFactory(updateCacheWorkerFactory)
-                .build()
+        UpdateCacheWorker.enqueueRequest(
+            context = requireContext(),
+            updateCacheWorkerFactory = updateCacheWorkerFactory
         )
-        WorkManager.getInstance(context)
-            .enqueue(updateCacheWorkerRequest)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

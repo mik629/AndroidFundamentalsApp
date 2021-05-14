@@ -1,18 +1,25 @@
 package com.github.mik629.android.fundamentals.data.background
 
 import android.content.Context
+import androidx.work.Configuration
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ListenableWorker
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import com.github.mik629.android.fundamentals.domain.repositories.MoviesRepository
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class UpdateCacheWorker(
-    context: Context,
-    workerParameters: WorkerParameters,
-    private val moviesRepository: MoviesRepository
+    private val context: Context,
+    private val moviesRepository: MoviesRepository,
+    workerParameters: WorkerParameters
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result =
@@ -39,5 +46,27 @@ class UpdateCacheWorker(
                 workerParameters = workerParameters,
                 moviesRepository = moviesRepository
             )
+    }
+
+    companion object {
+        fun enqueueRequest(context: Context, updateCacheWorkerFactory: WorkerFactory) {
+            WorkManager.initialize(
+                context,
+                Configuration.Builder()
+                    .setWorkerFactory(updateCacheWorkerFactory)
+                    .build()
+            )
+            WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(
+                    "update_movies_cache",
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    PeriodicWorkRequest.Builder(UpdateCacheWorker::class.java, 1, TimeUnit.DAYS)
+                        .setConstraints(
+                            Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build()
+                        ).build()
+                )
+        }
     }
 }
