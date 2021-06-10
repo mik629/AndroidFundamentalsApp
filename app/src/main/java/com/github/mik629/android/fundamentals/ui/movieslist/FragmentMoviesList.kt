@@ -25,9 +25,6 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     @Inject
     lateinit var moviesListViewModelFactory: MoviesListViewModel.Factory
 
-    @Inject
-    lateinit var updateCacheWorkerFactory: WorkerFactory
-
     private val viewModel: MoviesListViewModel by viewModels(
         factoryProducer = { moviesListViewModelFactory }
     )
@@ -46,8 +43,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         super.onAttach(context)
         appComponent.inject(this)
         UpdateCacheWorker.enqueueRequest(
-            context = requireContext(),
-            updateCacheWorkerFactory = updateCacheWorkerFactory
+            context = requireContext()
         )
     }
 

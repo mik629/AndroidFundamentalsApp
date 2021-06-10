@@ -1,7 +1,6 @@
 package com.github.mik629.android.fundamentals.data.background
 
 import android.content.Context
-import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -17,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class UpdateCacheWorker(
-    private val context: Context,
+    context: Context,
     private val moviesRepository: MoviesRepository,
     workerParameters: WorkerParameters
 ) : CoroutineWorker(context, workerParameters) {
@@ -49,13 +48,7 @@ class UpdateCacheWorker(
     }
 
     companion object {
-        fun enqueueRequest(context: Context, updateCacheWorkerFactory: WorkerFactory) {
-            WorkManager.initialize(
-                context,
-                Configuration.Builder()
-                    .setWorkerFactory(updateCacheWorkerFactory)
-                    .build()
-            )
+        fun enqueueRequest(context: Context) {
             WorkManager.getInstance(context)
                 .enqueueUniquePeriodicWork(
                     "update_movies_cache",
