@@ -1,5 +1,7 @@
 package com.github.mik629.android.fundamentals.data.repositories
 
+import android.content.Context
+import com.github.mik629.android.fundamentals.data.background.UpdateCacheWorker
 import com.github.mik629.android.fundamentals.data.db.daos.MovieDao
 import com.github.mik629.android.fundamentals.data.db.models.MovieWithActorsAndGenres
 import com.github.mik629.android.fundamentals.data.db.models.toCrossRef
@@ -16,14 +18,17 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
 
 class MoviesRepositoryImpl @Inject constructor(
     private val serverApi: ServerApi,
-    private val dao: MovieDao
+    private val dao: MovieDao,
+    private val context: Context
 ) : MoviesRepository {
-    private var imageBaseUrl: AtomicReference<String> = AtomicReference()
+    private val imageBaseUrl: AtomicReference<String> = AtomicReference(null)
+    private val isUpdateCacheWorkerRunning: AtomicBoolean = AtomicBoolean(false)
 
     override suspend fun getMovies(): List<Movie> {
         val cachedMovies = getMoviesFromCache()
@@ -42,7 +47,7 @@ class MoviesRepositoryImpl @Inject constructor(
         dao.getAllMovies()
             .map(MovieWithActorsAndGenres::toMovie)
 
-    private suspend fun loadMoviesFromNetwork(category: String = "popular"): List<Movie> =
+    override suspend fun loadMoviesFromNetwork(category: String): List<Movie> =
         coroutineScope {
             Timber.d("Loading from the network")
             serverApi.getMovieList(category)
@@ -51,6 +56,11 @@ class MoviesRepositoryImpl @Inject constructor(
                 .awaitAll()
                 .sortedByDescending { movie -> movie.rating }
                 .also { movies -> save(movies) }
+        }.also {
+            if (!isUpdateCacheWorkerRunning.get()) {
+                UpdateCacheWorker.enqueueRequest(context = context)
+                isUpdateCacheWorkerRunning.set(true)
+            }
         }
 
     private suspend fun getMovieFromCache(id: Long): Movie? =
