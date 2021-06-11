@@ -27,8 +27,8 @@ class MoviesRepositoryImpl @Inject constructor(
     private val dao: MovieDao,
     private val context: Context
 ) : MoviesRepository {
-    private var imageBaseUrl: AtomicReference<String> = AtomicReference()
-    private var isUpdateCacheWorkerRunning: AtomicBoolean = AtomicBoolean()
+    private val imageBaseUrl: AtomicReference<String> = AtomicReference(null)
+    private val isUpdateCacheWorkerRunning: AtomicBoolean = AtomicBoolean(false)
 
     override suspend fun getMovies(): List<Movie> {
         val cachedMovies = getMoviesFromCache()

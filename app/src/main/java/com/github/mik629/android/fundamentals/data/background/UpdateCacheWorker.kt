@@ -49,16 +49,17 @@ class UpdateCacheWorker(
 
     companion object {
         fun enqueueRequest(context: Context) {
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+            val workRequest = PeriodicWorkRequest.Builder(UpdateCacheWorker::class.java, 1, TimeUnit.DAYS)
+                .setConstraints(constraints)
+                .build()
             WorkManager.getInstance(context)
                 .enqueueUniquePeriodicWork(
                     "update_movies_cache",
                     ExistingPeriodicWorkPolicy.REPLACE,
-                    PeriodicWorkRequest.Builder(UpdateCacheWorker::class.java, 1, TimeUnit.DAYS)
-                        .setConstraints(
-                            Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.CONNECTED)
-                                .build()
-                        ).build()
+                    workRequest
                 )
         }
     }
