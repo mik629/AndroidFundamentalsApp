@@ -23,7 +23,7 @@
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="com.github.mik629.android.fundamentals.workmanager-init"
+            android:authorities="${applicationId}.workmanager-init"
             android:enabled="false"
             android:exported="false"
             tools:replace="android:authorities" />
