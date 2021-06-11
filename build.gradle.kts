@@ -10,7 +10,7 @@ plugins {
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath(Plugins.androidTools)
@@ -29,7 +29,8 @@ buildScan {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        maven(url = "https://oss.jfrog.org/libs-snapshot")
     }
 }
 
