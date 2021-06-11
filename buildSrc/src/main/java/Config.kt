@@ -36,6 +36,9 @@ object Versions {
     const val moshi = "1.11.0"
     const val viewBindingProperty = "1.4.6"
     const val dagger = "2.33"
+
+    // testing
+    const val kaspresso = "1.2.0"
 }
 
 object Plugins {
@@ -80,4 +83,7 @@ object Libs {
         "com.github.kirich1409:viewbindingpropertydelegate:${Versions.viewBindingProperty}"
     const val dagger = "com.google.dagger:dagger:${Versions.dagger}"
     const val daggerProcessor = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+
+    // testing
+    val kaspresso = "com.kaspersky.android-components:kaspresso:${Versions.kaspresso}"
 }

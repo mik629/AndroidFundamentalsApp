@@ -30,6 +30,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://oss.jfrog.org/libs-snapshot")
     }
 }
 
