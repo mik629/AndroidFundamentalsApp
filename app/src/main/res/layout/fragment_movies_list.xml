@@ -4,29 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_standard_margin"
-        android:layout_marginTop="@dimen/content_title_top_margin"
-        android:drawableLeft="@drawable/ic_target"
-        android:drawablePadding="@dimen/activity_medium_margin"
-        android:text="@string/movies_list_title"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_medium_size"
-        android:textStyle="bold" />
+    android:background="@color/dark_grey"
+    android:fitsSystemWindows="true">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movie_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="@dimen/activity_standard_margin"
-        android:layout_marginTop="@dimen/content_top_margin"
         android:layout_marginEnd="@dimen/activity_standard_margin"
         android:layout_marginBottom="@dimen/activity_standard_margin"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:spanCount="2"
         tools:listitem="@layout/movie_item" />
 
@@ -40,5 +31,7 @@
         android:indeterminateTint="@color/white"
         android:visibility="gone"
         tools:visibility="visible" />
+
+    <include layout="@layout/toolbar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
